@@ -4,11 +4,11 @@
 **Course:** CSARCH2 Term 3, AY 2025-2026  
 **Group Name:** RetroSpec (Group #4) 
 **Members:** 
-Bueno, Jonathan R.
-Dela Cruz, Louiz Alfredo DV. 
-Ibañez, Kane Joshua 
-Ignacio, Miguel Angelo
-Solomon, Adonis Mikel
+* Bueno, Jonathan R.
+* Dela Cruz, Louiz Alfredo DV. 
+* Ibañez, Kane Joshua 
+* Ignacio, Miguel Angelo
+* Solomon, Adonis Mikel
 
 ---
 
