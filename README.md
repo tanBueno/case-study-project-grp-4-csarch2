@@ -1,21 +1,21 @@
 # case-study-project-grp-4-csarch2
 
 # Case Study Project Proposal
-**Course:** CSARCH2 Term 3, AY 2025-2026[cite: 2]  
-**Group Name:** RetroSpec (Group #4)[cite: 2]  
-**Members:** Bueno, Jonathan R. | Dela Cruz, Louiz Alfredo DV. | Ibañez, Kane Joshua | Ignacio, Miguel Angelo | Solomon, Adonis Mikel[cite: 2]
+**Course:** CSARCH2 Term 3, AY 2025-2026  
+**Group Name:** RetroSpec (Group #4) 
+**Members:** Bueno, Jonathan R. | Dela Cruz, Louiz Alfredo DV. | Ibañez, Kane Joshua | Ignacio, Miguel Angelo | Solomon, Adonis Mikel
 
 ---
 
 ### Revision Log and Highlighted Changes
-* Title Evolution: Changed from How Computers Learned to See: From ASCII Art to Flawless Realism to From ASCII to Real-Time: The Evolution of Computer Graphics for a direct, clear narrative trajectory[cite: 1, 2].
-* Timeline of Computer Graphics Section: Completely removed the 1950s era [cite: 1, 2]. 
-* Timeline of Computer Graphics Section: Cut out references to peripheral flatbed, drum, and micro plotters from the 1960s to keep the theme tightly scoped around text-terminal and display resolution constraints[cite: 1, 2].
+* Title Evolution: Changed from How Computers Learned to See: From ASCII Art to Flawless Realism to From ASCII to Real-Time: The Evolution of Computer Graphics for a direct, clear narrative trajectory.
+* Timeline of Computer Graphics Section: Completely removed the 1950s era. 
+* Timeline of Computer Graphics Section: Cut out references to peripheral flatbed, drum, and micro plotters from the 1960s to keep the theme tightly scoped around text-terminal and display resolution constraints.
 
 ---
 
 ## Title of the Proposed Case Study
-### From ASCII to Real-Time: The Evolution of Computer Graphics[cite: 2]
+### From ASCII to Real-Time: The Evolution of Computer Graphics
 
 ### Introduction
 Before computers could draw a line, they arranged characters. That constraint, and the ingenuity it demanded, gave birth to one of the most transformative technological journeys in history. What began as crude patterns of text on a screen would eventually grow into the richly detailed, immersive visuals we take for granted today, and the story of how we got there is anything but simple.
