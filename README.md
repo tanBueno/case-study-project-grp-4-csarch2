@@ -12,7 +12,8 @@
 
 ---
 
-### [!IMPORTANT] Revision Log and Highlighted Changes
+[!IMPORTANT]
+### Revision Log and Highlighted Changes
 * Title Evolution: Changed from How Computers Learned to See: From ASCII Art to Flawless Realism to From ASCII to Real-Time: The Evolution of Computer Graphics for a direct, clear narrative trajectory.
 * Timeline of Computer Graphics Section: Completely removed the 1950s era. 
 * Timeline of Computer Graphics Section: Cut out references to peripheral flatbed, drum, and micro plotters from the 1960s to keep the theme tightly scoped around text-terminal and display resolution constraints.
