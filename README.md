@@ -12,6 +12,8 @@
 
 ---
 
+<mark>[!NOTE] 1.) Topic proposed is confusing. Do you want to discuss about evolution of printers? or evolution of monitors and their resolutions? It s a jumbled topic. Please re-focus and rewrite <mark>
+
 [!IMPORTANT]
 ### Revision Log and Highlighted Changes
 * Title Evolution: Changed from How Computers Learned to See: From ASCII Art to Flawless Realism to From ASCII to Real-Time: The Evolution of Computer Graphics for a direct, clear narrative trajectory.
@@ -21,12 +23,14 @@
 ---
 
 ## Title of the Proposed Case Study
-### From ASCII to Real-Time: The Evolution of Computer Graphics
+<mark>### From ASCII to Real-Time: The Evolution of Computer Graphics<mark>
+
+<mark>[!NOTE] 1.) Topic proposed is confusing. Do you want to discuss about evolution of printers? or evolution of monitors and their resolutions? It s a jumbled topic. Please re-focus and rewrite <mark>
 
 ### Introduction
 Before computers could draw a line, they arranged characters. That constraint, and the ingenuity it demanded, gave birth to one of the most transformative technological journeys in history. What began as crude patterns of text on a screen would eventually grow into the richly detailed, immersive visuals we take for granted today, and the story of how we got there is anything but simple.
-From ASCII to Real-Time: The Evolution of Computer Graphics is an interactive virtual exhibit that traces how computer-generated imagery evolved from its earliest, most primitive forms into the sophisticated visual systems powering modern games, films, and simulations. Starting from the 1960s, where developers worked with impact printers to use ASCII characters in order to create an image, since raster graphics did not yet exist. They had to use the pre-defined pixels to create such art. The exhibit walks visitors through each defining era of that transformation. The adoption of raster graphics in the 1970s gave machines the ability to address individual pixels. The 1980s and 90s brought 3D object rendering and the rise of the GPU, fundamentally changing what screens could produce. Then came the 2000s and 2010s, with photorealism, high-resolution displays, and GPU technology becoming widely accessible to everyday users.
-But this exhibit is not just a history lesson, it is an invitation to experience that evolution firsthand.
+<mark>From ASCII to Real-Time: The Evolution of Computer Graphics is an interactive virtual exhibit that traces how computer-generated imagery evolved from its earliest, most primitive forms into the sophisticated visual systems powering modern games, films, and simulations. Starting from the 1960s, where developers worked with impact printers to use ASCII characters in order to create an image, since raster graphics did not yet exist. They had to use the pre-defined pixels to create such art. The exhibit walks visitors through each defining era of that transformation. The adoption of raster graphics in the 1970s gave machines the ability to address individual pixels. The 1980s and 90s brought 3D object rendering and the rise of the GPU, fundamentally changing what screens could produce. Then came the 2000s and 2010s, with photorealism, high-resolution displays, and GPU technology becoming widely accessible to everyday users.
+But this exhibit is not just a history lesson, it is an invitation to experience that evolution firsthand. (REVISED)<mark>
 
 
 ---
