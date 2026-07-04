@@ -10,52 +10,58 @@ export default function EraCard({
   children
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
-
   const stageNum = parseInt(stage, 10);
   const floatDelay = `${stageNum * 0.7}s`;
-  const yOffset = stageNum % 2 === 0 ? 'translate-y-12' : '-translate-y-12';
+  const isUp = stageNum % 2 !== 0;
+  
+  // Increase offset to spread them out vertically more
+  const yOffset = isUp ? '-translate-y-40' : 'translate-y-40';
 
   return (
     <>
-      {/* Floating Wrapper */}
       <div 
-        className={`snap-center animate-float ${yOffset}`} 
+        className={`snap-center animate-float ${yOffset} relative flex flex-col items-center justify-center`}
         style={{ animationDelay: floatDelay }}
       >
-        {/* The Timeline Card */}
+        {/* Exhibit Tether Line */}
         <div 
-          onClick={() => setIsExpanded(true)}
-          className="flex-shrink-0 w-[320px] h-[480px] bg-[#111520] border border-white/5 rounded-2xl flex flex-col p-6 shadow-2xl relative overflow-hidden group transition-all duration-500 hover:scale-[1.08] hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-pointer hover:border-white/20"
-        >
-        {/* Top Header */}
-        <div className="flex justify-between items-center mb-6 font-mono text-[10px] tracking-widest font-bold">
-          <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: color }}></div>
-            <span style={{ color: color }}>STAGE {stage}</span>
-          </div>
-          <span className="text-zinc-500">{era}</span>
-        </div>
+          className={`absolute left-1/2 -translate-x-1/2 w-[3px] h-40 opacity-60 z-0 bg-gradient-to-b ${isUp ? 'from-transparent to-current top-1/2' : 'from-current to-transparent bottom-1/2'}`}
+          style={{ color: color }}
+        ></div>
+        
+        {/* Anchor point on the timeline axis */}
+        <div 
+          className={`absolute left-1/2 -translate-x-1/2 w-8 h-2 rounded-full z-0 opacity-80 ${isUp ? 'top-[calc(50%+10rem)]' : 'bottom-[calc(50%+10rem)]'}`}
+          style={{ backgroundColor: color, boxShadow: `0 0 20px ${color}` }}
+        ></div>
 
-        {/* Central Graphic Area */}
-        <div className="w-full h-[180px] bg-[#0A0D14] rounded-xl mb-6 flex items-center justify-center relative border border-white/5 shadow-inner overflow-hidden transition-transform duration-500 group-hover:scale-105">
-          <div className="absolute inset-0 opacity-20 blur-xl transition-opacity duration-500 group-hover:opacity-40" style={{ backgroundColor: color }}></div>
-          <div className="relative z-10 w-full h-full flex items-center justify-center">
+      {/* The Planet Node - Massively increased size for exploration */}
+      <div 
+        onClick={() => setIsExpanded(true)}
+        className="w-32 h-32 md:w-56 md:h-56 rounded-full flex items-center justify-center relative group cursor-pointer hover:scale-110 transition-transform duration-500 z-10"
+      >
+        {/* Glowing Atmosphere */}
+        <div 
+          className="absolute inset-0 rounded-full opacity-40 blur-xl group-hover:opacity-80 transition-opacity duration-500 animate-pulse" 
+          style={{ backgroundColor: color }}
+        ></div>
+        
+        {/* Core Planet Surface */}
+        <div className="relative z-10 w-full h-full rounded-full border-4 border-white/10 bg-[#0A0D14] flex items-center justify-center overflow-hidden shadow-[inset_0_0_40px_rgba(0,0,0,0.9)] group-hover:border-white/30 transition-colors duration-500">
+          {/* Increased graphic scale inside the planet */}
+          <div className="scale-[0.8] md:scale-100 pointer-events-none transition-transform duration-500 group-hover:scale-[1.2]">
             {children}
           </div>
         </div>
-
-        {/* Content */}
-        <div className="flex-grow">
-          <h3 className="text-white font-sans font-bold text-lg mb-2 leading-tight">{title}</h3>
-          <p className="text-zinc-500 text-xs leading-relaxed font-light line-clamp-3">{description}</p>
-        </div>
-
-        {/* Footer */}
-        <div className="mt-4 pt-4 border-t border-white/10 flex justify-between items-center text-[9px] font-mono tracking-widest text-zinc-600 uppercase">
-          <span>RENDER TYPE : {renderType}</span>
-          <button className="flex items-center gap-1 group-hover:text-white transition-colors duration-300" style={{ color: color }}>
-            Interact <span className="text-lg leading-none group-hover:translate-x-1 transition-transform">&rarr;</span>
-          </button>
+        
+        {/* Orbit Label Tooltip */}
+        <div className="absolute top-full mt-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-50 pointer-events-none">
+          <div className="flex flex-col items-center">
+            <span className="text-xs font-mono tracking-widest text-zinc-400 uppercase bg-black/80 px-2 py-1 rounded mb-1">Stage {stage}</span>
+            <span className="text-xl font-sans font-bold tracking-widest text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] bg-black/50 px-3 py-1 rounded-full border border-white/10">
+              {era}
+            </span>
+          </div>
         </div>
       </div>
       </div>
