@@ -1,0 +1,16 @@
+import EraCard from '../../components/EraCard.jsx';
+
+<EraCard client:load 
+  stage="02" 
+  era="1970s" 
+  title="Early Bitmaps & Rasterization" 
+  description="The shift from vector lines to rasterized grids. Images were mapped to distinct pixel coordinates in a framebuffer, allowing for solid filled polygons and basic color shading models." 
+  renderType="RASTERIZED" 
+  color="#ef4444"
+>
+  <div className="w-16 h-16 grid grid-cols-4 grid-rows-4 gap-0.5">
+    {Array.from({length: 16}).map((_, i) => (
+      <div key={i} className="bg-[#ef4444] opacity-80" style={{ opacity: Math.random() * 0.5 + 0.3 }}></div>
+    ))}
+  </div>
+</EraCard>

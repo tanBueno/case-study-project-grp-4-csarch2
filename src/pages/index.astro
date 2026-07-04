@@ -1,0 +1,61 @@
+---
+import TimelineLayout from '../layouts/TimelineLayout.astro';
+import IntroTV from '../components/IntroTV.jsx';
+import CuratorBoard from '../components/CuratorBoard.jsx';
+import * as Era1960s from '../content/eras/1960s.mdx';
+import * as Era1970s from '../content/eras/1970s.mdx';
+import * as Era1980s from '../content/eras/1980s.mdx';
+import * as Era1990s from '../content/eras/1990s.mdx';
+import * as Era2000s from '../content/eras/2000s.mdx';
+import * as Era2010s from '../content/eras/2010s.mdx';
+import * as Era2020s from '../content/eras/2020s.mdx';
+---
+
+<TimelineLayout>
+  <IntroTV client:load />
+
+  {/* Header Title (as seen in mockup top left) */}
+  <header class="fixed top-8 left-12 z-50 pointer-events-none">
+    <div class="flex items-center gap-2 text-[10px] font-mono tracking-widest text-cyan-400 mb-2">
+      <div class="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse"></div>
+      INTERACTIVE CHRONICLE
+    </div>
+    <h1 class="text-xl font-sans font-semibold text-white tracking-tight">How Computers Learned to See</h1>
+  </header>
+
+  {/* Main Horizontal Scroll Container */}
+  <main class="flex w-screen h-screen bg-[#0B0F19] overflow-x-auto overflow-y-hidden snap-x snap-mandatory items-center px-24 gap-8 pb-12 custom-scrollbar">
+    
+    {/* Decorative background line connecting cards */}
+    <div class="fixed top-1/2 left-0 w-[10000px] h-[1px] bg-white/5 pointer-events-none -translate-y-[60px] z-0"></div>
+
+    <CuratorBoard />
+    
+    <Era1960s.Content />
+    <Era1970s.Content />
+    <Era1980s.Content />
+    <Era1990s.Content />
+    <Era2000s.Content />
+    <Era2010s.Content />
+    <Era2020s.Content />
+    
+    {/* Padding element at the end */}
+    <div class="flex-shrink-0 w-24 h-full"></div>
+  </main>
+</TimelineLayout>
+
+<style>
+  .custom-scrollbar::-webkit-scrollbar {
+    height: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+</style>

@@ -1,0 +1,15 @@
+import EraCard from '../../components/EraCard.jsx';
+
+<EraCard client:load 
+  stage="06" 
+  era="2010s" 
+  title="Volumetric Lighting & VR" 
+  description="Complex shaders allow the calculation of light bouncing dynamically in a scene. Materials accurately scatter light through subsurface scattering, giving depth to digital skin and fluids." 
+  renderType="PBR SHADERS" 
+  color="#10b981"
+>
+  <div className="relative w-20 h-20">
+    <div className="absolute inset-0 bg-gradient-to-tr from-[#10b981] to-transparent opacity-50 rounded-full blur-md animate-pulse"></div>
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-md rounded-lg shadow-[0_0_20px_#10b981] border border-white/50"></div>
+  </div>
+</EraCard>
