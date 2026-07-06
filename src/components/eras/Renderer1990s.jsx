@@ -6,11 +6,11 @@ function CSS3DCube({ renderMode, rotX, rotY }) {
   // Shading styles
   const getFaceStyle = (faceName) => {
     const base = "absolute w-12 h-12 border border-[#3b82f6] transition-all duration-300";
-    
+
     if (renderMode === 'WIRE') {
       return `${base} bg-transparent border-[#3b82f6]/80 shadow-[inset_0_0_8px_rgba(59,130,246,0.3)]`;
     }
-    
+
     if (renderMode === 'FLAT') {
       const colors = {
         front: 'bg-[#2563eb]',
@@ -22,13 +22,13 @@ function CSS3DCube({ renderMode, rotX, rotY }) {
       };
       return `${base} ${colors[faceName]}`;
     }
-    
+
     // Textured mode (retro grid pattern)
     return `${base} bg-[#1d4ed8] bg-[repeating-conic-gradient(#1e3a8a_0%_25%,#60a5fa_0%_50%)] bg-[size:8px_8px]`;
   };
 
   return (
-    <div 
+    <div
       className="relative w-12 h-12 transition-transform duration-75"
       style={{
         transformStyle: 'preserve-3d',
@@ -58,7 +58,7 @@ function CSS3DPyramid({ renderMode, rotX, rotY }) {
 
   const getFaceStyle = (faceName) => {
     const base = "absolute w-12 h-12 transition-all duration-300";
-    
+
     if (faceName === 'base') {
       if (renderMode === 'WIRE') {
         return `${base} bg-transparent border border-[#3b82f6]/80 shadow-[inset_0_0_8px_rgba(59,130,246,0.3)]`;
@@ -68,7 +68,7 @@ function CSS3DPyramid({ renderMode, rotX, rotY }) {
       }
       return `${base} bg-[#1d4ed8] bg-[repeating-conic-gradient(#1e3a8a_0%_25%,#60a5fa_0%_50%)] bg-[size:8px_8px]`;
     }
-    
+
     // Sides
     const sideBase = `${base} origin-bottom`;
     if (renderMode === 'WIRE') {
@@ -84,10 +84,10 @@ function CSS3DPyramid({ renderMode, rotX, rotY }) {
     if (renderMode === 'WIRE') {
       return (
         <svg className="w-full h-full overflow-visible" viewBox="0 0 48 48">
-          <polygon 
-            points="24,0 0,48 48,48" 
-            fill="none" 
-            stroke="#3b82f6" 
+          <polygon
+            points="24,0 0,48 48,48"
+            fill="none"
+            stroke="#3b82f6"
             strokeWidth="1.5"
             style={{ filter: 'drop-shadow(0 0 3px rgba(59,130,246,0.8))' }}
           />
@@ -97,12 +97,12 @@ function CSS3DPyramid({ renderMode, rotX, rotY }) {
     return null;
   };
 
-  const sideStyle = renderMode === 'WIRE' 
-    ? {} 
+  const sideStyle = renderMode === 'WIRE'
+    ? {}
     : { clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' };
 
   return (
-    <div 
+    <div
       className="relative w-12 h-12"
       style={{
         transformStyle: 'preserve-3d',
@@ -111,7 +111,7 @@ function CSS3DPyramid({ renderMode, rotX, rotY }) {
     >
       {/* Base Face */}
       <div className={getFaceStyle('base')} style={{ transform: 'rotateX(90deg) translateZ(-24px)' }} />
-      
+
       {/* 4 Triangular Sides (angled inward by 30deg to meet at top apex, translated by 24px) */}
       <div className={getFaceStyle('front')} style={{ ...sideStyle, transform: 'translateZ(24px) rotateX(30deg)' }}>
         {renderSideContent()}
@@ -143,7 +143,7 @@ function RendererPreview() {
 
   return (
     <div className="flex flex-col items-center justify-center p-2">
-      <div 
+      <div
         className="relative w-16 h-16 bg-black/60 border border-[#3b82f6]/30 rounded flex items-center justify-center overflow-hidden select-none"
         style={{ perspective: '300px' }}
       >
@@ -161,7 +161,7 @@ function RendererCRT() {
   const [rotX, setRotX] = useState(-20);
   const [rotY, setRotY] = useState(35);
   const [isDragging, setIsDragging] = useState(false);
-  
+
   const dragStart = useRef({ x: 0, y: 0, rotX: 0, rotY: 0 });
 
   // Rotation frame tick
@@ -193,9 +193,9 @@ function RendererCRT() {
     const handlePointerMove = (e) => {
       const deltaX = e.clientX - dragStart.current.x;
       const deltaY = e.clientY - dragStart.current.y;
-      
+
       const sensitivity = 0.8;
-      
+
       setRotX(Math.max(-80, Math.min(80, dragStart.current.rotX - deltaY * sensitivity)));
       setRotY((dragStart.current.rotY + deltaX * sensitivity) % 360);
     };
@@ -215,19 +215,19 @@ function RendererCRT() {
 
   return (
     <div className="flex flex-col items-center gap-3 p-1">
-      
+
       {/* ── Retro 3D CRT monitor ── */}
       <div className="relative">
         <div className="relative bg-[#1c1e22] rounded-xl p-2 border-2 border-zinc-700 shadow-lg flex flex-col items-center">
-          
-          <div 
-            className="relative bg-black rounded p-1 border border-[#111] overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing select-none" 
+
+          <div
+            className="relative bg-black rounded p-1 border border-[#111] overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing select-none"
             style={{ width: '140px', height: '140px', perspective: '200px' }}
             onPointerDown={handlePointerDown}
           >
             {/* Scanlines */}
             <div className="absolute inset-0 pointer-events-none z-20 opacity-15 bg-[repeating-linear-gradient(0deg,_transparent,_transparent_1.5px,_rgba(0,0,0,0.85)_2px,_rgba(0,0,0,0.85)_3px)]" />
-            
+
             {/* Shapes */}
             {shape === 'CUBE' ? (
               <CSS3DCube renderMode={renderMode} rotX={rotX} rotY={rotY} />
@@ -249,7 +249,7 @@ function RendererCRT() {
 
       {/* ── Dashboard Buttons ── */}
       <div className="w-[172px] bg-black/40 border border-white/5 rounded-lg p-2 flex flex-col gap-2 font-mono text-[8px] text-zinc-300">
-        
+
         {/* Shape Selector */}
         <div className="flex flex-col gap-0.5">
           <span className="text-[7px] text-zinc-500 uppercase tracking-wider font-bold">3D Geometry</span>
@@ -261,11 +261,10 @@ function RendererCRT() {
                 <button
                   key={target}
                   onClick={() => setShape(target)}
-                  className={`flex-1 py-0.5 rounded text-[7px] font-bold cursor-pointer transition-colors ${
-                    shape === target 
-                      ? 'bg-[#3b82f6] text-white font-black' 
+                  className={`flex-1 py-0.5 rounded text-[7px] font-bold cursor-pointer transition-colors ${shape === target
+                      ? 'bg-[#3b82f6] text-white font-black'
                       : 'hover:text-white text-zinc-400'
-                  }`}
+                    }`}
                 >
                   {lbl}
                 </button>
@@ -285,11 +284,10 @@ function RendererCRT() {
                 <button
                   key={target}
                   onClick={() => setRenderMode(target)}
-                  className={`flex-1 py-0.5 rounded text-[7px] font-bold cursor-pointer transition-colors ${
-                    renderMode === target 
-                      ? 'bg-[#3b82f6] text-white font-black' 
+                  className={`flex-1 py-0.5 rounded text-[7px] font-bold cursor-pointer transition-colors ${renderMode === target
+                      ? 'bg-[#3b82f6] text-white font-black'
                       : 'hover:text-white text-zinc-400'
-                  }`}
+                    }`}
                 >
                   {lbl}
                 </button>
