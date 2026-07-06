@@ -49,7 +49,7 @@ export default function EraCard({
         {/* Core Planet Surface */}
         <div className="relative z-10 w-full h-full rounded-full border-4 border-white/10 bg-[#0A0D14] flex items-center justify-center overflow-hidden shadow-[inset_0_0_40px_rgba(0,0,0,0.9)] group-hover:border-white/30 transition-colors duration-500">
           {/* Increased graphic scale inside the planet */}
-          <div className="scale-[0.8] md:scale-100 pointer-events-none transition-transform duration-500 group-hover:scale-[1.2]">
+          <div data-era-view="preview" className="scale-[0.8] md:scale-100 pointer-events-none transition-transform duration-500 group-hover:scale-[1.2]">
             {children}
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function EraCard({
             {/* Left Graphic Area */}
             <div className="w-full md:w-1/2 bg-[#05070A] p-12 flex items-center justify-center relative border-r border-white/5">
               <div className="absolute inset-0 opacity-30 blur-3xl" style={{ backgroundColor: color }}></div>
-              <div className="relative z-10 transform scale-150">
+              <div data-era-view="expanded" className="relative z-10 transform scale-150">
                 {children}
               </div>
             </div>

@@ -30,7 +30,7 @@ import * as Era2020s from '../content/eras/2020s.mdx';
   </header>
 
   {/* Continuous Scrolling Timeline */}
-  <main class="relative w-screen h-screen bg-[#020305] overflow-x-auto overflow-y-hidden snap-x snap-mandatory flex items-center hide-scrollbar">
+  <main id="timeline" class="relative w-screen h-screen bg-[#020305] overflow-x-auto overflow-y-hidden flex items-center hide-scrollbar">
     
     {/* Atmospheric Background Glow */}
     <div class="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
@@ -106,3 +106,16 @@ import * as Era2020s from '../content/eras/2020s.mdx';
     background: rgba(255, 255, 255, 0.2);
   }
 </style>
+
+<script>
+  document.addEventListener('wheel', (e) => {
+    const timeline = document.getElementById('timeline');
+    if (!timeline) return;
+
+    // Only convert vertical scroll to horizontal
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      e.preventDefault();
+      timeline.scrollLeft += e.deltaY;
+    }
+  }, { passive: false });
+</script>

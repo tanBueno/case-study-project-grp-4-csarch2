@@ -1,4 +1,5 @@
 import EraCard from '../../components/EraCard.jsx';
+import Rasterizer1970s from '../../components/eras/Rasterizer1970s.jsx';
 
 <EraCard client:load 
   stage="02" 
@@ -8,9 +9,5 @@ import EraCard from '../../components/EraCard.jsx';
   renderType="RASTERIZED" 
   color="#ef4444"
 >
-  <div className="w-16 h-16 grid grid-cols-4 grid-rows-4 gap-0.5">
-    {Array.from({length: 16}).map((_, i) => (
-      <div key={i} className="bg-[#ef4444] opacity-80" style={{ opacity: Math.random() * 0.5 + 0.3 }}></div>
-    ))}
-  </div>
+  <Rasterizer1970s client:load />
 </EraCard>
