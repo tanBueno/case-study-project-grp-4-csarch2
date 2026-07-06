@@ -1,4 +1,5 @@
 import EraCard from '../../components/EraCard.jsx';
+import Sprite1980s from '../../components/eras/Sprite1980s.jsx';
 
 <EraCard client:load 
   stage="03" 
@@ -8,5 +9,5 @@ import EraCard from '../../components/EraCard.jsx';
   renderType="RASTERIZED" 
   color="#f59e0b"
 >
-  <div className="w-20 h-20 bg-gradient-to-br from-[#f59e0b] to-[#b45309] rounded-full [mask-image:repeating-linear-gradient(0deg,#000,#000_4px,transparent_4px,transparent_5px),repeating-linear-gradient(90deg,#000,#000_4px,transparent_4px,transparent_5px)] drop-shadow-[0_0_15px_#f59e0b]"></div>
+  <Sprite1980s client:load />
 </EraCard>

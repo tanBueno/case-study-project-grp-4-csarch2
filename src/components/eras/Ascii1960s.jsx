@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const ASCII_SCENES = [
   {
-    label: '😊',
+    label: 'Smiley',
     name: 'HAPPY',
     art: `   _______
   /       \\
@@ -12,7 +12,7 @@ const ASCII_SCENES = [
   \\_______/`,
   },
   {
-    label: '😢',
+    label: 'Sad',
     name: 'SAD',
     art: `   _______
   /       \\
@@ -22,7 +22,7 @@ const ASCII_SCENES = [
   \\_______/`,
   },
   {
-    label: '😠',
+    label: 'Angry',
     name: 'ANGRY',
     art: `   _______
   /       \\
@@ -32,7 +32,7 @@ const ASCII_SCENES = [
   \\_______/`,
   },
   {
-    label: '😮',
+    label: 'Shocked',
     name: 'SHOCK',
     art: `   _______
   /       \\
@@ -188,7 +188,7 @@ function AsciiCRT() {
               handleSwitch(i);
             }}
             className={`
-              w-7 h-7 rounded-md text-xs font-mono cursor-pointer
+              w-9 h-6 rounded text-[8px] font-mono font-bold tracking-tight cursor-pointer
               border transition-all duration-200
               flex items-center justify-center
               ${activeIndex === i

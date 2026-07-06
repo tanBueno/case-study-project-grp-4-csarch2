@@ -53,16 +53,24 @@ export default function EraCard({
             {children}
           </div>
         </div>
-        
-        {/* Orbit Label Tooltip */}
-        <div className="absolute top-full mt-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-50 pointer-events-none">
-          <div className="flex flex-col items-center">
-            <span className="text-xs font-mono tracking-widest text-zinc-400 uppercase bg-black/80 px-2 py-1 rounded mb-1">Stage {stage}</span>
-            <span className="text-xl font-sans font-bold tracking-widest text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] bg-black/50 px-3 py-1 rounded-full border border-white/10">
-              {era}
-            </span>
-          </div>
-        </div>
+      </div>
+
+      {/* Static Label on the opposite end of the planet */}
+      <div 
+        onClick={() => setIsExpanded(true)}
+        className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap z-50 cursor-pointer flex flex-col items-center hover:scale-105 transition-transform duration-300
+          ${isUp ? 'top-[calc(50%+11.5rem)]' : 'bottom-[calc(50%+11.5rem)]'}`}
+      >
+        <span 
+          className="text-lg font-sans font-bold tracking-widest text-white px-3 py-0.5 rounded-full border transition-all duration-300"
+          style={{ 
+            backgroundColor: `${color}20`, 
+            borderColor: `${color}50`,
+            boxShadow: `0 0 15px ${color}30`
+          }}
+        >
+          {era}
+        </span>
       </div>
       </div>
 

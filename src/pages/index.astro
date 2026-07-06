@@ -108,14 +108,50 @@ import * as Era2020s from '../content/eras/2020s.mdx';
 </style>
 
 <script>
-  document.addEventListener('wheel', (e) => {
-    const timeline = document.getElementById('timeline');
-    if (!timeline) return;
+  const timeline = document.getElementById('timeline');
+  if (timeline) {
+    let targetScroll = timeline.scrollLeft;
+    let currentScroll = timeline.scrollLeft;
+    let isMoving = false;
+    const ease = 0.07; // Lower is smoother/slower, higher is snappier
 
-    // Only convert vertical scroll to horizontal
-    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-      e.preventDefault();
-      timeline.scrollLeft += e.deltaY;
+    function update() {
+      // Linear interpolation (lerp)
+      currentScroll += (targetScroll - currentScroll) * ease;
+      timeline.scrollLeft = currentScroll;
+
+      // Continue animating if we haven't reached the target
+      if (Math.abs(targetScroll - currentScroll) > 0.5) {
+        requestAnimationFrame(update);
+      } else {
+        timeline.scrollLeft = targetScroll; // snap to exact target
+        isMoving = false;
+      }
     }
-  }, { passive: false });
+
+    // Keep target synchronized if the user scrolls manually (e.g. trackpad, scrollbar drag)
+    timeline.addEventListener('scroll', () => {
+      if (!isMoving) {
+        targetScroll = timeline.scrollLeft;
+        currentScroll = timeline.scrollLeft;
+      }
+    }, { passive: true });
+
+    document.addEventListener('wheel', (e) => {
+      // Only capture vertical wheel events and translate to horizontal
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+
+        const maxScroll = timeline.scrollWidth - timeline.clientWidth;
+        // Calculate new target and clamp to boundaries
+        targetScroll = Math.max(0, Math.min(maxScroll, targetScroll + e.deltaY));
+
+        if (!isMoving) {
+          isMoving = true;
+          currentScroll = timeline.scrollLeft;
+          requestAnimationFrame(update);
+        }
+      }
+    }, { passive: false });
+  }
 </script>
