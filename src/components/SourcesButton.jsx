@@ -147,7 +147,7 @@ export default function SourcesButton() {
             </div>
 
             {/* Content Container */}
-            <div className="p-6 md:p-10 z-30 overflow-y-auto font-mono text-[#39FF14] drop-shadow-[0_0_4px_rgba(57,255,20,0.6)] flex-1 space-y-8 select-text">
+            <div className="p-6 md:p-10 z-30 overflow-y-auto font-mono text-[#39FF14] drop-shadow-[0_0_4px_rgba(57,255,20,0.6)] flex-1 space-y-8 select-text bibliography-scrollbar">
               <div className="border-b border-[#39FF14]/20 pb-4">
                 <h2 className="text-3xl font-bold uppercase tracking-tight mb-2">
                   &gt; ACADEMIC CITATIONS
