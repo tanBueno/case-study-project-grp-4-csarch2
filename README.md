@@ -66,13 +66,13 @@ Working with Astro was new for most of us and it took some getting used to. But 
 
 We also learned alot about MDX. Using .mdx files for each era let us keep the written content separate from the interactive React components, which made it way easier to work on stuff in parallel without stepping on each others toes. The EraCard component acts like a wrapper that standardizes the layout, and then each era just plugs in its own unique interactive child component.
 
-One thing we didnt expect was how bad the default `scroll-behavior: smooth` felt for horizontal scrolling. It was super sluggish and you couldn't really control it. So we ended up writing our own scroll animation using `requestAnimationFrame` with a lerp (linear interpolation) — basically a smoothing loop that eases toward the target position. It sounds complicated but its only like 20 lines of code and the difference in feel was night and day.
+One thing we didnt expect was how bad the default `scroll-behavior: smooth` felt for horizontal scrolling. It was super sluggish and you couldn't really control it. So we ended up writing our own scroll animation using `requestAnimationFrame` with a lerp (linear interpolation) basically a smoothing loop that eases toward the target position. It sounds complicated but its only like 20 lines of code and the difference in feel was night and day.
 
 Tailwind v4 also threw us off a bit. The config file structure changed from what we were used to and some utility classes work differently now. We had to read through the docs a few times to figure things out but once we got it working it was fine.
 
 ### Challenges
 
-One of our early challenges was wrapping our heads around how Astro and React work together. We were used to building standard React apps, so Astro's island architecture — where components are static by default and you have to explicitly tell it when to make them interactive caught us off guard a few times. We'd build a complex interactive era card and wonder why the buttons weren't working, only to realize we forgot the `client:load` directive. It took some trial and error, but once we understood the pattern, it actually made a lot of sense.
+One of our early challenges was wrapping our heads around how Astro and React work together. We were used to building standard React apps, so Astro's island architecture, where components are static by default and you have to explicitly tell it when to make them interactive caught us off guard a few times. We'd build a complex interactive era card and wonder why the buttons weren't working, only to realize we forgot the `client:load` directive. It took some trial and error, but once we understood the pattern, it actually made a lot of sense.
 
 But the most difficult ongoing issue has been performance. The UI is incredibly heavy on graphics, we have floating particles, twinkling stars, 3D perspective grids on the floor and ceiling, background glow blobs, and full-screen CRT scanline overlays all running at the same time. Because of how graphics-intensive this is, it tends to lag significantly, especially on lower-end machines. No matter how much we try to optimize it by reducing blur values or using `will-change` in CSS, the sheer weight of the visual effects makes it really difficult to get a consistently smooth frame rate. It's been a frustrating challenge and we definitely have to work on this more for the final submission.
 
@@ -120,7 +120,7 @@ This project utilized AI/LLM tools in the following capacities:
 | **Development guidance & navigation** | AI-assisted coding tools | AI provided guidance in project structuring, component architecture decisions, and navigating Astro/React integration patterns. |
 | **Performance optimization** | AI-assisted coding tools | AI assisted in identifying optimization strategies (e.g., `will-change`, GPU-accelerated animations, `IntersectionObserver`), though optimization work is still ongoing. |
 
-> **Note:** All technical content (historical descriptions, era explanations, and architectural decisions) was researched and written by the group. AI tools served as development aids — not as primary content authors. The final code, design choices, and creative direction are the team's own work.
+> **Note:** All technical content (historical descriptions, era explanations, and architectural decisions) was researched and written by the group. AI tools served as development aids, not as primary content authors. The final code, design choices, and creative direction are the team's own work.
 
 ---
 
