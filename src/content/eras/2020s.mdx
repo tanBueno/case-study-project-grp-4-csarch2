@@ -1,4 +1,5 @@
 import EraCard from '../../components/EraCard.jsx';
+import Raytracer2020s from '../../components/eras/Raytracer2020s.jsx';
 
 <EraCard client:load 
   stage="07" 
@@ -8,8 +9,6 @@ import EraCard from '../../components/EraCard.jsx';
   renderType="SYNTHETIC" 
   color="#a855f7"
 >
-  <div className="relative w-20 h-20 rounded-full bg-gradient-to-tr from-[#3b0764] via-[#a855f7] to-[#f3e8ff] shadow-[0_0_30px_#a855f7] overflow-hidden">
-    <div className="absolute top-2 right-4 w-6 h-6 bg-white rounded-full blur-sm opacity-80"></div>
-    <div className="absolute bottom-2 left-2 w-10 h-10 bg-[#c084fc] rounded-full blur-md opacity-60"></div>
-  </div>
+  <Raytracer2020s client:load />
 </EraCard>
+

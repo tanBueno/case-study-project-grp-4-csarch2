@@ -95,6 +95,7 @@ export default function EraCard({
         </div>
       </div>
 
+
       {/* Static Label on the opposite end of the planet */}
       <div 
         onClick={() => setIsExpanded(true)}
