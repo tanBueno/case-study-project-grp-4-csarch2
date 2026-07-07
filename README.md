@@ -23,7 +23,7 @@
 
 ## Development Summary
 
-The project is an **interactive virtual museum exhibit** that traces the evolution of computer graphics from the 1960s to the 2020s. Users scroll horizontally through a "Living Terminal" - a cyberpunk-themed timeline where each era is represented by an interactive exhibit node with era-specific visuals and technical explanations.
+The project is an **interactive virtual museum exhibit** that traces the evolution of computer graphics from the 1960s to the 2020s. Users scroll horizontally through a "Living Terminal" - a fallout game based timeline where each era is represented by an interactive exhibit node with era-specific visuals and technical explanations.
 
 ### Current Status: Core Experience Functional
 
