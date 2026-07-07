@@ -1,148 +1,220 @@
-@import "tailwindcss";
+/* global.css
+* Do NOT modify this file. Any new CSS by you must be created as a separate
+* file in the styles/ directory. If you find yourself needing to modify
+* something in this file, seek support from your instructor.
+*/
 
-@theme {
-  --color-retro-green: #39FF14;
-  --color-neon-blue: #00F0FF;
-  --color-cyber-purple: #B026FF;
-  --font-mono: "Courier New", Courier, monospace;
-  --font-sans: "Inter", sans-serif;
-  --font-display: "Orbitron", sans-serif;
+:root {
+    --accent: #5076a7;
+    --bg1: #e2e2e2;
+    --bg2: #ffffff;
+    --text: #1e1e1e;
+    --muted: #646464;
+    --border: #cecece;
+    --radius: 8px;
 
-  --animate-flash: flash 2.5s ease-in-out forwards;
-  --animate-scale-x: scale-x 2s ease-out forwards;
-  --animate-fadeIn: fadeIn 0.3s ease-out forwards;
-  --animate-scaleUp: scaleUp 0.3s ease-out forwards;
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-breathe: breathe 4s ease-in-out infinite;
-  --animate-orbit: orbit 12s linear infinite;
-  --animate-drift: drift 20s linear infinite;
-  --animate-crt-flicker: crt-flicker 3s ease-in-out infinite;
-  --animate-slideUp: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-
-  @keyframes flash {
-    0% { opacity: 0; }
-    10% { opacity: 1; }
-    100% { opacity: 0; }
-  }
-
-  @keyframes scale-x {
-    0% { transform: scaleX(0); }
-    100% { transform: scaleX(1); }
-  }
-
-  @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-
-  @keyframes scaleUp {
-    0% { transform: scale(0.95); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-  }
-
-  /* Smoother, subtler breathing glow for museum elements */
-  @keyframes breathe {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 0.8; }
-  }
-
-  /* Rotating orbit ring around planet nodes */
-  @keyframes orbit {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  /* Floating particle drift */
-  @keyframes drift {
-    0% { transform: translateX(-10vw) translateY(0); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateX(110vw) translateY(-20vh); opacity: 0; }
-  }
-
-  /* CRT edge flicker for Intro TV */
-  @keyframes crt-flicker {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.6; }
-    75% { opacity: 0.2; }
-  }
-
-  /* Smooth slide up + fade for modal entry */
-  @keyframes slideUp {
-    0% { transform: translateY(30px) scale(0.97); opacity: 0; }
-    100% { transform: translateY(0) scale(1); opacity: 1; }
-  }
-
-  /* Twinkling stars */
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 0.8; }
-  }
+    --small: 0.8rem;
 }
 
-@layer base {
-  body {
-    @apply bg-[#0B0F19] text-white font-sans overflow-hidden m-0 p-0 w-screen h-screen;
-  }
+/* https://css-pattern.com/cubes-illusion/ */
+html {
+    --s: 200px; /* control the size*/
+    --c1: #2c2c2c;
+    --c2: #464148;
+    --c3: #3c3738;
+
+    background:
+        repeating-conic-gradient(from 30deg, #0000 0 120deg, var(--c3) 0 50%)
+            calc(var(--s) / 2) calc(var(--s) * tan(30deg) / 2),
+        repeating-conic-gradient(
+            from 30deg,
+            var(--c1) 0 60deg,
+            var(--c2) 0 120deg,
+            var(--c3) 0 50%
+        );
+    background-size: var(--s) calc(var(--s) * tan(30deg));
 }
 
-@layer utilities {
-  .glass-panel {
-    @apply bg-zinc-900/40 backdrop-blur-md border border-zinc-700/50 rounded-xl shadow-2xl;
-  }
-
-  .bibliography-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-  .bibliography-scrollbar::-webkit-scrollbar-track {
-    background: rgba(57, 255, 20, 0.02);
-    border-radius: 4px;
-  }
-  .bibliography-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(57, 255, 20, 0.25);
-    border-radius: 4px;
-    border: 1px solid rgba(57, 255, 20, 0.15);
-  }
-  .bibliography-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(57, 255, 20, 0.45);
-    box-shadow: 0 0 8px rgba(57, 255, 20, 0.6);
-  }
-
-  /* Museum exhibit plaque styling */
-  .exhibit-plaque {
-    @apply bg-black/50 backdrop-blur-lg border border-white/10 rounded-lg px-5 py-3;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  }
-
-  /* Museum label text styling */
-  .museum-label {
-    font-family: "Orbitron", sans-serif;
-    @apply text-xs tracking-[0.25em] uppercase font-medium;
-  }
-
-  /* Hide scrollbar utility */
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+body {
+    color: var(--text);
+    font-family: "Noto Sans Variable", sans-serif;
+    line-height: 1.5;
+    flex-direction: column;
+    display: flex;
+    min-height: 100vh;
 }
 
-/* Noise texture overlay for depth */
-.noise-overlay::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 256px 256px;
+/* Top header bar */
+
+.title,
+.subtitle {
+    margin-bottom: 0;
+    color: var(--bg2);
+    text-align: center;
+    font-size: 3rem;
+    font-family: "Lora Variable";
+    text-shadow: 5px 5px 0px var(--text);
+}
+
+.subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.header {
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text);
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+}
+
+.header__titleblock {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.header__subtitle {
+    font-size: var(--small);
+    opacity: 0.8;
+}
+
+.button {
+    align-items: center;
+    background-color: var(--bg2);
+    border-radius: 100px;
+    border: 2px solid var(--border);
+    color: var(--text);
+    display: inline-flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    text-decoration: none;
+    transition: border-color 0.1s ease;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Main body */
+
+.content {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1rem;
+    max-width: 100%;
+    margin: auto;
+    padding: 0 1.5rem;
+    flex: 1;
+}
+
+.content__block {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    flex: 3;
+}
+
+.content__titlemeta {
+    text-align: center;
+}
+
+.content__titlemeta h1 {
+    margin-top: 0;
+    font-family: "Lora Variable";
+}
+
+/* Main exhibit article content */
+
+.header__titleblock,
+.article,
+.content__titlemeta,
+.exhibitlink {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: 5px 5px;
+}
+
+.header__titleblock {
+    flex: 1;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.article h2,
+.article h3,
+.article h4,
+.article h5,
+.article h6 {
+    font-family: "Lora Variable";
+    border-bottom: 1px solid var(--border);
+}
+
+/* Table of contents */
+
+.toc {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    flex: 1;
+    height: fit-content; /* Prevents stretching */
+    padding: 2rem;
+    box-shadow: 5px 5px;
+}
+
+.padder {
+    box-shadow: none;
+    visibility: hidden;
+}
+
+.toc h2 {
+    border-bottom: 1px solid var(--border);
+    font-family: "Lora Variable";
+    margin-top: 0;
+    padding-bottom: 0.5rem;
+}
+
+.toc__list {
+    list-style: decimal;
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.toc__item a {
+    color: var(--accent);
+    text-decoration-style: dotted;
+}
+
+.toc__item a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: var(--small);
+    background-color: var(--text);
+    color: var(--bg1);
+    margin-top: 4rem;
+}
+
+@media (min-width: 1100px) {
+    .content {
+        max-width: 100%; /* Expanded width to easily fit both columns */
+        display: flex;
+        flex-direction: row;
+    }
+
+    .toc {
+        position: sticky;
+        top: 2rem; /* Gap between top of viewport and component during scroll */
+    }
 }
