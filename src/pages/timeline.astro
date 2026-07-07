@@ -19,7 +19,7 @@ import * as Era2020s from "../content/eras/2020s.mdx";
   <div class="noise-overlay pointer-events-none fixed inset-0 z-[60]"></div>
 
   <!-- Museum Masthead -->
-  <header class="fixed top-0 left-0 right-0 z-50 pointer-events-none">
+  <header class="fixed top-0 left-0 right-0 z-50 pointer-events-none flex justify-between items-start">
     <div class="mx-8 mt-6 flex items-start gap-6">
       <!-- Exhibit Identity -->
       <div class="flex flex-col gap-1.5">
@@ -51,6 +51,14 @@ import * as Era2020s from "../content/eras/2020s.mdx";
           </p>
         </div>
       </div>
+    </div>
+
+    <!-- Exit Button -->
+    <div class="mx-8 mt-6 pointer-events-auto">
+      <a href="/" class="px-5 py-2.5 bg-black/40 backdrop-blur-md border border-white/10 text-white/80 rounded-full hover:bg-white/10 hover:text-white transition-all museum-label text-[10px] uppercase tracking-wider flex items-center gap-2 group shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-1 transition-transform"><path d="M15 18l-6-6 6-6"/></svg>
+        Exit Exhibit
+      </a>
     </div>
   </header>
 
