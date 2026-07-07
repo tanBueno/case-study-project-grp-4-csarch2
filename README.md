@@ -45,8 +45,8 @@ The project is an **interactive virtual museum exhibit** that traces the evoluti
 | Scroll-driven background color shifts | Complete |
 | Museum footer with era label | Complete |
 | Performance optimization | In Progress |
-| Responsive / mobile layout | In Progress |
-| Deployment | To Do |
+| Additional Information on each Era | In Progress |
+| Deployment | Complete |
 
 ---
 
