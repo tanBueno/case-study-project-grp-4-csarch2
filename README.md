@@ -19,11 +19,11 @@
 
 ---
 
-# Incremental Development Log — Mid-Milestone
+# Incremental Development Log - Mid-Milestone
 
 ## Development Summary
 
-The project is an **interactive virtual museum exhibit** that traces the evolution of computer graphics from the 1960s to the 2020s. Users scroll horizontally through a "Living Terminal" — a cyberpunk-themed timeline where each era is represented by an interactive exhibit node with era-specific visuals and technical explanations.
+The project is an **interactive virtual museum exhibit** that traces the evolution of computer graphics from the 1960s to the 2020s. Users scroll horizontally through a "Living Terminal" - a cyberpunk-themed timeline where each era is represented by an interactive exhibit node with era-specific visuals and technical explanations.
 
 ### Current Status: Core Experience Functional
 
@@ -56,13 +56,13 @@ The project is an **interactive virtual museum exhibit** that traces the evoluti
 
 So honestly at the start we didn't really know what direction to go with. We were going back and forth between doing a normal vertical scrolling page or like a slideshow type thing, and nothing really felt right for a "museum" vibe. Then someone suggested what if we make it scroll horizontally instead, like your actually walking through an exhibit hall And that was kind of the moment everything clicked. We started calling it the "Living Terminal" because we were inspired by the Pip boy from the game fallout which has a similar vibe to our project and from there the whole concept just came together naturally.
 
-Another thing that surprised us was the `IntersectionObserver` API. We were originally planning to manually calculate scroll positions to figure out which era the user was looking at so we could change the background color. But then we found out IntersectionObserver can basically do that for us — it detects which era card is in the center of the viewport, and then the background glow, the footer label, everything just updates on its own. Saved us a ton of headache.
+Another thing that surprised us was the `IntersectionObserver` API. We were originally planning to manually calculate scroll positions to figure out which era the user was looking at so we could change the background color. But then we found out IntersectionObserver can basically do that for us it detects which era card is in the center of the viewport, and then the background glow, the footer label, everything just updates on its own. Saved us a ton of headache.
 
-Also the CRT scanline effect — we thought we'd need canvas or some kind of image overlay for that. Turns out you can do it entirely with CSS gradients and box-shadow. No javascript needed at all. That was a big aha moment because it meant we got the retro aesthetic basically for free performance-wise.
+Also the CRT scanline effect  we thought we'd need canvas or some kind of image overlay for that. Turns out you can do it entirely with CSS gradients and box-shadow. No javascript needed at all. That was a big aha moment because it meant we got the retro aesthetic basically for free performance-wise.
 
 ### Things We Learned
 
-Working with Astro was new for most of us and it took some getting used to. But one thing we really appreciated was the island architecture — basically each React component hydrates on its own with `client:load`, so the 1960s ASCII component loading doesnt block the 2020s one from rendering. It makes the whole thing feel snappier even though theres a lot going on.
+Working with Astro was new for most of us and it took some getting used to. But one thing we really appreciated was the island architecture basically each React component hydrates on its own with `client:load`, so the 1960s ASCII component loading doesnt block the 2020s one from rendering. It makes the whole thing feel snappier even though theres a lot going on.
 
 We also learned alot about MDX. Using .mdx files for each era let us keep the written content separate from the interactive React components, which made it way easier to work on stuff in parallel without stepping on each others toes. The EraCard component acts like a wrapper that standardizes the layout, and then each era just plugs in its own unique interactive child component.
 
@@ -72,19 +72,19 @@ Tailwind v4 also threw us off a bit. The config file structure changed from what
 
 ### Challenges
 
-One of our early challenges was wrapping our heads around how Astro and React work together. We were used to building standard React apps, so Astro's island architecture — where components are static by default and you have to explicitly tell it when to make them interactive — caught us off guard a few times. We'd build a complex interactive era card and wonder why the buttons weren't working, only to realize we forgot the `client:load` directive. It took some trial and error, but once we understood the pattern, it actually made a lot of sense.
+One of our early challenges was wrapping our heads around how Astro and React work together. We were used to building standard React apps, so Astro's island architecture — where components are static by default and you have to explicitly tell it when to make them interactive caught us off guard a few times. We'd build a complex interactive era card and wonder why the buttons weren't working, only to realize we forgot the `client:load` directive. It took some trial and error, but once we understood the pattern, it actually made a lot of sense.
 
-But the most difficult ongoing issue has been performance. The UI is incredibly heavy on graphics — we have floating particles, twinkling stars, 3D perspective grids on the floor and ceiling, background glow blobs, and full-screen CRT scanline overlays all running at the same time. Because of how graphics-intensive this is, it tends to lag significantly, especially on lower-end machines. No matter how much we try to optimize it by reducing blur values or using `will-change` in CSS, the sheer weight of the visual effects makes it really difficult to get a consistently smooth frame rate. It's been a frustrating challenge and we definitely have to work on this more for the final submission.
+But the most difficult ongoing issue has been performance. The UI is incredibly heavy on graphics, we have floating particles, twinkling stars, 3D perspective grids on the floor and ceiling, background glow blobs, and full-screen CRT scanline overlays all running at the same time. Because of how graphics-intensive this is, it tends to lag significantly, especially on lower-end machines. No matter how much we try to optimize it by reducing blur values or using `will-change` in CSS, the sheer weight of the visual effects makes it really difficult to get a consistently smooth frame rate. It's been a frustrating challenge and we definitely have to work on this more for the final submission.
 
 The bibliography modal scrollbar was also weirdly difficult. We wanted the scrollbar inside the modal to match the green retro terminal theme, and getting that to work consistently across browsers was a pain. Chrome uses `-webkit-scrollbar` pseudo-elements but Firefox handles it differently. We got it working eventually but it took longer than expected for something so small.
 
 ### Creative Decisions
 
-We gave each era its own color — green for the 60s, red for 70s, amber for 80s, blue for 90s, cyan for 2000s, emerald for 2010s, and purple for 2020s. These colors dont just show up on the cards, they also bleed into the background glow and the footer label as you scroll, so theres this gradual shift in atmosphere as you move through time. It wasn't planned from the start but once we saw it in action it just felt right.
+We gave each era its own color, green for the 60s, red for 70s, amber for 80s, blue for 90s, cyan for 2000s, emerald for 2010s, and purple for 2020s. These colors dont just show up on the cards, they also bleed into the background glow and the footer label as you scroll, so theres this gradual shift in atmosphere as you move through time. It wasn't planned from the start but once we saw it in action it just felt right.
 
 The CRT boot-up intro screen was something we added kind of late but it ended up being one of our favorite parts. When you first load the site theres this old TV with an "Initialize" button, and when you click it the screen scales up and fades out like your zooming into the monitor. It sets the mood before you even start scrolling through the timeline.
 
-For the typography we went with Orbitron which gives it this sci-fi museum plaque kind of look. We made the labels really small with wide letter-spacing and all uppercase — trying to mimic those little engraved description plaques you see next to exhibits in real museums.
+For the typography we went with Orbitron which gives it this sci-fi museum plaque kind of look. We made the labels really small with wide letter-spacing and all uppercase trying to mimic those little engraved description plaques you see next to exhibits in real museums.
 
 The 3D grids on the floor and ceiling were a fun experiment. They use CSS `perspective` and `rotateX` transforms to look like your inside a digital corridor or VR tunnel. Its a subtle effect but it adds alot of depth to what would otherwise just be a flat dark background.
 
