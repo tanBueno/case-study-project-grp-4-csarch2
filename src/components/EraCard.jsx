@@ -10,6 +10,8 @@ export default function EraCard({
   children
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [tiltStyle, setTiltStyle] = useState({});
+  const cardRef = React.useRef(null);
   const stageNum = parseInt(stage, 10);
   const floatDelay = `${stageNum * 0.7}s`;
   const isUp = stageNum % 2 !== 0;
@@ -17,28 +19,66 @@ export default function EraCard({
   // Increase offset to spread them out vertically more
   const yOffset = isUp ? '-translate-y-40' : 'translate-y-40';
 
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left; // x position within the element
+    const y = e.clientY - rect.top;  // y position within the element
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    // Calculate rotation (-15 to 15 degrees)
+    const rotateX = ((y - centerY) / centerY) * -20;
+    const rotateY = ((x - centerX) / centerX) * 20;
+
+    setTiltStyle({
+      transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.1, 1.1, 1.1)`,
+      transition: 'transform 0.1s ease-out'
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setTiltStyle({
+      transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
+      transition: 'transform 0.5s ease-out'
+    });
+  };
+
   return (
     <>
       <div 
-        className={`snap-center animate-float ${yOffset} relative flex flex-col items-center justify-center`}
+        className={`era-container snap-center animate-float ${yOffset} relative flex flex-col items-center justify-center`}
         style={{ animationDelay: floatDelay }}
+        data-era-color={color}
       >
         {/* Exhibit Tether Line */}
-        <div 
-          className={`absolute left-1/2 -translate-x-1/2 w-[3px] h-40 opacity-60 z-0 bg-gradient-to-b ${isUp ? 'from-transparent to-current top-1/2' : 'from-current to-transparent bottom-1/2'}`}
-          style={{ color: color }}
-        ></div>
+        <svg className={`absolute left-1/2 -translate-x-1/2 w-32 opacity-60 z-0 pointer-events-none ${isUp ? 'top-1/2 h-[calc(50vh)]' : 'bottom-1/2 h-[calc(50vh)]'}`} 
+             style={{ [isUp ? 'transform' : 'transform']: isUp ? '' : 'scaleY(-1)' }} 
+             viewBox="0 0 100 200" preserveAspectRatio="none">
+           <path d="M50,0 C50,100 50,100 50,200" stroke="url(#gradient-line)" strokeWidth="3" fill="none" className="transition-all duration-1000"/>
+           <defs>
+             <linearGradient id="gradient-line" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor={color} stopOpacity="0" />
+                <stop offset="100%" stopColor={color} stopOpacity="1" />
+             </linearGradient>
+           </defs>
+        </svg>
         
         {/* Anchor point on the timeline axis */}
         <div 
-          className={`absolute left-1/2 -translate-x-1/2 w-8 h-2 rounded-full z-0 opacity-80 ${isUp ? 'top-[calc(50%+10rem)]' : 'bottom-[calc(50%+10rem)]'}`}
+          className={`absolute left-1/2 -translate-x-1/2 w-8 h-2 rounded-full z-0 opacity-80 ${isUp ? 'top-[calc(50vh)]' : 'bottom-[calc(50vh)]'}`}
           style={{ backgroundColor: color, boxShadow: `0 0 20px ${color}` }}
         ></div>
 
       {/* The Planet Node - Massively increased size for exploration */}
       <div 
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
         onClick={() => setIsExpanded(true)}
-        className="w-32 h-32 md:w-56 md:h-56 rounded-full flex items-center justify-center relative group cursor-pointer hover:scale-110 transition-transform duration-500 z-10"
+        className="w-32 h-32 md:w-56 md:h-56 rounded-full flex items-center justify-center relative group cursor-pointer z-10"
+        style={tiltStyle}
       >
         {/* Glowing Atmosphere */}
         <div 

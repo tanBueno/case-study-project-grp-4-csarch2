@@ -33,9 +33,9 @@ import * as Era2020s from '../content/eras/2020s.mdx';
   <main id="timeline" class="relative w-screen h-screen bg-[#020305] overflow-x-auto overflow-y-hidden flex items-center hide-scrollbar">
     
     {/* Atmospheric Background Glow */}
-    <div class="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
-      <div class="absolute top-1/4 left-1/4 w-[50vw] h-[50vh] bg-[#39FF14]/5 rounded-full blur-[100px] mix-blend-screen opacity-50 animate-pulse"></div>
-      <div class="absolute bottom-1/4 right-1/4 w-[40vw] h-[40vh] bg-[#39FF14]/5 rounded-full blur-[120px] mix-blend-screen opacity-30"></div>
+    <div class="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden" id="bg-glow-container">
+      <div id="glow-1" class="absolute top-1/4 left-1/4 w-[50vw] h-[50vh] bg-[#39FF14]/5 rounded-full blur-[100px] mix-blend-screen opacity-50 animate-pulse transition-colors duration-1000"></div>
+      <div id="glow-2" class="absolute bottom-1/4 right-1/4 w-[40vw] h-[40vh] bg-[#39FF14]/5 rounded-full blur-[120px] mix-blend-screen opacity-30 transition-colors duration-1000"></div>
     </div>
 
     {/* Full-Screen Immersive 3D Floor Grid */}
@@ -153,5 +153,33 @@ import * as Era2020s from '../content/eras/2020s.mdx';
         }
       }
     }, { passive: false });
+
+    // --- SCROLL-DRIVEN AMBIENT BACKGROUND ENGINE ---
+    const glow1 = document.getElementById('glow-1');
+    const glow2 = document.getElementById('glow-2');
+    
+    // Intersection Observer to detect center Era
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const color = entry.target.getAttribute('data-era-color');
+          if (color && glow1 && glow2) {
+            // Convert hex to rgb for tailwind arbitrary values, or just use inline style backgroundColor
+            // We use inline styles for dynamic colors
+            glow1.style.backgroundColor = color;
+            glow2.style.backgroundColor = color;
+          }
+        }
+      });
+    }, {
+      root: timeline,
+      rootMargin: '0px -50% 0px -50%', // Trigger exactly at horizontal center
+      threshold: 0
+    });
+
+    // Observe all era containers
+    document.querySelectorAll('.era-container').forEach(node => {
+      observer.observe(node);
+    });
   }
 </script>
