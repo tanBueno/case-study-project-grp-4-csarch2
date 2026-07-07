@@ -15,7 +15,7 @@
 * Solomon, Adonis Mikel
 
 > **GitHub:** [github.com/tanBueno/case-study-project-grp-4-csarch2](https://github.com/tanBueno/case-study-project-grp-4-csarch2)  
-> **Live Site:** https://case-study-project-grp-4-csarch2.onrender.com
+> **Live Site:** https://case-study-project-grp-4-csarch2-e39f.onrender.com
 
 ---
 
