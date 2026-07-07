@@ -1,341 +1,206 @@
 ---
 import TimelineLayout from "../layouts/TimelineLayout.astro";
-import IntroTV from "../components/IntroTV.jsx";
-import CuratorBoard from "../components/CuratorBoard.jsx";
-import SourcesButton from "../components/SourcesButton.jsx";
-import * as Era1960s from "../content/eras/1960s.mdx";
-import * as Era1970s from "../content/eras/1970s.mdx";
-import * as Era1980s from "../content/eras/1980s.mdx";
-import * as Era1990s from "../content/eras/1990s.mdx";
-import * as Era2000s from "../content/eras/2000s.mdx";
-import * as Era2010s from "../content/eras/2010s.mdx";
-import * as Era2020s from "../content/eras/2020s.mdx";
 ---
 
 <TimelineLayout>
-  <IntroTV client:load />
-
-  <!-- Noise Texture Overlay for depth -->
-  <div class="noise-overlay pointer-events-none fixed inset-0 z-[60]"></div>
-
-  <!-- Museum Masthead -->
-  <header class="fixed top-0 left-0 right-0 z-50 pointer-events-none">
-    <div class="mx-8 mt-6 flex items-start gap-6">
-      <!-- Exhibit Identity -->
-      <div class="flex flex-col gap-1.5">
-        <div class="flex items-center gap-2.5">
-          <div
-            class="w-2 h-2 rounded-full bg-[#39FF14] shadow-[0_0_8px_#39FF14,0_0_20px_rgba(57,255,20,0.3)] animate-breathe"
-          >
+  <!-- Main Scrollable Wrapper -->
+  <div id="main-wrapper" class="w-screen h-screen overflow-y-auto japanese-cubes-bg flex flex-col justify-between selection:bg-[#39FF14]/30 scroll-smooth">
+    
+    <!-- Top Nav Header -->
+    <header class="w-full max-w-5xl mx-auto px-4 mt-6 md:mt-8">
+      <div class="bg-[#090d16]/75 backdrop-blur-md text-white rounded-lg shadow-[0_4px_30px_rgba(0,0,0,0.5)] py-3 px-5 flex items-center border border-[#39FF14]/20">
+        <div class="flex items-center gap-3 w-full justify-between">
+          <div class="flex items-center gap-3 overflow-hidden">
+            <!-- Circle containing Home Icon -->
+            <div class="w-8 h-8 rounded-full border border-[#39FF14]/30 bg-[#39FF14]/5 flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(57,255,20,0.15)] text-[#39FF14]">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+              </svg>
+            </div>
+            <!-- Title & Attribution -->
+            <h1 class="font-display font-semibold text-xs md:text-sm text-zinc-100 tracking-wider uppercase truncate">
+              How Computers Learned to See: The Evolution of Graphics
+            </h1>
           </div>
-          <span class="museum-label text-[#39FF14]/80 text-[10px]"
-            >Virtual Exhibit — Active</span
-          >
-        </div>
-        <h1
-          class="text-2xl md:text-3xl font-display font-bold text-white tracking-tight uppercase leading-tight"
-        >
-          How Computers <br />
-          <span
-            class="text-[#39FF14] drop-shadow-[0_0_20px_rgba(57,255,20,0.4)]"
-            >Learned to See</span
-          >
-        </h1>
-        <div class="flex items-center gap-3 mt-1">
-          <div
-            class="w-12 h-[1px] bg-gradient-to-r from-[#39FF14]/60 to-transparent"
-          >
-          </div>
-          <p class="museum-label text-zinc-500 text-[9px]">
-            The Living Timeline · 1960 — 2020
-          </p>
+          <span class="museum-label text-zinc-400 text-[9px] tracking-widest shrink-0 hidden sm:inline-block font-mono">
+            by Exhibit Curator
+          </span>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <!-- Floating Ambient Particles (CSS-only, GPU-accelerated) -->
-  <div
-    class="fixed inset-0 pointer-events-none z-[5] overflow-hidden"
-    aria-hidden="true"
-  >
-    {
-      [...Array(12)].map((_, i) => {
-        const size = 1 + (i % 3);
-        const top = (i * 8.3) % 100;
-        const delay = i * 1.7;
-        const duration = 18 + (i % 5) * 4;
-        const opacity = 0.15 + (i % 4) * 0.08;
-        return (
-          <div
-            class="absolute rounded-full bg-white will-change-transform"
-            style={`
-            width: ${size}px; height: ${size}px;
-            top: ${top}%;
-            left: -10px;
-            opacity: ${opacity};
-            animation: drift ${duration}s linear ${delay}s infinite;
-          `}
-          />
-        );
-      })
-    }
-  </div>
+    <!-- Main Content Area -->
+    <main class="w-full max-w-5xl mx-auto px-4 py-8 flex-grow flex items-center justify-center">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 w-full items-start">
+        
+        <!-- Left Column: Table of Contents -->
+        <section class="md:col-span-1 bg-[#090d16]/75 backdrop-blur-md text-white rounded-lg p-5 shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-white/5">
+          <h2 class="museum-label text-xs tracking-[0.2em] font-semibold text-zinc-300 uppercase">Table of contents</h2>
+          <hr class="border-white/10 my-2.5" />
+          <nav>
+            <ol class="space-y-3 font-mono text-xs text-zinc-300 list-none pl-0">
+              <li>
+                <a href="#enter-timeline" class="hover:text-[#39FF14] transition-colors duration-200 flex items-baseline gap-1.5 group">
+                  <span class="text-[#39FF14]/50 group-hover:text-[#39FF14]">01 //</span>
+                  <span>Enter the Timeline</span>
+                </a>
+              </li>
+              <li>
+                <a href="#exhibit-overview" class="hover:text-[#39FF14] transition-colors duration-200 flex items-baseline gap-1.5 group">
+                  <span class="text-[#39FF14]/50 group-hover:text-[#39FF14]">02 //</span>
+                  <span>Exhibit Overview</span>
+                </a>
+              </li>
+            </ol>
+          </nav>
+        </section>
 
-  <!-- Twinkling Star Field (CSS-only) -->
-  <div
-    class="fixed inset-0 pointer-events-none z-[2] overflow-hidden"
-    aria-hidden="true"
-  >
-    {
-      [...Array(30)].map((_, i) => {
-        const left = (i * 3.33) % 100;
-        const top = (i * 7.1 + 13) % 100;
-        const size = 1 + (i % 2);
-        const delay = i * 0.5;
-        const dur = 3 + (i % 4) * 1.5;
-        return (
-          <div
-            class="absolute rounded-full bg-white/60"
-            style={`
-            width: ${size}px; height: ${size}px;
-            top: ${top}%; left: ${left}%;
-            animation: twinkle ${dur}s ease-in-out ${delay}s infinite;
-          `}
-          />
-        );
-      })
-    }
-  </div>
+        <!-- Right Column: Cards -->
+        <div class="md:col-span-3 flex flex-col gap-6">
+          
+          <!-- Card 1: Welcome -->
+          <section class="bg-[#090d16]/75 backdrop-blur-md text-white rounded-lg p-6 shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-white/5 text-center">
+            <h2 class="text-2xl md:text-3xl font-display font-bold text-white uppercase tracking-wider">
+              <span class="text-[#39FF14] drop-shadow-[0_0_15px_rgba(57,255,20,0.4)]">Welcome</span> to the Exhibit
+            </h2>
+            <p class="museum-label text-zinc-400 mt-2 text-[10px] tracking-[0.2em]">
+              by Exhibit Curator &bull; 10 minute experience
+            </p>
+          </section>
 
-  <!-- Continuous Scrolling Timeline -->
-  <main
-    id="timeline"
-    class="relative w-screen h-screen bg-[#020305] overflow-x-auto overflow-y-hidden flex items-center hide-scrollbar"
-  >
-    <!-- Atmospheric Background Glow (smoother breathing, not harsh pulse) -->
-    <div
-      class="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden"
-      id="bg-glow-container"
-    >
-      <div
-        id="glow-1"
-        class="absolute top-1/4 left-1/4 w-[50vw] h-[50vh] bg-[#39FF14]/5 rounded-full blur-[100px] mix-blend-screen animate-breathe transition-colors duration-1000"
-      >
+          <!-- Card 2: Immersive Info & Overview -->
+          <section class="bg-[#090d16]/75 backdrop-blur-md text-white rounded-lg p-6 md:p-8 shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-white/5">
+            
+            <p class="text-zinc-300 text-sm md:text-base leading-relaxed mb-6 font-sans">
+              We have designed a highly immersive, interactive 3D timeline experience for this exhibit.
+            </p>
+
+            <!-- Enter the Timeline -->
+            <div id="enter-timeline" class="scroll-mt-6">
+              <h3 class="museum-label text-xs text-[#00F0FF] tracking-[0.25em] border-b border-white/10 pb-2 mb-4 font-semibold uppercase">
+                Enter the Timeline
+              </h3>
+              <p class="text-zinc-400 text-xs md:text-sm mb-5">
+                Click the button below to launch the immersive exhibit.
+              </p>
+              
+              <!-- Launch Button -->
+              <a 
+                href="/timeline" 
+                class="inline-flex items-center gap-2.5 px-6 py-3 bg-gradient-to-r from-[#39FF14] to-[#00F0FF] text-zinc-950 rounded-full text-xs md:text-sm font-display font-bold tracking-[0.15em] uppercase transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(57,255,20,0.3)] hover:shadow-[0_0_30px_rgba(57,255,20,0.6)] cursor-pointer"
+              >
+                <span>Launch Immersive 3D Timeline</span>
+              </a>
+            </div>
+
+            <!-- Exhibit Overview -->
+            <div id="exhibit-overview" class="scroll-mt-6 mt-10">
+              <!-- Blue text highlight container -->
+              <span class="inline-block bg-[#B026FF]/20 text-[#B026FF] border border-[#B026FF]/30 px-3 py-1 rounded-sm font-display text-[10px] tracking-[0.2em] uppercase mb-4 shadow-[0_0_10px_rgba(176,38,255,0.15)]">
+                Exhibit Overview
+              </span>
+              
+              <p class="text-zinc-400 text-xs md:text-sm mb-4">
+                In this exhibit, you will travel through the decades:
+              </p>
+
+              <!-- Decades List -->
+              <ul class="list-none space-y-3.5 text-xs md:text-sm text-zinc-300 pl-1 mb-6">
+                <li class="flex items-start gap-2.5">
+                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#22c55e] mt-1.5 shrink-0 shadow-[0_0_6px_#22c55e]"></span>
+                  <p>
+                    <strong class="font-semibold font-display text-[#22c55e] tracking-wider">1960s:</strong> The dawn of vector graphics and Sketchpad.
+                  </p>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#ef4444] mt-1.5 shrink-0 shadow-[0_0_6px_#ef4444]"></span>
+                  <p>
+                    <strong class="font-semibold font-display text-[#ef4444] tracking-wider">1970s:</strong> Raster graphics emerge and color arrives.
+                  </p>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#f59e0b] mt-1.5 shrink-0 shadow-[0_0_6px_#f59e0b]"></span>
+                  <p>
+                    <strong class="font-semibold font-display text-[#f59e0b] tracking-wider">1980s:</strong> The golden age of arcade graphics and early 3D.
+                  </p>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#3b82f6] mt-1.5 shrink-0 shadow-[0_0_6px_#3b82f6]"></span>
+                  <p>
+                    <strong class="font-semibold font-display text-[#3b82f6] tracking-wider">1990s:</strong> Hardware acceleration and the 3D revolution.
+                  </p>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#06b6d4] mt-1.5 shrink-0 shadow-[0_0_6px_#06b6d4]"></span>
+                  <p>
+                    <strong class="font-semibold font-display text-[#06b6d4] tracking-wider">2000s:</strong> Programmable shaders change everything.
+                  </p>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#10b981] mt-1.5 shrink-0 shadow-[0_0_6px_#10b981]"></span>
+                  <p>
+                    <strong class="font-semibold font-display text-[#10b981] tracking-wider">2010s:</strong> Realism, PBR, and the rise of compute.
+                  </p>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#a855f7] mt-1.5 shrink-0 shadow-[0_0_6px_#a855f7]"></span>
+                  <p>
+                    <strong class="font-semibold font-display text-[#a855f7] tracking-wider">2020s:</strong> Real-time ray tracing and AI generation.
+                  </p>
+                </li>
+              </ul>
+
+              <p class="text-[#00F0FF] font-display font-medium text-xs md:text-sm tracking-[0.2em] uppercase mt-6">
+                Enjoy the journey!
+              </p>
+            </div>
+
+          </section>
+        </div>
+
       </div>
-      <div
-        id="glow-2"
-        class="absolute bottom-1/4 right-1/4 w-[40vw] h-[40vh] bg-[#39FF14]/5 rounded-full blur-[120px] mix-blend-screen opacity-30 transition-colors duration-1000"
-      >
-      </div>
-    </div>
+    </main>
 
-    <!-- Full-Screen Immersive 3D Floor Grid -->
-    <div
-      class="fixed bottom-0 left-0 w-full h-[60vh] pointer-events-none z-0"
-      style="
-        background-size: 80px 80px;
-        background-image: 
-          linear-gradient(to right, rgba(57, 255, 20, 0.08) 1px, transparent 1px), 
-          linear-gradient(to bottom, rgba(57, 255, 20, 0.08) 1px, transparent 1px);
-        transform: perspective(800px) rotateX(75deg);
-        transform-origin: top center;
-        mask-image: radial-gradient(ellipse at top, black 0%, transparent 70%);
-        -webkit-mask-image: radial-gradient(ellipse at top, black 0%, transparent 70%);
-      "
-    >
-    </div>
+    <!-- Bottom Footer Bar -->
+    <footer class="w-full text-center py-6">
+      <span class="museum-label text-zinc-600 text-[8px] tracking-[0.25em]">
+        CSARCH2 Virtual Exhibit &mdash; "Computer Architecture is Forever"
+      </span>
+    </footer>
 
-    <!-- Immersive 3D Ceiling Grid (VR Tunnel Effect) -->
-    <div
-      class="fixed top-0 left-0 w-full h-[60vh] pointer-events-none z-0 opacity-30"
-      style="
-        background-size: 80px 80px;
-        background-image: 
-          linear-gradient(to right, rgba(57, 255, 20, 0.08) 1px, transparent 1px), 
-          linear-gradient(to bottom, rgba(57, 255, 20, 0.08) 1px, transparent 1px);
-        transform: perspective(800px) rotateX(-75deg);
-        transform-origin: bottom center;
-        mask-image: radial-gradient(ellipse at bottom, black 0%, transparent 70%);
-        -webkit-mask-image: radial-gradient(ellipse at bottom, black 0%, transparent 70%);
-      "
-    >
-    </div>
-
-    <!-- Softer Cinematic Vignette -->
-    <div
-      class="fixed inset-0 w-full h-full pointer-events-none z-50 shadow-[inset_0_0_150px_80px_rgba(0,0,0,0.85)]"
-    >
-    </div>
-
-    <!-- Infinite Background Timeline Line -->
-    <div
-      class="fixed top-1/2 left-0 w-[10000px] h-[3px] bg-gradient-to-r from-transparent via-[#39FF14]/20 to-transparent pointer-events-none z-0 blur-[2px]"
-    >
-    </div>
-    <div
-      class="fixed top-1/2 left-0 w-[10000px] h-[1px] bg-[#39FF14]/15 pointer-events-none z-0"
-    >
-    </div>
-
-    <div
-      class="flex items-center pl-[10vw] pr-32 gap-32 md:gap-64 min-w-max relative z-10 py-24"
-    >
-      {/* Intro Core */}
-      <CuratorBoard client:load />
-
-      {/* Era Nodes */}
-      <Era1960s.Content />
-      <Era1970s.Content />
-      <Era1980s.Content />
-      <Era1990s.Content />
-      <Era2000s.Content />
-      <Era2010s.Content />
-      <Era2020s.Content />
-    </div>
-  </main>
-
-  <SourcesButton client:load />
-
-  <!-- Scroll Progress Indicator -->
-  <div class="fixed bottom-0 left-0 right-0 z-[80] h-[3px] bg-transparent pointer-events-none">
-    <div id="scroll-progress" class="h-full bg-gradient-to-r from-[#39FF14] to-[#00F0FF] shadow-[0_0_10px_rgba(57,255,20,0.5)] transition-[width] duration-150 ease-out" style="width: 0%"></div>
-  </div>
-
-  <!-- Bottom Museum Footer Bar -->
-  <div class="fixed bottom-4 left-0 right-0 z-[70] flex justify-center pointer-events-none">
-    <div class="flex items-center gap-4 px-6 py-2 bg-black/40 backdrop-blur-md rounded-full border border-white/5">
-      <span class="museum-label text-zinc-600 text-[8px]">Scroll to Navigate</span>
-      <div class="w-[1px] h-3 bg-white/10"></div>
-      <span class="museum-label text-zinc-600 text-[8px]">Click Exhibits to Explore</span>
-      <div class="w-[1px] h-3 bg-white/10"></div>
-      <span id="current-era-label" class="museum-label text-[#39FF14]/60 text-[8px] transition-all duration-500">Exhibit Hall</span>
-    </div>
   </div>
 </TimelineLayout>
 
-<style>
-  .custom-scrollbar::-webkit-scrollbar {
-    height: 6px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.02);
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
-</style>
-
 <script>
-  const timeline = document.getElementById("timeline");
-  if (timeline) {
-    let targetScroll = timeline.scrollLeft;
-    let currentScroll = timeline.scrollLeft;
-    let isMoving = false;
-    const ease = 0.07;
-
-    const progressBar = document.getElementById("scroll-progress");
-    const glow1 = document.getElementById("glow-1");
-    const glow2 = document.getElementById("glow-2");
-    const eraLabel = document.getElementById("current-era-label");
-
-    // Progress bar update — called from scroll events and lerp loop
-    function updateProgress() {
-      const maxScroll = timeline.scrollWidth - timeline.clientWidth;
-      if (maxScroll > 0 && progressBar) {
-        const pct = Math.min(
-          100,
-          Math.max(0, (timeline.scrollLeft / maxScroll) * 100),
-        );
-        progressBar.style.width = pct + "%";
-      }
-    }
-
-    function update() {
-      currentScroll += (targetScroll - currentScroll) * ease;
-      timeline.scrollLeft = currentScroll;
-      updateProgress();
-
-      if (Math.abs(targetScroll - currentScroll) > 0.5) {
-        requestAnimationFrame(update);
-      } else {
-        timeline.scrollLeft = targetScroll;
-        isMoving = false;
-        updateProgress();
-      }
-    }
-
-    // Keep target synchronized if the user scrolls manually (e.g. trackpad, scrollbar drag)
-    timeline.addEventListener(
-      "scroll",
-      () => {
-        if (!isMoving) {
-          targetScroll = timeline.scrollLeft;
-          currentScroll = timeline.scrollLeft;
-        }
-        updateProgress();
-      },
-      { passive: true },
-    );
-
-    document.addEventListener(
-      "wheel",
-      (e) => {
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-          e.preventDefault();
-
-          const maxScroll = timeline.scrollWidth - timeline.clientWidth;
-          targetScroll = Math.max(
-            0,
-            Math.min(maxScroll, targetScroll + e.deltaY),
-          );
-
-          if (!isMoving) {
-            isMoving = true;
-            currentScroll = timeline.scrollLeft;
-            requestAnimationFrame(update);
+  const wrapper = document.getElementById("main-wrapper");
+  if (wrapper) {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute("href")?.slice(1);
+        if (targetId) {
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: "smooth" });
           }
         }
-      },
-      { passive: false },
-    );
-
-    // --- SCROLL-DRIVEN AMBIENT BACKGROUND ENGINE ---
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const color = entry.target.getAttribute("data-era-color");
-            if (color && glow1 && glow2) {
-              glow1.style.backgroundColor = color;
-              glow2.style.backgroundColor = color;
-            }
-            // Update current era label in footer
-            const eraName = entry.target.querySelector("[data-era-name]");
-            if (eraName && eraLabel) {
-              eraLabel.textContent = eraName.getAttribute("data-era-name");
-              eraLabel.style.color = color || "";
-            }
-          }
-        });
-      },
-      {
-        root: timeline,
-        rootMargin: "0px -30% 0px -30%",
-        threshold: 0,
-      },
-    );
-
-    // Observe all era containers
-    document.querySelectorAll(".era-container").forEach((node) => {
-      observer.observe(node);
+      });
     });
-
-    // Initial progress update
-    updateProgress();
   }
 </script>
+
+<style>
+  /* Dark Cyber 3D Isometric Repeating Cubes Background Pattern */
+  .japanese-cubes-bg {
+    background-color: #080c14;
+    background-image: 
+      linear-gradient(30deg, #020306 12%, transparent 12.5%, transparent 87%, #020306 87.5%, #020306),
+      linear-gradient(150deg, #020306 12%, transparent 12.5%, transparent 87%, #020306 87.5%, #020306),
+      linear-gradient(30deg, #020306 12%, transparent 12.5%, transparent 87%, #020306 87.5%, #020306),
+      linear-gradient(150deg, #020306 12%, transparent 12.5%, transparent 87%, #020306 87.5%, #020306),
+      linear-gradient(60deg, #141e30 25%, transparent 25.5%, transparent 75%, #141e30 75.5%, #141e30),
+      linear-gradient(60deg, #141e30 25%, transparent 25.5%, transparent 75%, #141e30 75.5%, #141e30);
+    background-size: 80px 140px;
+    background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+  }
+</style>
