@@ -194,6 +194,24 @@ import * as Era2020s from "../content/eras/2020s.mdx";
       <Era2020s.Content />
     </div>
   </main>
+
+  <SourcesButton client:load />
+
+  <!-- Scroll Progress Indicator -->
+  <div class="fixed bottom-0 left-0 right-0 z-[80] h-[3px] bg-transparent pointer-events-none">
+    <div id="scroll-progress" class="h-full bg-gradient-to-r from-[#39FF14] to-[#00F0FF] shadow-[0_0_10px_rgba(57,255,20,0.5)] transition-[width] duration-150 ease-out" style="width: 0%"></div>
+  </div>
+
+  <!-- Bottom Museum Footer Bar -->
+  <div class="fixed bottom-4 left-0 right-0 z-[70] flex justify-center pointer-events-none">
+    <div class="flex items-center gap-4 px-6 py-2 bg-black/40 backdrop-blur-md rounded-full border border-white/5">
+      <span class="museum-label text-zinc-600 text-[8px]">Scroll to Navigate</span>
+      <div class="w-[1px] h-3 bg-white/10"></div>
+      <span class="museum-label text-zinc-600 text-[8px]">Click Exhibits to Explore</span>
+      <div class="w-[1px] h-3 bg-white/10"></div>
+      <span id="current-era-label" class="museum-label text-[#39FF14]/60 text-[8px] transition-all duration-500">Exhibit Hall</span>
+    </div>
+  </div>
 </TimelineLayout>
 
 <style>
