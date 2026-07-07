@@ -4,9 +4,5 @@ title: "Computer Architecture is Forever"
 ---
 
 <script>
-  // If Render's Web Service is acting as a Single Page App and serving the 
-  // homepage for the /graphics URL, we catch it here and redirect!
-  if (window.location.pathname.includes('/graphics')) {
-      window.location.href = "/timeline";
-  }
+  if (window.location.pathname.includes('/graphics')) window.location.href = "/timeline";
 </script>
