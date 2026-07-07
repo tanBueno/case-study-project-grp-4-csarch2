@@ -2,6 +2,7 @@
 import TimelineLayout from '../layouts/TimelineLayout.astro';
 import IntroTV from '../components/IntroTV.jsx';
 import CuratorBoard from '../components/CuratorBoard.jsx';
+import SourcesButton from '../components/SourcesButton.jsx';
 import * as Era1960s from '../content/eras/1960s.mdx';
 import * as Era1970s from '../content/eras/1970s.mdx';
 import * as Era1980s from '../content/eras/1980s.mdx';
@@ -89,6 +90,8 @@ import * as Era2020s from '../content/eras/2020s.mdx';
       <Era2020s.Content />
     </div>
   </main>
+
+  <SourcesButton client:load />
 </TimelineLayout>
 
 <style>
