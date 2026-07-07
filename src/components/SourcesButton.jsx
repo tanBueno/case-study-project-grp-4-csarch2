@@ -86,7 +86,7 @@ export default function SourcesButton() {
   return (
     <>
       {/* Floating Action Button at bottom center */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] group">
+      <div className="fixed bottom-16 left-1/2 -translate-x-1/2 z-[100] group">
         {/* Hover label */}
         <div className="absolute bottom-14 left-1/2 -translate-x-1/2 bg-black/90 border border-[#39FF14]/30 text-[#39FF14] text-[9px] font-mono tracking-[0.2em] px-3 py-1.5 rounded-full whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-300 backdrop-blur-md shadow-[0_0_15px_rgba(57,255,20,0.15)] uppercase">
           BIBLIOGRAPHY.SYS

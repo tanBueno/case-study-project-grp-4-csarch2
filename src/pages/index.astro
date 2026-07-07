@@ -1,82 +1,186 @@
 ---
-import TimelineLayout from '../layouts/TimelineLayout.astro';
-import IntroTV from '../components/IntroTV.jsx';
-import CuratorBoard from '../components/CuratorBoard.jsx';
-import SourcesButton from '../components/SourcesButton.jsx';
-import * as Era1960s from '../content/eras/1960s.mdx';
-import * as Era1970s from '../content/eras/1970s.mdx';
-import * as Era1980s from '../content/eras/1980s.mdx';
-import * as Era1990s from '../content/eras/1990s.mdx';
-import * as Era2000s from '../content/eras/2000s.mdx';
-import * as Era2010s from '../content/eras/2010s.mdx';
-import * as Era2020s from '../content/eras/2020s.mdx';
+import TimelineLayout from "../layouts/TimelineLayout.astro";
+import IntroTV from "../components/IntroTV.jsx";
+import CuratorBoard from "../components/CuratorBoard.jsx";
+import SourcesButton from "../components/SourcesButton.jsx";
+import * as Era1960s from "../content/eras/1960s.mdx";
+import * as Era1970s from "../content/eras/1970s.mdx";
+import * as Era1980s from "../content/eras/1980s.mdx";
+import * as Era1990s from "../content/eras/1990s.mdx";
+import * as Era2000s from "../content/eras/2000s.mdx";
+import * as Era2010s from "../content/eras/2010s.mdx";
+import * as Era2020s from "../content/eras/2020s.mdx";
 ---
 
 <TimelineLayout>
   <IntroTV client:load />
 
-  {/* Header Title */}
-  <header class="fixed top-8 left-12 z-50 pointer-events-none">
-    <div class="flex items-center gap-2 text-[10px] font-mono tracking-widest text-[#39FF14] mb-2">
-      <div class="w-2 h-2 rounded-full bg-[#39FF14] animate-pulse shadow-[0_0_10px_#39FF14]"></div>
-      <span class="uppercase">Active Terminal</span>
+  <!-- Noise Texture Overlay for depth -->
+  <div class="noise-overlay pointer-events-none fixed inset-0 z-[60]"></div>
+
+  <!-- Museum Masthead -->
+  <header class="fixed top-0 left-0 right-0 z-50 pointer-events-none">
+    <div class="mx-8 mt-6 flex items-start gap-6">
+      <!-- Exhibit Identity -->
+      <div class="flex flex-col gap-1.5">
+        <div class="flex items-center gap-2.5">
+          <div
+            class="w-2 h-2 rounded-full bg-[#39FF14] shadow-[0_0_8px_#39FF14,0_0_20px_rgba(57,255,20,0.3)] animate-breathe"
+          >
+          </div>
+          <span class="museum-label text-[#39FF14]/80 text-[10px]"
+            >Virtual Exhibit — Active</span
+          >
+        </div>
+        <h1
+          class="text-2xl md:text-3xl font-display font-bold text-white tracking-tight uppercase leading-tight"
+        >
+          How Computers <br />
+          <span
+            class="text-[#39FF14] drop-shadow-[0_0_20px_rgba(57,255,20,0.4)]"
+            >Learned to See</span
+          >
+        </h1>
+        <div class="flex items-center gap-3 mt-1">
+          <div
+            class="w-12 h-[1px] bg-gradient-to-r from-[#39FF14]/60 to-transparent"
+          >
+          </div>
+          <p class="museum-label text-zinc-500 text-[9px]">
+            The Living Timeline · 1960 — 2020
+          </p>
+        </div>
+      </div>
     </div>
-    <h1 class="text-3xl font-sans font-bold text-white tracking-tight uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
-      How Computers <br/>
-      <span class="text-[#39FF14] drop-shadow-[0_0_20px_#39FF14]">Learned to See</span>
-    </h1>
-    <p class="text-zinc-500 font-mono text-xs mt-2 uppercase tracking-widest">
-      The Living Terminal Timeline
-    </p>
   </header>
 
-  {/* Continuous Scrolling Timeline */}
-  <main id="timeline" class="relative w-screen h-screen bg-[#020305] overflow-x-auto overflow-y-hidden flex items-center hide-scrollbar">
-    
-    {/* Atmospheric Background Glow */}
-    <div class="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden" id="bg-glow-container">
-      <div id="glow-1" class="absolute top-1/4 left-1/4 w-[50vw] h-[50vh] bg-[#39FF14]/5 rounded-full blur-[100px] mix-blend-screen opacity-50 animate-pulse transition-colors duration-1000"></div>
-      <div id="glow-2" class="absolute bottom-1/4 right-1/4 w-[40vw] h-[40vh] bg-[#39FF14]/5 rounded-full blur-[120px] mix-blend-screen opacity-30 transition-colors duration-1000"></div>
+  <!-- Floating Ambient Particles (CSS-only, GPU-accelerated) -->
+  <div
+    class="fixed inset-0 pointer-events-none z-[5] overflow-hidden"
+    aria-hidden="true"
+  >
+    {
+      [...Array(12)].map((_, i) => {
+        const size = 1 + (i % 3);
+        const top = (i * 8.3) % 100;
+        const delay = i * 1.7;
+        const duration = 18 + (i % 5) * 4;
+        const opacity = 0.15 + (i % 4) * 0.08;
+        return (
+          <div
+            class="absolute rounded-full bg-white will-change-transform"
+            style={`
+            width: ${size}px; height: ${size}px;
+            top: ${top}%;
+            left: -10px;
+            opacity: ${opacity};
+            animation: drift ${duration}s linear ${delay}s infinite;
+          `}
+          />
+        );
+      })
+    }
+  </div>
+
+  <!-- Twinkling Star Field (CSS-only) -->
+  <div
+    class="fixed inset-0 pointer-events-none z-[2] overflow-hidden"
+    aria-hidden="true"
+  >
+    {
+      [...Array(30)].map((_, i) => {
+        const left = (i * 3.33) % 100;
+        const top = (i * 7.1 + 13) % 100;
+        const size = 1 + (i % 2);
+        const delay = i * 0.5;
+        const dur = 3 + (i % 4) * 1.5;
+        return (
+          <div
+            class="absolute rounded-full bg-white/60"
+            style={`
+            width: ${size}px; height: ${size}px;
+            top: ${top}%; left: ${left}%;
+            animation: twinkle ${dur}s ease-in-out ${delay}s infinite;
+          `}
+          />
+        );
+      })
+    }
+  </div>
+
+  <!-- Continuous Scrolling Timeline -->
+  <main
+    id="timeline"
+    class="relative w-screen h-screen bg-[#020305] overflow-x-auto overflow-y-hidden flex items-center hide-scrollbar"
+  >
+    <!-- Atmospheric Background Glow (smoother breathing, not harsh pulse) -->
+    <div
+      class="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden"
+      id="bg-glow-container"
+    >
+      <div
+        id="glow-1"
+        class="absolute top-1/4 left-1/4 w-[50vw] h-[50vh] bg-[#39FF14]/5 rounded-full blur-[100px] mix-blend-screen animate-breathe transition-colors duration-1000"
+      >
+      </div>
+      <div
+        id="glow-2"
+        class="absolute bottom-1/4 right-1/4 w-[40vw] h-[40vh] bg-[#39FF14]/5 rounded-full blur-[120px] mix-blend-screen opacity-30 transition-colors duration-1000"
+      >
+      </div>
     </div>
 
-    {/* Full-Screen Immersive 3D Floor Grid */}
-    <div 
-      class="fixed bottom-0 left-0 w-full h-[60vh] pointer-events-none z-0" 
+    <!-- Full-Screen Immersive 3D Floor Grid -->
+    <div
+      class="fixed bottom-0 left-0 w-full h-[60vh] pointer-events-none z-0"
       style="
         background-size: 80px 80px;
         background-image: 
-          linear-gradient(to right, rgba(57, 255, 20, 0.1) 1px, transparent 1px), 
-          linear-gradient(to bottom, rgba(57, 255, 20, 0.1) 1px, transparent 1px);
+          linear-gradient(to right, rgba(57, 255, 20, 0.08) 1px, transparent 1px), 
+          linear-gradient(to bottom, rgba(57, 255, 20, 0.08) 1px, transparent 1px);
         transform: perspective(800px) rotateX(75deg);
         transform-origin: top center;
         mask-image: radial-gradient(ellipse at top, black 0%, transparent 70%);
         -webkit-mask-image: radial-gradient(ellipse at top, black 0%, transparent 70%);
       "
-    ></div>
+    >
+    </div>
 
-    {/* Immersive 3D Ceiling Grid (VR Tunnel Effect) */}
-    <div 
-      class="fixed top-0 left-0 w-full h-[60vh] pointer-events-none z-0 opacity-40" 
+    <!-- Immersive 3D Ceiling Grid (VR Tunnel Effect) -->
+    <div
+      class="fixed top-0 left-0 w-full h-[60vh] pointer-events-none z-0 opacity-30"
       style="
         background-size: 80px 80px;
         background-image: 
-          linear-gradient(to right, rgba(57, 255, 20, 0.1) 1px, transparent 1px), 
-          linear-gradient(to bottom, rgba(57, 255, 20, 0.1) 1px, transparent 1px);
+          linear-gradient(to right, rgba(57, 255, 20, 0.08) 1px, transparent 1px), 
+          linear-gradient(to bottom, rgba(57, 255, 20, 0.08) 1px, transparent 1px);
         transform: perspective(800px) rotateX(-75deg);
         transform-origin: bottom center;
         mask-image: radial-gradient(ellipse at bottom, black 0%, transparent 70%);
         -webkit-mask-image: radial-gradient(ellipse at bottom, black 0%, transparent 70%);
       "
-    ></div>
+    >
+    </div>
 
-    {/* Cavernous Vignette Overlay */}
-    <div class="fixed inset-0 w-full h-full pointer-events-none z-50 shadow-[inset_0_0_200px_rgba(0,0,0,1)]"></div>
+    <!-- Softer Cinematic Vignette -->
+    <div
+      class="fixed inset-0 w-full h-full pointer-events-none z-50 shadow-[inset_0_0_150px_80px_rgba(0,0,0,0.85)]"
+    >
+    </div>
 
-    {/* Infinite Background Timeline Line */}
-    <div class="fixed top-1/2 left-0 w-[10000px] h-[3px] bg-gradient-to-r from-transparent via-[#39FF14]/30 to-transparent pointer-events-none z-0 blur-[2px]"></div>
-    <div class="fixed top-1/2 left-0 w-[10000px] h-[1px] bg-[#39FF14]/20 pointer-events-none z-0"></div>
+    <!-- Infinite Background Timeline Line -->
+    <div
+      class="fixed top-1/2 left-0 w-[10000px] h-[3px] bg-gradient-to-r from-transparent via-[#39FF14]/20 to-transparent pointer-events-none z-0 blur-[2px]"
+    >
+    </div>
+    <div
+      class="fixed top-1/2 left-0 w-[10000px] h-[1px] bg-[#39FF14]/15 pointer-events-none z-0"
+    >
+    </div>
 
-    <div class="flex items-center pl-[10vw] pr-32 gap-32 md:gap-64 min-w-max relative z-10 py-24">
+    <div
+      class="flex items-center pl-[10vw] pr-32 gap-32 md:gap-64 min-w-max relative z-10 py-24"
+    >
       {/* Intro Core */}
       <CuratorBoard client:load />
 
@@ -90,8 +194,6 @@ import * as Era2020s from '../content/eras/2020s.mdx';
       <Era2020s.Content />
     </div>
   </main>
-
-  <SourcesButton client:load />
 </TimelineLayout>
 
 <style>
@@ -111,78 +213,111 @@ import * as Era2020s from '../content/eras/2020s.mdx';
 </style>
 
 <script>
-  const timeline = document.getElementById('timeline');
+  const timeline = document.getElementById("timeline");
   if (timeline) {
     let targetScroll = timeline.scrollLeft;
     let currentScroll = timeline.scrollLeft;
     let isMoving = false;
-    const ease = 0.07; // Lower is smoother/slower, higher is snappier
+    const ease = 0.07;
+
+    const progressBar = document.getElementById("scroll-progress");
+    const glow1 = document.getElementById("glow-1");
+    const glow2 = document.getElementById("glow-2");
+    const eraLabel = document.getElementById("current-era-label");
+
+    // Progress bar update — called from scroll events and lerp loop
+    function updateProgress() {
+      const maxScroll = timeline.scrollWidth - timeline.clientWidth;
+      if (maxScroll > 0 && progressBar) {
+        const pct = Math.min(
+          100,
+          Math.max(0, (timeline.scrollLeft / maxScroll) * 100),
+        );
+        progressBar.style.width = pct + "%";
+      }
+    }
 
     function update() {
-      // Linear interpolation (lerp)
       currentScroll += (targetScroll - currentScroll) * ease;
       timeline.scrollLeft = currentScroll;
+      updateProgress();
 
-      // Continue animating if we haven't reached the target
       if (Math.abs(targetScroll - currentScroll) > 0.5) {
         requestAnimationFrame(update);
       } else {
-        timeline.scrollLeft = targetScroll; // snap to exact target
+        timeline.scrollLeft = targetScroll;
         isMoving = false;
+        updateProgress();
       }
     }
 
     // Keep target synchronized if the user scrolls manually (e.g. trackpad, scrollbar drag)
-    timeline.addEventListener('scroll', () => {
-      if (!isMoving) {
-        targetScroll = timeline.scrollLeft;
-        currentScroll = timeline.scrollLeft;
-      }
-    }, { passive: true });
-
-    document.addEventListener('wheel', (e) => {
-      // Only capture vertical wheel events and translate to horizontal
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        e.preventDefault();
-
-        const maxScroll = timeline.scrollWidth - timeline.clientWidth;
-        // Calculate new target and clamp to boundaries
-        targetScroll = Math.max(0, Math.min(maxScroll, targetScroll + e.deltaY));
-
+    timeline.addEventListener(
+      "scroll",
+      () => {
         if (!isMoving) {
-          isMoving = true;
+          targetScroll = timeline.scrollLeft;
           currentScroll = timeline.scrollLeft;
-          requestAnimationFrame(update);
         }
-      }
-    }, { passive: false });
+        updateProgress();
+      },
+      { passive: true },
+    );
 
-    // --- SCROLL-DRIVEN AMBIENT BACKGROUND ENGINE ---
-    const glow1 = document.getElementById('glow-1');
-    const glow2 = document.getElementById('glow-2');
-    
-    // Intersection Observer to detect center Era
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const color = entry.target.getAttribute('data-era-color');
-          if (color && glow1 && glow2) {
-            // Convert hex to rgb for tailwind arbitrary values, or just use inline style backgroundColor
-            // We use inline styles for dynamic colors
-            glow1.style.backgroundColor = color;
-            glow2.style.backgroundColor = color;
+    document.addEventListener(
+      "wheel",
+      (e) => {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+          e.preventDefault();
+
+          const maxScroll = timeline.scrollWidth - timeline.clientWidth;
+          targetScroll = Math.max(
+            0,
+            Math.min(maxScroll, targetScroll + e.deltaY),
+          );
+
+          if (!isMoving) {
+            isMoving = true;
+            currentScroll = timeline.scrollLeft;
+            requestAnimationFrame(update);
           }
         }
-      });
-    }, {
-      root: timeline,
-      rootMargin: '0px -50% 0px -50%', // Trigger exactly at horizontal center
-      threshold: 0
-    });
+      },
+      { passive: false },
+    );
+
+    // --- SCROLL-DRIVEN AMBIENT BACKGROUND ENGINE ---
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const color = entry.target.getAttribute("data-era-color");
+            if (color && glow1 && glow2) {
+              glow1.style.backgroundColor = color;
+              glow2.style.backgroundColor = color;
+            }
+            // Update current era label in footer
+            const eraName = entry.target.querySelector("[data-era-name]");
+            if (eraName && eraLabel) {
+              eraLabel.textContent = eraName.getAttribute("data-era-name");
+              eraLabel.style.color = color || "";
+            }
+          }
+        });
+      },
+      {
+        root: timeline,
+        rootMargin: "0px -30% 0px -30%",
+        threshold: 0,
+      },
+    );
 
     // Observe all era containers
-    document.querySelectorAll('.era-container').forEach(node => {
+    document.querySelectorAll(".era-container").forEach((node) => {
       observer.observe(node);
     });
+
+    // Initial progress update
+    updateProgress();
   }
 </script>

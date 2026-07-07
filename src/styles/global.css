@@ -6,12 +6,18 @@
   --color-cyber-purple: #B026FF;
   --font-mono: "Courier New", Courier, monospace;
   --font-sans: "Inter", sans-serif;
+  --font-display: "Orbitron", sans-serif;
 
   --animate-flash: flash 2.5s ease-in-out forwards;
   --animate-scale-x: scale-x 2s ease-out forwards;
   --animate-fadeIn: fadeIn 0.3s ease-out forwards;
   --animate-scaleUp: scaleUp 0.3s ease-out forwards;
   --animate-float: float 6s ease-in-out infinite;
+  --animate-breathe: breathe 4s ease-in-out infinite;
+  --animate-orbit: orbit 12s linear infinite;
+  --animate-drift: drift 20s linear infinite;
+  --animate-crt-flicker: crt-flicker 3s ease-in-out infinite;
+  --animate-slideUp: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
   @keyframes flash {
     0% { opacity: 0; }
@@ -38,6 +44,45 @@
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-15px); }
   }
+
+  /* Smoother, subtler breathing glow for museum elements */
+  @keyframes breathe {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+
+  /* Rotating orbit ring around planet nodes */
+  @keyframes orbit {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Floating particle drift */
+  @keyframes drift {
+    0% { transform: translateX(-10vw) translateY(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(110vw) translateY(-20vh); opacity: 0; }
+  }
+
+  /* CRT edge flicker for Intro TV */
+  @keyframes crt-flicker {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+    75% { opacity: 0.2; }
+  }
+
+  /* Smooth slide up + fade for modal entry */
+  @keyframes slideUp {
+    0% { transform: translateY(30px) scale(0.97); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  /* Twinkling stars */
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.8; }
+  }
 }
 
 @layer base {
@@ -50,4 +95,37 @@
   .glass-panel {
     @apply bg-zinc-900/40 backdrop-blur-md border border-zinc-700/50 rounded-xl shadow-2xl;
   }
+
+  /* Museum exhibit plaque styling */
+  .exhibit-plaque {
+    @apply bg-black/50 backdrop-blur-lg border border-white/10 rounded-lg px-5 py-3;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  /* Museum label text styling */
+  .museum-label {
+    font-family: "Orbitron", sans-serif;
+    @apply text-xs tracking-[0.25em] uppercase font-medium;
+  }
+
+  /* Hide scrollbar utility */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Noise texture overlay for depth */
+.noise-overlay::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
 }
