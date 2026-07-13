@@ -15,38 +15,49 @@
 * Solomon, Adonis Mikel
 
 > **GitHub:** [github.com/tanBueno/case-study-project-grp-4-csarch2](https://github.com/tanBueno/case-study-project-grp-4-csarch2)  
-> **Live Site:** https://case-study-project-grp-4-csarch2-e39f.onrender.com
+> **Live Site (GitHub Pages):** https://tanBueno.github.io/case-study-project-grp-4-csarch2/  
+> **Alternate (Render):** https://case-study-project-grp-4-csarch2-e39f.onrender.com
 
 ---
 
-# Incremental Development Log - Mid-Milestone
+# Incremental Development Log
+
+> This section documents the full development journey of our project — the discoveries, the struggles, the creative choices, and the technical lessons we picked up along the way. It sits on top of the original proposal document (preserved below) to show how the project evolved from concept to working exhibit.
+
+---
 
 ## Development Summary
 
-The project is an **interactive virtual museum exhibit** that traces the evolution of computer graphics from the 1960s to the 2020s. Users scroll horizontally through a "Living Terminal" - a fallout game based timeline where each era is represented by an interactive exhibit node with era-specific visuals and technical explanations.
+The project is an **interactive virtual museum exhibit** that traces the evolution of computer graphics from the 1960s to the 2020s. Users scroll horizontally through a "Living Terminal" — a Fallout-inspired timeline where each era is represented by an interactive exhibit node ("planet") with era-specific visuals, color themes, and technical explanations.
+
+The exhibit features a CRT boot-up intro, floating ambient particles, 3D perspective grids, scroll-driven background color shifts, and 7 era-specific interactive React components — all wrapped in a retro-futuristic museum aesthetic.
 
 ### Current Status: Core Experience Functional
 
-| Feature | Status |
-|---|---|
-| Horizontal scrolling timeline | Complete |
-| CRT boot-up intro screen | Complete |
-| Curator terminal (instructions modal) | Complete |
-| 1960s — ASCII Character Art exhibit | Complete |
-| 1970s — Early Bitmaps & Rasterization exhibit | Complete |
-| 1980s — 8-Bit Pixel Blocks exhibit | Complete |
-| 1990s — 3D Polygons & Hardware GPUs exhibit | Complete |
-| 2000s — Vector Maps & Edge Detection exhibit | Complete |
-| 2010s — Volumetric Lighting & VR exhibit | Complete |
-| 2020s+ — Flawless Photorealism exhibit | Complete |
-| Bibliography / Sources modal | Complete |
-| Scroll progress indicator | Complete |
-| Ambient particles & star field | Complete |
-| Scroll-driven background color shifts | Complete |
-| Museum footer with era label | Complete |
-| Performance optimization | In Progress |
-| Additional Information on each Era | In Progress |
-| Deployment | Complete |
+| Feature | Status | Notes |
+|---|---|---|
+| Horizontal scrolling timeline | ✅ Complete | Custom `requestAnimationFrame` lerp-based scroll |
+| CRT boot-up intro screen | ✅ Complete | Animated TV with scale zoom transition |
+| Curator terminal (instructions modal) | ✅ Complete | Terminal-style help overlay |
+| 1960s — ASCII Character Art exhibit | ✅ Complete | CRT TV with switchable ASCII face expressions |
+| 1970s — Early Bitmaps & Rasterization exhibit | ✅ Complete | Pixel grid with rasterization visualization |
+| 1980s — 8-Bit Pixel Blocks exhibit | ✅ Complete | Retro sprite/pixel block renderer |
+| 1990s — 3D Polygons & Hardware GPUs exhibit | ✅ Complete | 3D polygon wireframe viewer |
+| 2000s — Vector Maps & Edge Detection exhibit | ✅ Complete | Vector/edge detection visualization |
+| 2010s — Volumetric Lighting & VR exhibit | ✅ Complete | Volumetric light ray simulation |
+| 2020s+ — Flawless Photorealism exhibit | ✅ Complete | Ray tracing visualization with bouncing rays |
+| Bibliography / Sources modal | ✅ Complete | Themed scrollable modal with all references |
+| Scroll progress indicator | ✅ Complete | Gradient bar at bottom of viewport |
+| Ambient particles & star field | ✅ Complete | CSS-only, GPU-accelerated floating particles |
+| Scroll-driven background color shifts | ✅ Complete | `IntersectionObserver`-driven per-era glow |
+| Museum footer with era label | ✅ Complete | Dynamic label updates on scroll |
+| 3D floor/ceiling perspective grids | ✅ Complete | CSS `perspective` + `rotateX` transforms |
+| Welcome homepage with navigation | ✅ Complete | Landing page with exhibit overview |
+| GitHub Pages deployment (CI/CD) | ✅ Complete | GitHub Actions workflow with Astro build |
+| Performance optimization | 🔄 In Progress | Ongoing — GPU-heavy effects cause lag on low-end devices |
+| Additional information on each era | 🔄 In Progress | Expanding descriptions and interactivity |
+| Keyboard navigation (arrow keys) | 📋 Planned | Jump between era nodes with ← → keys |
+| Mobile responsiveness polish | 📋 Planned | Touch gestures and responsive layout tweaks |
 
 ---
 
@@ -54,39 +65,93 @@ The project is an **interactive virtual museum exhibit** that traces the evoluti
 
 ### Aha Moments
 
-So honestly at the start we didn't really know what direction to go with. We were going back and forth between doing a normal vertical scrolling page or like a slideshow type thing, and nothing really felt right for a "museum" vibe. Then someone suggested what if we make it scroll horizontally instead, like your actually walking through an exhibit hall And that was kind of the moment everything clicked. We started calling it the "Living Terminal" because we were inspired by the Pip boy from the game fallout which has a similar vibe to our project and from there the whole concept just came together naturally.
+**1. The horizontal scroll breakthrough.**  
+At the start, we genuinely didn't know what direction to take. We were going back and forth between doing a normal vertical scrolling page and a slideshow-type thing, and nothing really felt right for a "museum" vibe. Then someone suggested — what if we make it scroll horizontally instead, like you're actually walking through an exhibit hall? That was the moment everything clicked. We started calling it the "Living Terminal" because we were inspired by the Pip-Boy from the game Fallout, which has a similar retro-futuristic aesthetic. From there, the whole concept just came together naturally. The horizontal scroll metaphor gave us a physical sense of moving through time, which is exactly what a timeline exhibit should feel like.
 
-Another thing that surprised us was the `IntersectionObserver` API. We were originally planning to manually calculate scroll positions to figure out which era the user was looking at so we could change the background color. But then we found out IntersectionObserver can basically do that for us it detects which era card is in the center of the viewport, and then the background glow, the footer label, everything just updates on its own. Saved us a ton of headache.
+**2. `IntersectionObserver` for ambient atmosphere.**  
+We were originally planning to manually calculate scroll positions to figure out which era the user was looking at, so we could change the background color and update the footer label. That would've been a nightmare of `getBoundingClientRect()` calls inside a scroll handler. But then we discovered the `IntersectionObserver` API — it detects which era card is in the center of the viewport using a configured `rootMargin`, and then the background glow blobs, the footer label, everything just updates on its own through a single observer callback. It saved us a ton of headache and made the code much cleaner. The key insight was setting `rootMargin: '0px -30% 0px -30%'` so only the era card in the center 40% of the viewport would trigger.
 
-Also the CRT scanline effect  we thought we'd need canvas or some kind of image overlay for that. Turns out you can do it entirely with CSS gradients and box-shadow. No javascript needed at all. That was a big aha moment because it meant we got the retro aesthetic basically for free performance-wise.
+**3. CRT scanlines are just CSS.**  
+We thought we'd need a `<canvas>` element or some kind of image overlay to create the CRT scanline effect for the intro TV and the 1960s exhibit. Turns out you can do it entirely with CSS gradients and `box-shadow`:
+```css
+background-image:
+  repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,0,0,0.8) 2px, rgba(0,0,0,0.8) 3px);
+```
+No JavaScript needed at all. That was a big aha moment because it meant we got the retro aesthetic basically for free, performance-wise.
+
+**4. The EraCard "planet" design emerged by accident.**  
+Originally, the era cards were going to be rectangular panels arranged along the timeline. But during prototyping, one of us accidentally set `border-radius: 50%` on a card, and it looked like a floating planet. We immediately pivoted — now each era is a glowing orb with orbit rings, an atmosphere glow, and a 3D tilt effect on hover (using `perspective` and mouse-position-based `rotateX`/`rotateY`). The "planet" metaphor works perfectly with the space/corridor aesthetic we were already building.
+
+**5. `requestAnimationFrame` lerp for buttery scrolling.**  
+The browser's native `scroll-behavior: smooth` was absolutely terrible for horizontal scrolling — it was sluggish, felt unresponsive, and you couldn't control the easing curve. We wrote our own scroll animation in about 20 lines using `requestAnimationFrame` with linear interpolation (lerp):
+```js
+currentScroll += (targetScroll - currentScroll) * 0.07;
+```
+The difference in feel was night and day. The scroll now responds instantly to wheel input but eases smoothly to the target position.
 
 ### Things We Learned
 
-Working with Astro was new for most of us and it took some getting used to. But one thing we really appreciated was the island architecture basically each React component hydrates on its own with `client:load`, so the 1960s ASCII component loading doesnt block the 2020s one from rendering. It makes the whole thing feel snappier even though theres a lot going on.
+**Astro's Island Architecture.**  
+Working with Astro was new for most of us, and the island architecture took some getting used to. The key concept is that Astro components are static by default — they render to pure HTML at build time. To make a React component interactive on the client, you have to explicitly add a `client:load` directive. This tripped us up multiple times early on (we'd build an interactive component and wonder why the buttons didn't work), but once we understood the pattern, it actually made a lot of sense. Each React component hydrates independently, so the 1960s ASCII component loading doesn't block the 2020s ray tracer from rendering.
 
-We also learned alot about MDX. Using .mdx files for each era let us keep the written content separate from the interactive React components, which made it way easier to work on stuff in parallel without stepping on each others toes. The EraCard component acts like a wrapper that standardizes the layout, and then each era just plugs in its own unique interactive child component.
+**MDX for content/code separation.**  
+Using `.mdx` files for each era let us keep the written content (descriptions, titles, colors) separate from the interactive React components. The `EraCard` component acts as a standardized wrapper — it handles the planet node shape, the tilt effect, the modal overlay, and the plaque label — and then each era just plugs in its own unique interactive child component. This made it much easier to work in parallel without merge conflicts.
 
-One thing we didnt expect was how bad the default `scroll-behavior: smooth` felt for horizontal scrolling. It was super sluggish and you couldn't really control it. So we ended up writing our own scroll animation using `requestAnimationFrame` with a lerp (linear interpolation) basically a smoothing loop that eases toward the target position. It sounds complicated but its only like 20 lines of code and the difference in feel was night and day.
+**Custom scroll physics.**  
+One thing we didn't expect was how much control you need over scroll behavior for a horizontal timeline. The browser's default vertical-to-horizontal wheel translation is nonexistent — you have to intercept `wheel` events, check if `deltaY > deltaX`, call `preventDefault()`, and manually update a target scroll position. We learned about lerp-based animation loops, how `requestAnimationFrame` gives you a 60fps update cycle, and why you need to synchronize the "target" with the actual `scrollLeft` when the user scrolls manually (e.g., via trackpad or scrollbar drag).
 
-Tailwind v4 also threw us off a bit. The config file structure changed from what we were used to and some utility classes work differently now. We had to read through the docs a few times to figure things out but once we got it working it was fine.
+**Tailwind CSS v4 migration pains.**  
+Tailwind v4 changed its config file structure significantly from v3. The `content` array, the `theme.extend` pattern, and some utility class names all work differently. We had to read through the v4 docs multiple times and debug several cases where classes silently didn't apply. The `@tailwindcss/vite` plugin also required specific integration with Astro's Vite config. Once set up correctly, though, the utility-first approach was perfect for rapidly iterating on visual design.
+
+**CSS `perspective` transforms for 3D depth.**  
+The 3D grids on the floor and ceiling of the timeline were a key learning. We used `perspective(800px)` with `rotateX(75deg)` on a grid background to create the illusion of a digital corridor stretching into the distance. The `mask-image: radial-gradient(...)` technique was also new to us — it fades the grid edges smoothly so they don't have a hard cutoff. We learned that `-webkit-mask-image` is still needed for Safari compatibility.
+
+**GitHub Pages deployment with Astro.**  
+Deploying an Astro static site to GitHub Pages required a GitHub Actions workflow (`.github/workflows/deploy.yml`) that builds the project and deploys the `dist/` folder. A critical lesson was that GitHub Pages serves from a subpath (`/case-study-project-grp-4-csarch2/`), not from root. This meant all hardcoded `href="/"` and `href="/timeline"` links had to be replaced with `import.meta.env.BASE_URL` so they resolve correctly under the subpath. The workflow dynamically passes `--site` and `--base` flags to the Astro build command using the `configure-pages` action.
 
 ### Challenges
 
-One of our early challenges was wrapping our heads around how Astro and React work together. We were used to building standard React apps, so Astro's island architecture, where components are static by default and you have to explicitly tell it when to make them interactive caught us off guard a few times. We'd build a complex interactive era card and wonder why the buttons weren't working, only to realize we forgot the `client:load` directive. It took some trial and error, but once we understood the pattern, it actually made a lot of sense.
+**Performance: the elephant in the room.**  
+The most difficult ongoing issue has been performance. The UI is incredibly heavy on graphics — we have floating particles, twinkling stars, 3D perspective grids on the floor and ceiling, background glow blobs with `blur-[100px]`, and CRT scanline overlays all running simultaneously. On lower-end machines, the frame rate drops significantly, especially when multiple era cards are in view. We've tried:
+- Adding `will-change: transform` to animated elements
+- Reducing blur radius values
+- Using `mix-blend-mode: screen` sparingly
+- Limiting particle counts (from 30+ to 12 drifting + 30 twinkling)
 
-But the most difficult ongoing issue has been performance. The UI is incredibly heavy on graphics, we have floating particles, twinkling stars, 3D perspective grids on the floor and ceiling, background glow blobs, and full-screen CRT scanline overlays all running at the same time. Because of how graphics-intensive this is, it tends to lag significantly, especially on lower-end machines. No matter how much we try to optimize it by reducing blur values or using `will-change` in CSS, the sheer weight of the visual effects makes it really difficult to get a consistently smooth frame rate. It's been a frustrating challenge and we definitely have to work on this more for the final submission.
+But the sheer weight of the visual effects makes it difficult to get a consistently smooth 60fps. This is our top priority for the final submission.
 
-The bibliography modal scrollbar was also weirdly difficult. We wanted the scrollbar inside the modal to match the green retro terminal theme, and getting that to work consistently across browsers was a pain. Chrome uses `-webkit-scrollbar` pseudo-elements but Firefox handles it differently. We got it working eventually but it took longer than expected for something so small.
+**Astro + React hydration gotchas.**  
+We were used to building standard React SPAs, so Astro's model — where components are static by default — caught us off guard repeatedly. We'd build a complex interactive era card, test it, and find that none of the buttons or hover effects worked. The fix was always the same: add `client:load` to the component tag in the `.mdx` file. But it took trial and error to internalize this pattern. We also hit edge cases where a child component needed to detect whether it was inside a "preview" (planet node) or "expanded" (modal) view — we solved this by walking up the DOM with `.closest('[data-era-view]')`.
 
-### Creative Decisions
+**Cross-browser scrollbar styling.**  
+The bibliography modal's scrollbar needed to match the green retro terminal theme. Chrome/Edge support `::-webkit-scrollbar` pseudo-elements for full customization, but Firefox uses the simpler `scrollbar-color` and `scrollbar-width` properties. Getting both to look consistent took longer than expected for something so visually minor. We had to write separate CSS rules for each engine.
 
-We gave each era its own color, green for the 60s, red for 70s, amber for 80s, blue for 90s, cyan for 2000s, emerald for 2010s, and purple for 2020s. These colors dont just show up on the cards, they also bleed into the background glow and the footer label as you scroll, so theres this gradual shift in atmosphere as you move through time. It wasn't planned from the start but once we saw it in action it just felt right.
+**Deployment configuration.**  
+Initially we deployed on Render (a free hosting platform), which worked but was slow to cold-start and didn't match the instructor's requirement of GitHub Pages hosting. Migrating to GitHub Pages required:
+1. Creating a GitHub Actions workflow for CI/CD
+2. Updating all internal links to use `import.meta.env.BASE_URL` (since GitHub Pages serves from a subpath)
+3. Setting the Node.js version in the workflow to match our `package.json` engine requirement (`>=22.12.0`)
+4. Configuring the repo's GitHub Pages settings to use "GitHub Actions" as the source (not "Deploy from a branch")
 
-The CRT boot-up intro screen was something we added kind of late but it ended up being one of our favorite parts. When you first load the site theres this old TV with an "Initialize" button, and when you click it the screen scales up and fades out like your zooming into the monitor. It sets the mood before you even start scrolling through the timeline.
+**MDX curly brace parsing errors.**  
+Early on, some of our era descriptions contained literal `{` and `}` characters (e.g., in code snippets or technical notation). MDX interprets curly braces as JSX expressions, which caused confusing build errors. We had to either escape them or wrap them in template literals. This was a small but frustrating issue that took time to diagnose.
 
-For the typography we went with Orbitron which gives it this sci-fi museum plaque kind of look. We made the labels really small with wide letter-spacing and all uppercase trying to mimic those little engraved description plaques you see next to exhibits in real museums.
+### Creative Development
 
-The 3D grids on the floor and ceiling were a fun experiment. They use CSS `perspective` and `rotateX` transforms to look like your inside a digital corridor or VR tunnel. Its a subtle effect but it adds alot of depth to what would otherwise just be a flat dark background.
+**Era color palette as emotional progression.**  
+We assigned each era its own signature color: green (60s), red (70s), amber (80s), blue (90s), cyan (2000s), emerald (2010s), and purple (2020s). These colors don't just appear on the cards — they also bleed into the background glow blobs and the footer label as you scroll, creating a gradual atmospheric shift as you move through time. The progression from green (terminal/early computing) through warm tones (analog/arcade era) to cool blues and purples (digital/modern era) mirrors the emotional arc of the technology itself. This wasn't planned from the start, but once we saw it in action, it felt right and we committed to it.
+
+**CRT boot-up intro as narrative framing.**  
+The CRT boot-up intro screen was added relatively late in development, but it became one of our favorite parts. When you first load the site, there's an old-style TV set with an "Initialize" button. Clicking it triggers a sequence: the power LED turns green, a loading bar fills, a white flash fires, and the TV scales up (using CSS `transform: scale(8)` with a custom `cubic-bezier` easing) while fading out — as if you're being pulled into the monitor. It sets the mood before you even start scrolling through the timeline. The "zoom into the screen" transition creates a narrative frame: you're not just reading about graphics history, you're *entering* a terminal.
+
+**Museum plaque typography.**  
+For the typography, we chose Orbitron — a geometric, futuristic display font that gives labels a sci-fi museum plaque look. We deliberately made the labels very small (8-10px) with wide letter-spacing (0.2em+) and all uppercase, mimicking those little engraved description plaques you see next to exhibits in real museums. The contrast between the tiny, precise labels and the large, glowing era nodes creates a sense of scale and formality.
+
+**3D corridor / VR tunnel effect.**  
+The perspective grids on the floor and ceiling use CSS `perspective` and `rotateX` transforms to look like you're inside a digital corridor or VR tunnel. Combined with the horizontal scroll, it creates a sense of walking through a virtual space. The ceiling grid is set to 30% opacity to create visual hierarchy (floor = grounding, ceiling = ambient). The radial gradient mask fades both grids toward their edges, preventing a harsh geometric cutoff.
+
+**Planet nodes with 3D tilt interaction.**  
+Each era is represented as a floating "planet" node rather than a flat card. On hover, the node responds to mouse position with a 3D tilt effect (using `perspective(1000px)` and dynamically calculated `rotateX`/`rotateY` based on cursor position relative to the center). Orbit rings appear on hover (dashed and dotted borders with `animation: orbit` rotation), and the atmospheric glow intensifies. Clicking opens a full-screen modal with an expanded view. This design choice transforms passive reading into active exploration — each era feels like a distinct world to discover.
 
 ---
 
@@ -106,34 +171,56 @@ The 3D grids on the floor and ceiling were a fun experiment. They use CSS `persp
 
 7. Liu, L., Chang, W., Demoullin, F., Chou, Y. H., Saed, M., Pankratz, D., Nowicki, T., & Aamodt, T. M. (2021). Intersection prediction for accelerated GPU ray tracing. *MICRO-54: 54th Annual IEEE/ACM International Symposium on Microarchitecture*, 709–723. https://doi.org/10.1145/3466752.3480097
 
-
 ---
 
 ## Disclosure on the Use of AI / LLM
 
-This project utilized AI/LLM tools in the following capacities:
+This project utilized AI/LLM tools as development aids. Full transparency is provided below.
 
-| Use Case | Tool(s) Used | Details |
+### Tools Used
+
+| Tool | Purpose |
+|---|---|
+| **Gemini (Google AI)** | Visual design mockups for the proposal; generating concept images to align the team on aesthetic direction. |
+| **AI-assisted coding tools (Gemini Code Assist / Antigravity IDE)** | Development assistance for interactive components, project structuring, debugging, and deployment configuration. |
+
+### Specific Areas of AI Involvement
+
+| Area | What AI Helped With | What the Team Did |
 |---|---|---|
-| **Visual design mockups** | Gemini (Google AI) | Visual assets shown in the proposal were synthesized using generative AI to align ideas with the intended design language. |
-| **Interactive element development** | AI-assisted coding tools | AI was used to assist in developing the interactive components for each era exhibit (e.g., ASCII art renderer, pixel grid, 3D polygon viewer). |
-| **Development guidance & navigation** | AI-assisted coding tools | AI provided guidance in project structuring, component architecture decisions, and navigating Astro/React integration patterns. |
-| **Performance optimization** | AI-assisted coding tools | AI assisted in identifying optimization strategies (e.g., `will-change`, GPU-accelerated animations, `IntersectionObserver`), though optimization work is still ongoing. |
+| **Project structure & architecture** | AI suggested the Astro island architecture pattern, the MDX-based content structure, and the component hierarchy (EraCard wrapper → era-specific child). | The team made all final architectural decisions, chose the tech stack, and implemented the integration. |
+| **Interactive era components** | AI assisted in developing the interactive React components for each era (ASCII art CRT renderer, pixel grid, 3D polygon viewer, ray tracer visualization, volumetric lighting simulation). | The team specified the visual requirements for each era, iterated on designs, and validated that each component accurately represented its historical period. |
+| **CSS visual effects** | AI helped implement the CRT scanline effect, 3D perspective grids, ambient particle systems, and the planet node 3D tilt interaction. | The team designed the overall aesthetic direction (Fallout/retro-futuristic), chose the color palette, and made all creative decisions about visual identity. |
+| **Scroll mechanics** | AI provided the `requestAnimationFrame` + lerp scroll implementation and the `IntersectionObserver` integration for background color shifts. | The team identified the UX problem (sluggish native scroll), tested the solution, and tuned the easing values. |
+| **Deployment** | AI configured the GitHub Actions workflow for GitHub Pages deployment and fixed `BASE_URL` issues for subpath hosting. | The team managed the Git repository, branches, and deployment settings. |
+| **Performance optimization** | AI suggested `will-change`, reduced blur values, and GPU-acceleration strategies. | The team identified the performance problems through testing on multiple devices and continues to iterate on optimizations. |
+| **README documentation** | AI helped structure and expand the incremental development log based on the team's notes and experiences. | All experiences, aha moments, challenges, and creative rationale are the team's own — AI helped articulate and organize them. |
 
-> **Note:** All technical content (historical descriptions, era explanations, and architectural decisions) was researched and written by the group. AI tools served as development aids, not as primary content authors. The final code, design choices, and creative direction are the team's own work.
+### What AI Did NOT Do
+
+- **Historical content:** All era descriptions, technical explanations, and historical context were researched and written by the team.
+- **Creative direction:** The Fallout-inspired "Living Terminal" concept, the era color palette, the museum plaque typography, and the planet node design were all team-originated ideas.
+- **Design decisions:** All decisions about layout, interaction patterns, visual hierarchy, and user experience were made by the team.
+- **Testing & iteration:** All testing, bug identification, and iterative refinement were performed by the team.
+
+> **Summary:** AI tools served as development accelerators — they helped us write code faster and debug more efficiently, but the creative vision, technical content, architectural decisions, and quality standards are entirely the team's own work.
 
 ---
 
 ## To-Do for Final Submission
 
-- [ ] **Performance optimization** — reduce animation load on lower-end devices; lazy-load particles; optimize GPU-heavy CSS (blur, perspective grids)
-- [ ] **Polish interactive elements** — refine hover states, transitions, and click feedback across all 7 era components
-- [ ] **Add keyboard navigation** — allow arrow keys to jump between era nodes
+- [ ] **Performance optimization** — reduce animation load on lower-end devices; lazy-load heavy components; optimize GPU-heavy CSS (blur, perspective grids); consider `IntersectionObserver` to pause off-screen animations
+- [ ] **Polish interactive elements** — refine hover states, transitions, and click feedback across all 7 era components; add loading states for heavier components
+- [ ] **Add keyboard navigation** — allow arrow keys (← →) to jump between era nodes; add focus indicators for accessibility
+- [ ] **Expand era descriptions** — add more detailed technical content to each era's modal view; include historical images or diagrams where appropriate
+- [ ] **Mobile responsiveness** — optimize for touch gestures (swipe to scroll); adjust planet node sizes and spacing for smaller screens
 - [ ] **Final content review** — proofread all era descriptions for accuracy and completeness
-- [ ] **Cross-browser testing** — verify on Chrome, Firefox, Safari, and Edge
+- [ ] **Cross-browser testing** — verify rendering and interactions on Chrome, Firefox, Safari, and Edge
+- [ ] **Accessibility improvements** — add ARIA labels, ensure sufficient color contrast, support screen readers
 
 ---
 ---
+
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <!-- ORIGINAL PROPOSAL DOCUMENT (preserved below)                      -->
