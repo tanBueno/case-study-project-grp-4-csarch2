@@ -4,7 +4,7 @@ import TimelineLayout from "../layouts/TimelineLayout.astro";
 
 <TimelineLayout>
   <!-- Main Scrollable Wrapper -->
-  <div id="main-wrapper" class="w-screen h-screen overflow-y-auto constellation-bg flex flex-col justify-between selection:bg-[#39FF14]/30 scroll-smooth">
+  <div id="main-wrapper" class="w-screen h-screen overflow-y-auto bg-black flex flex-col justify-between selection:bg-[#39FF14]/30 scroll-smooth">
     
     <!-- Top Nav Header -->
     <header class="w-full max-w-5xl mx-auto px-4 mt-6 md:mt-8">
@@ -288,16 +288,3 @@ import TimelineLayout from "../layouts/TimelineLayout.astro";
     });
   }
 </script>
-
-<style>
-  /* Dark Constellation Network Background */
-  .constellation-bg {
-    background-color: #050810;
-    background-image: 
-      url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.3' stroke='%23ffffff' stroke-opacity='0.05' stroke-width='1'%3E%3Ccircle cx='40' cy='40' r='1.5'/%3E%3Ccircle cx='150' cy='60' r='1'/%3E%3Ccircle cx='80' cy='140' r='2'/%3E%3Ccircle cx='180' cy='170' r='1.5'/%3E%3Cpath d='M40 40L150 60L80 140Z'/%3E%3Cpath d='M150 60L180 170L80 140'/%3E%3C/g%3E%3C/svg%3E"),
-      radial-gradient(circle at 15% 50%, rgba(57, 255, 20, 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.04) 0%, transparent 50%);
-    background-size: 200px 200px, 100% 100%, 100% 100%;
-    background-attachment: fixed;
-  }
-</style>
