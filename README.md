@@ -14,8 +14,8 @@
 * Ignacio, Miguel Angelo
 * Solomon, Adonis Mikel
 
-> **GitHub:** [github.com/tanBueno/case-study-project-grp-4-csarch2](https://github.com/tanBueno/case-study-project-grp-4-csarch2)  
-> **Live Site (GitHub Pages):** https://tanBueno.github.io/case-study-project-grp-4-csarch2/  
+> **GitHub:** [github.com/kimsajaang/case-study-project-grp-4-csarch2](https://github.com/kimsajaang/case-study-project-grp-4-csarch2)  
+> **Live Site (GitHub Pages):** https://kimsajaang.github.io/case-study-project-grp-4-csarch2/  
 > **Alternate (Render):** https://case-study-project-grp-4-csarch2-e39f.onrender.com
 
 ---
