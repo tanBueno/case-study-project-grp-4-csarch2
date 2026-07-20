@@ -399,7 +399,7 @@ export default function Exhibit3D() {
               </div>
 
               {/* Visual Component */}
-              <div data-era-view="expanded" className="relative z-10 transform scale-110">
+              <div data-era-view="expanded" className="relative z-10 transform scale-[1.5] sm:scale-[1.75] md:scale-[2] xl:scale-[2.2]">
                  <activeEra.data.Component />
               </div>
 
