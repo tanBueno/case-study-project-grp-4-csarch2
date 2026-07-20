@@ -192,19 +192,7 @@ function Scene({ onOpenModal, isModalOpen }) {
         <meshBasicMaterial color="#39FF14" transparent opacity={0.2} />
       </mesh>
 
-      {/* Introduction Board (Monitor) - Anchored at start, standard 2D scaling to prevent blowing up */}
-      <group position={[0, 0, -4]}>
-        <Html center position={[0, 0, 0]} zIndexRange={[100, 0]}>
-          <div className={`w-[600px] pointer-events-auto flex flex-col items-center drop-shadow-[0_0_30px_rgba(255,0,127,0.3)] transition-opacity duration-300 ${isModalOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-            <CuratorBoard onExpand={() => onOpenModal('intro')} />
-            <p className="text-center mt-12 text-[#ff007f] font-mono text-sm tracking-[0.4em] animate-pulse drop-shadow-[0_0_10px_#ff007f]">
-              SCROLL DOWN TO TRAVEL THROUGH TIME ↓
-            </p>
-          </div>
-        </Html>
-      </group>
-
-      {/* The 3D Era Nodes - Now Retro Computers */}
+      {/* The 3D Era Nodes - Retro Computers */}
       {eras.map((data, index) => (
         <ComputerNode key={data.era} data={data} index={index} onOpen={onOpenModal} isModalOpen={isModalOpen} />
       ))}
@@ -214,7 +202,7 @@ function Scene({ onOpenModal, isModalOpen }) {
 
 export default function Exhibit3D() {
   const [activeEra, setActiveEra] = useState(null);
-  const [showIntroModal, setShowIntroModal] = useState(false);
+  const [showIntroModal, setShowIntroModal] = useState(true);
 
   const handleOpenModal = (data, index) => {
     if (data === 'intro') {
@@ -250,8 +238,8 @@ export default function Exhibit3D() {
       `}</style>
 
       <Canvas camera={{ position: [0, 0, 5], fov: 60 }} className="absolute inset-0">
-        {/* ScrollControls sets up the scrolling mechanism. Pages determines scroll length */}
-        <ScrollControls pages={8} damping={0.2}>
+        {/* ScrollControls disabled until the intro modal is closed */}
+        <ScrollControls pages={8} damping={0.2} enabled={!showIntroModal}>
           <Scene onOpenModal={handleOpenModal} isModalOpen={isModalOpen} />
         </ScrollControls>
       </Canvas>
@@ -339,14 +327,14 @@ export default function Exhibit3D() {
               </div>
               <button 
                 onClick={() => setShowIntroModal(false)}
-                className="hover:bg-[#39FF14] hover:text-black px-2 py-1 transition-colors border border-transparent hover:border-[#39FF14]/50 rounded cursor-pointer"
+                className="hover:bg-[#39FF14] hover:text-black px-4 py-2 transition-colors border border-[#39FF14]/50 hover:border-transparent rounded font-bold cursor-pointer tracking-wider shadow-[0_0_15px_rgba(57,255,20,0.3)]"
               >
-                [X] CLOSE
+                [ INITIALIZE TIMELINE ]
               </button>
             </div>
 
             {/* Terminal Body */}
-            <div className="p-12 z-30 overflow-y-auto font-mono text-[#39FF14] drop-shadow-[0_0_5px_#39FF14]">
+            <div className="p-12 z-30 overflow-y-auto font-mono text-[#39FF14] drop-shadow-[0_0_5px_rgba(57,255,20,0.8)]">
               <h2 className="text-4xl md:text-6xl font-bold mb-8 uppercase tracking-tighter">
                 &gt; The Living Terminal_
               </h2>
@@ -361,9 +349,9 @@ export default function Exhibit3D() {
                 <div className="border border-[#39FF14]/30 p-6 bg-[#39FF14]/5 rounded my-8">
                   <p className="text-sm uppercase tracking-widest text-[#39FF14]/70 mb-2">Instructions:</p>
                   <ul className="list-disc list-inside space-y-2">
-                    <li>Scroll horizontally to navigate the physical timeline.</li>
-                    <li>Observe the tethered nodes representing key eras.</li>
-                    <li>Click any floating node to expand its visual matrix and access detailed logs.</li>
+                    <li>Scroll down to fly forward through the timeline.</li>
+                    <li>Observe the tethered nodes representing key visual eras.</li>
+                    <li>Click any floating node to expand its matrix and access detailed logs.</li>
                   </ul>
                 </div>
                 <p className="animate-pulse text-sm">
