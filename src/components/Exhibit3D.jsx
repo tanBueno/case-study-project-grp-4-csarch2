@@ -399,12 +399,12 @@ export default function Exhibit3D() {
               </div>
 
               {/* Visual Component */}
-              <div data-era-view="expanded" className="relative z-10 transform scale-[1.5] sm:scale-[1.75] md:scale-[2] xl:scale-[2.2]">
+              <div data-era-view="expanded" className="relative z-10 transform origin-center" style={{ transform: "scale(min(3.5, calc(75vh / 380px), calc(35vw / 200px)))" }}>
                  <activeEra.data.Component />
               </div>
 
               {/* Era type label */}
-              <div className="mt-6 z-20 font-mono text-[10px] tracking-[0.3em] uppercase opacity-50" style={{ color: activeEra.data.color }}>
+              <div className="absolute top-6 right-8 z-20 font-mono text-[10px] tracking-[0.3em] uppercase opacity-50" style={{ color: activeEra.data.color }}>
                 {activeEra.data.type} RENDERING
               </div>
             </div>
