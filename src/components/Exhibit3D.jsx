@@ -74,16 +74,16 @@ const eras = [
 
 const NODE_DISTANCE = 40;
 
-function PlanetNode({ data, index }) {
+function PlanetNode({ data, index, onOpen }) {
   const [hovered, setHovered] = useState(false);
-  const [expanded, setExpanded] = useState(false);
   
   const zPosition = -(index + 1) * NODE_DISTANCE;
-  // Center the planets completely
-  const xPosition = 0; 
-  const yPosition = 0;
+  // Alternate sides of the aisle (left and right) so camera flies down the middle
+  const xPosition = index % 2 === 0 ? 4 : -4; 
+  // Slight Y variation
+  const yPosition = Math.sin(index) * 1;
 
-  const { Component, color, era, title, type, details, citations } = data;
+  const { color, era, title } = data;
 
   return (
     <group position={[xPosition, yPosition, zPosition]}>
@@ -92,7 +92,7 @@ function PlanetNode({ data, index }) {
         <mesh 
           onPointerOver={() => setHovered(true)} 
           onPointerOut={() => setHovered(false)}
-          onClick={() => setExpanded(true)}
+          onClick={(e) => { e.stopPropagation(); onOpen(data, index); }}
           className="cursor-pointer"
         >
           <sphereGeometry args={[3, 32, 32]} />
@@ -111,9 +111,14 @@ function PlanetNode({ data, index }) {
         </mesh>
       </Float>
 
-      {/* HTML Plaque (always visible) */}
+      {/* HTML Plaque (always visible below planet) */}
       <Html position={[0, -4.5, 0]} center transform sprite zIndexRange={[100, 0]}>
-        <div className="flex flex-col items-center gap-2 pointer-events-none select-none">
+        <div 
+          className="flex flex-col items-center gap-2 pointer-events-auto cursor-pointer select-none"
+          onClick={(e) => { e.stopPropagation(); onOpen(data, index); }}
+          onPointerOver={() => setHovered(true)}
+          onPointerOut={() => setHovered(false)}
+        >
           <span className="museum-label text-[10px] uppercase tracking-[0.3em]" style={{ color }}>{era}</span>
           <h3 className="text-xl font-display font-bold text-white whitespace-nowrap drop-shadow-lg">{title}</h3>
           <div className="w-12 h-[2px]" style={{ backgroundColor: color }}></div>
@@ -122,63 +127,11 @@ function PlanetNode({ data, index }) {
           </span>
         </div>
       </Html>
-
-      {/* Expanded UI (The React Component inside the HTML Overlay) */}
-      {expanded && (
-        <Html position={[0, 0, 1]} center zIndexRange={[200, 0]}>
-          <div className="fixed inset-0 w-screen h-screen -ml-[50vw] -mt-[50vh] flex items-center justify-center bg-black/90 backdrop-blur-md z-[1000] p-4 pointer-events-auto">
-            <div className="relative w-full max-w-5xl bg-[#090d16] border border-white/10 rounded-2xl shadow-[0_0_80px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col md:flex-row">
-              
-              {/* Close Button */}
-              <button 
-                onClick={(e) => { e.stopPropagation(); setExpanded(false); }}
-                className="absolute top-4 right-4 z-50 p-2 text-zinc-400 hover:text-white bg-black/40 hover:bg-white/10 rounded-full transition-colors"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-              </button>
-
-              {/* Left Graphic Area (Uses existing Era Components) */}
-              <div className="w-full md:w-1/2 p-12 bg-black flex items-center justify-center relative min-h-[40vh]">
-                <div className="absolute inset-0 opacity-20 blur-3xl" style={{ backgroundColor: color }}></div>
-                <div data-era-view="expanded" className="relative z-10 transform scale-125">
-                   <Component />
-                </div>
-              </div>
-
-              {/* Right Text Area */}
-              <div className="w-full md:w-1/2 p-10 flex flex-col justify-center">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-3 h-3 rounded-full animate-breathe" style={{ backgroundColor: color, boxShadow: `0 0 10px ${color}` }}></div>
-                  <span className="font-mono text-xs tracking-widest text-zinc-400 uppercase">Exhibit 0{index + 1} — {type}</span>
-                </div>
-                <h2 className="text-4xl font-display font-black text-white mb-6 leading-tight">{title}</h2>
-                <div className="max-h-[300px] overflow-y-auto pr-4 custom-scrollbar text-zinc-300 leading-relaxed space-y-4">
-                  {details.split('\\n\\n').map((paragraph, i) => (
-                    <p key={i}>{paragraph}</p>
-                  ))}
-                </div>
-                
-                <div className="mt-8 pt-6 border-t border-white/10">
-                  <h4 className="text-sm font-bold text-white mb-3">Sources</h4>
-                  <ul className="space-y-2">
-                    {citations.map((cite, i) => (
-                      <li key={i} className="text-xs text-zinc-500 font-mono leading-tight break-words">
-                        {cite}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </Html>
-      )}
     </group>
   );
 }
 
-function Scene() {
+function Scene({ onOpenModal }) {
   const scroll = useScroll();
   const cameraRef = useRef();
   
@@ -231,13 +184,13 @@ function Scene() {
         <meshBasicMaterial color="#ffaa00" fog={false} />
       </mesh>
 
-      {/* Introduction Board */}
-      <group position={[0, 0, -10]}>
-        <Html transform center position={[0, 0, 0]}>
-          <div className="w-[800px] pointer-events-auto drop-shadow-[0_0_30px_rgba(255,0,127,0.3)]">
+      {/* Introduction Board (Monitor) - Moved closer to camera start */}
+      <group position={[0, 0, -4]}>
+        <Html transform center position={[0, 1.5, 0]}>
+          <div className="w-[600px] pointer-events-auto drop-shadow-[0_0_30px_rgba(255,0,127,0.3)]">
             <CuratorBoard />
-            <p className="text-center mt-12 text-[#ff007f] font-mono text-sm tracking-[0.4em] animate-pulse drop-shadow-[0_0_10px_#ff007f]">
-              SCROLL TO TRAVEL THROUGH TIME ↓
+            <p className="text-center mt-8 text-[#ff007f] font-mono text-sm tracking-[0.4em] animate-pulse drop-shadow-[0_0_10px_#ff007f]">
+              SCROLL DOWN TO TRAVEL THROUGH TIME ↓
             </p>
           </div>
         </Html>
@@ -245,21 +198,85 @@ function Scene() {
 
       {/* The 3D Era Nodes */}
       {eras.map((data, index) => (
-        <PlanetNode key={data.era} data={data} index={index} />
+        <PlanetNode key={data.era} data={data} index={index} onOpen={onOpenModal} />
       ))}
     </>
   );
 }
 
 export default function Exhibit3D() {
+  const [activeEra, setActiveEra] = useState(null);
+
+  const handleOpenModal = (data, index) => {
+    setActiveEra({ data, index });
+  };
+
+  const handleCloseModal = () => {
+    setActiveEra(null);
+  };
+
   return (
-    <div className="w-screen h-screen bg-[#020305]">
-      <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
+    <div className="w-screen h-screen bg-[#0b0410] relative">
+      <Canvas camera={{ position: [0, 0, 5], fov: 60 }} className="absolute inset-0">
         {/* ScrollControls sets up the scrolling mechanism. Pages determines scroll length */}
         <ScrollControls pages={8} damping={0.2}>
-          <Scene />
+          <Scene onOpenModal={handleOpenModal} />
         </ScrollControls>
       </Canvas>
+
+      {/* 2D Overlay for the Modal - Completely separated from 3D space for perfect UX */}
+      {activeEra && (
+        <div className="absolute inset-0 z-[1000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fadeIn_0.3s_ease-out]">
+          
+          {/* Backdrop Click */}
+          <div className="absolute inset-0 cursor-pointer" onClick={handleCloseModal}></div>
+          
+          <div className="relative w-full max-w-5xl bg-[#090d16] border border-white/10 rounded-2xl shadow-[0_0_80px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col md:flex-row animate-[slideUp_0.4s_cubic-bezier(0.16,1,0.3,1)]">
+            
+            {/* Close Button */}
+            <button 
+              onClick={handleCloseModal}
+              className="absolute top-4 right-4 z-50 p-2 text-zinc-400 hover:text-white bg-black/40 hover:bg-white/10 rounded-full transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            {/* Left Graphic Area (Uses existing Era Components) */}
+            <div className="w-full md:w-1/2 p-12 bg-black flex items-center justify-center relative min-h-[40vh]">
+              <div className="absolute inset-0 opacity-20 blur-3xl" style={{ backgroundColor: activeEra.data.color }}></div>
+              <div data-era-view="expanded" className="relative z-10 transform scale-125">
+                 <activeEra.data.Component />
+              </div>
+            </div>
+
+            {/* Right Text Area */}
+            <div className="w-full md:w-1/2 p-10 flex flex-col justify-center">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-3 h-3 rounded-full animate-breathe" style={{ backgroundColor: activeEra.data.color, boxShadow: `0 0 10px ${activeEra.data.color}` }}></div>
+                <span className="font-mono text-xs tracking-widest text-zinc-400 uppercase">Exhibit 0{activeEra.index + 1} — {activeEra.data.type}</span>
+              </div>
+              <h2 className="text-4xl font-display font-black text-white mb-6 leading-tight">{activeEra.data.title}</h2>
+              <div className="max-h-[300px] overflow-y-auto pr-4 custom-scrollbar text-zinc-300 leading-relaxed space-y-4">
+                {activeEra.data.details.split('\n\n').map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
+              
+              <div className="mt-8 pt-6 border-t border-white/10">
+                <h4 className="text-sm font-bold text-white mb-3">Sources</h4>
+                <ul className="space-y-2">
+                  {activeEra.data.citations.map((cite, i) => (
+                    <li key={i} className="text-xs text-zinc-500 font-mono leading-tight break-words">
+                      {cite}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }
