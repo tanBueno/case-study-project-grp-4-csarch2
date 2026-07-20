@@ -1,6 +1,6 @@
-import React, { useRef, useState, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { ScrollControls, useScroll, Html, Stars, Sparkles, Trail, Float } from '@react-three/drei';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Html, Stars, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Import existing content components
@@ -16,7 +16,7 @@ import Raytracer2020s from './eras/Raytracer2020s.jsx';
 const eras = [
   { 
     era: '1960s', title: 'Keyboard ASCII and Character Art', color: '#22c55e', Component: Ascii1960s, type: 'SYMBOLIC',
-    details: `Before computers could draw a single line, they arranged characters. In the 1960’s, raster graphics did not exist yet, meaning developers rely on impact printers to create an image. The earliest interactions with digital computers did not involve graphical screens. The first human readable output was printed via line printers. This constraint is the reason that ASCII art exists, where patterns of standard keyboard characters were arranged to form recognizable images.`,
+    details: `Before computers could draw a single line, they arranged characters. In the 1960's, raster graphics did not exist yet, meaning developers rely on impact printers to create an image. The earliest interactions with digital computers did not involve graphical screens. The first human readable output was printed via line printers. This constraint is the reason that ASCII art exists, where patterns of standard keyboard characters were arranged to form recognizable images.`,
     citations: []
   },
   { 
@@ -28,7 +28,7 @@ const eras = [
   },
   { 
     era: '1980s', title: 'Chunky 8 Bit pixel blocks', color: '#f59e0b', Component: Sprite1980s, type: 'SPRITES',
-    details: `In the 1980s, computer graphics exploded into a 3 dimensional interactive environment. A major catalyst for this era was the introduction of a special processing hardware. As rendering complex geometric calculations became too taxing for standard CPU’s, dedicated processors were developed to handle 3D operations.`,
+    details: `In the 1980s, computer graphics exploded into a 3 dimensional interactive environment. A major catalyst for this era was the introduction of a special processing hardware. As rendering complex geometric calculations became too taxing for standard CPU's, dedicated processors were developed to handle 3D operations.`,
     citations: [
       `https://dl.acm.org/doi/10.1145/279389.279478`
     ]
@@ -58,6 +58,7 @@ const eras = [
 ];
 
 const NODE_DISTANCE = 40;
+const MAX_Z = -(eras.length + 1) * NODE_DISTANCE;
 
 function ComputerNode({ data, index, onOpen, isModalOpen }) {
   const [hovered, setHovered] = useState(false);
@@ -65,16 +66,13 @@ function ComputerNode({ data, index, onOpen, isModalOpen }) {
   const zPosition = -(index + 1) * NODE_DISTANCE;
   const isRight = index % 2 === 0;
   const xPosition = isRight ? 4 : -4; 
-  // KEEP EXACTLY AT EYE LEVEL (y=0). If they are below the camera, perspective makes them move DOWN as you fly forward.
   const yPosition = Math.sin(index) * 0.1;
-  // Rotate slightly inward to face the camera corridor
   const yRotation = isRight ? -Math.PI / 6 : Math.PI / 6;
 
   const { color, era, title } = data;
 
   return (
     <group position={[xPosition, yPosition, zPosition]} rotation={[0, yRotation, 0]}>
-      {/* HTML terminal card without Float to fix lag, removed sprite for true 3D pass-by effect */}
       <Html center transform zIndexRange={[100, 0]}>
         <div 
           className={`flex flex-col items-center justify-center pointer-events-auto cursor-pointer select-none transition-all duration-500 group ${isModalOpen ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100 scale-100'}`}
@@ -132,48 +130,37 @@ function ComputerNode({ data, index, onOpen, isModalOpen }) {
   );
 }
 
-function Scene({ onOpenModal, isModalOpen }) {
-  const scroll = useScroll();
-  const cameraRef = useRef();
-  
-  // Create an infinite timeline grid
+/* Camera controller that reads from a shared ref — NO ScrollControls, NO native scrolling */
+function CameraController({ targetZRef }) {
+  const smoothZ = useRef(0);
   const gridRef = useRef();
-  // Reference for atmospheric effects to move with camera
-  const effectsRef = useRef();
 
-  useFrame((state, delta) => {
-    // The scroll offset is between 0 and 1
-    const offset = scroll.offset;
-    
-    // Move the camera forward along the Z axis
-    // Total distance is number of eras * NODE_DISTANCE + some padding
-    const maxZ = -(eras.length + 1) * NODE_DISTANCE;
-    const currentZ = offset * maxZ;
-    
-    state.camera.position.z = currentZ;
-    state.camera.position.y = Math.sin(offset * Math.PI * 8) * 0.2; // Very slight bobbing
-    state.camera.position.x = 0;
-    
-    // Move the grid with the camera to make it infinite
+  useFrame((state) => {
+    // Smoothly interpolate toward the target Z position (damping)
+    smoothZ.current = THREE.MathUtils.lerp(smoothZ.current, targetZRef.current, 0.08);
+
+    state.camera.position.set(0, 0, smoothZ.current);
+    state.camera.lookAt(0, 0, smoothZ.current - 10);
+
+    // Move the grid with the camera
     if (gridRef.current) {
-      gridRef.current.position.z = currentZ - (currentZ % 10);
+      gridRef.current.position.z = smoothZ.current - (smoothZ.current % 10);
     }
   });
 
   return (
     <>
       <color attach="background" args={['#020802']} />
-      {/* Fog ensures distant objects fade smoothly into the void. Match background color exactly. */}
       <fog attach="fog" args={['#020802', 10, 150]} />
       
       <ambientLight intensity={0.4} />
       <directionalLight position={[10, 10, 10]} intensity={1.5} color="#39FF14" />
       <directionalLight position={[-10, -10, -10]} intensity={1} color="#00aa00" />
 
-      {/* Atmospheric Particles - Stretched across the entire timeline Z-depth for fly-through effect */}
-      <group position={[0, 0, -(eras.length * NODE_DISTANCE) / 2]}>
-        <Stars radius={50} depth={400} count={5000} factor={4} saturation={0} fade speed={1} />
-        <Sparkles count={500} scale={[50, 50, 400]} size={4} speed={0.2} opacity={0.3} color="#39FF14" />
+      {/* Atmospheric Particles stretched across the whole Z depth */}
+      <group position={[0, 0, MAX_Z / 2]}>
+        <Stars radius={50} depth={Math.abs(MAX_Z) + 100} count={5000} factor={4} saturation={0} fade speed={1} />
+        <Sparkles count={500} scale={[50, 50, Math.abs(MAX_Z) + 100]} size={4} speed={0.2} opacity={0.3} color="#39FF14" />
       </group>
 
       {/* Terminal Wireframe Floor Grid */}
@@ -183,16 +170,11 @@ function Scene({ onOpenModal, isModalOpen }) {
         position={[0, -5, 0]} 
       />
 
-      {/* Glowing center path line to emphasize forward Z-movement */}
-      <mesh position={[0, -4.95, -(eras.length * NODE_DISTANCE) / 2]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[0.5, eras.length * NODE_DISTANCE + 200]} />
+      {/* Glowing center path line */}
+      <mesh position={[0, -4.95, MAX_Z / 2]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[0.5, Math.abs(MAX_Z) + 200]} />
         <meshBasicMaterial color="#39FF14" transparent opacity={0.2} />
       </mesh>
-
-      {/* The 3D Era Nodes - Retro Computers */}
-      {eras.map((data, index) => (
-        <ComputerNode key={data.era} data={data} index={index} onOpen={onOpenModal} isModalOpen={isModalOpen} />
-      ))}
     </>
   );
 }
@@ -200,6 +182,10 @@ function Scene({ onOpenModal, isModalOpen }) {
 export default function Exhibit3D() {
   const [activeEra, setActiveEra] = useState(null);
   const [showIntroModal, setShowIntroModal] = useState(true);
+  
+  // This ref holds the target camera Z position — updated directly by wheel events
+  const targetZRef = useRef(0);
+  const containerRef = useRef(null);
 
   const handleOpenModal = (data, index) => {
     if (data === 'intro') {
@@ -215,19 +201,43 @@ export default function Exhibit3D() {
 
   const isModalOpen = showIntroModal || !!activeEra;
 
+  // Capture wheel events and convert them to camera Z movement
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const handleWheel = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Don't scroll while modals are open
+      if (showIntroModal || activeEra) return;
+
+      // deltaY > 0 = scroll down = move camera forward (negative Z)
+      const speed = 0.15;
+      targetZRef.current = Math.max(MAX_Z, Math.min(0, targetZRef.current - e.deltaY * speed));
+    };
+
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, [showIntroModal, activeEra]);
+
+  // Also block wheel on window level to prevent any page scroll
+  useEffect(() => {
+    const blockScroll = (e) => e.preventDefault();
+    window.addEventListener('wheel', blockScroll, { passive: false });
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('wheel', blockScroll);
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, []);
+
   return (
-    <div className="fixed inset-0 w-screen h-screen bg-[#020802] z-[50] overflow-hidden">
+    <div ref={containerRef} className="fixed inset-0 w-screen h-screen bg-[#020802] z-[50] overflow-hidden">
       <style>{`
-        /* Kill ALL scrollbars globally - drei ScrollControls still scrolls, but invisibly */
-        *, *::before, *::after {
-          scrollbar-width: none !important;
-          -ms-overflow-style: none !important;
-        }
-        *::-webkit-scrollbar {
-          display: none !important;
-          width: 0 !important;
-          height: 0 !important;
-        }
         html, body {
           overflow: hidden !important;
           height: 100% !important;
@@ -249,14 +259,15 @@ export default function Exhibit3D() {
         }
       `}</style>
 
-      <Canvas camera={{ position: [0, 0, 5], fov: 60 }} className="absolute inset-0">
-        {/* ScrollControls disabled until the intro modal is closed */}
-        <ScrollControls pages={8} damping={0.2} enabled={!showIntroModal}>
-          <Scene onOpenModal={handleOpenModal} isModalOpen={isModalOpen} />
-        </ScrollControls>
+      <Canvas camera={{ position: [0, 0, 0], fov: 60 }} className="absolute inset-0">
+        <CameraController targetZRef={targetZRef} />
+        {/* The 3D Era Nodes */}
+        {eras.map((data, index) => (
+          <ComputerNode key={data.era} data={data} index={index} onOpen={handleOpenModal} isModalOpen={isModalOpen} />
+        ))}
       </Canvas>
 
-      {/* 2D Overlay for the Modal - Completely separated from 3D space for perfect UX */}
+      {/* 2D Overlay for the Era Modal */}
       {activeEra && (
         <div 
           className="absolute inset-0 z-[1000] flex items-center justify-center p-4 bg-[#020502]/90 backdrop-blur-md modal-backdrop-anim"
@@ -266,7 +277,6 @@ export default function Exhibit3D() {
           
           {/* Backdrop Click */}
           <div className="absolute inset-0 cursor-pointer" onClick={handleCloseModal}>
-            {/* Overlay scanlines for retro feel */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(57,255,20,0.03)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none"></div>
           </div>
           
@@ -280,7 +290,7 @@ export default function Exhibit3D() {
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
 
-            {/* Left Graphic Area (Uses existing Era Components) */}
+            {/* Left Graphic Area */}
             <div className="w-full md:w-1/2 p-12 bg-black flex items-center justify-center relative min-h-[40vh] border-r border-[#39FF14]/20">
               <div className="absolute inset-0 opacity-30 blur-2xl" style={{ backgroundColor: activeEra.data.color }}></div>
               <div data-era-view="expanded" className="relative z-10 transform scale-125">
@@ -308,7 +318,7 @@ export default function Exhibit3D() {
         </div>
       )}
 
-      {/* Intro Modal (CuratorBoard Modal) - Rendered at root level so it's not affected by 3D transform */}
+      {/* Intro Modal */}
       {showIntroModal && (
         <div 
           className="absolute inset-0 z-[1000] flex items-center justify-center p-8 modal-backdrop-anim"
