@@ -61,6 +61,8 @@ const NODE_DISTANCE = 40;
 
 function PlanetNode({ data, index, onOpen }) {
   const [hovered, setHovered] = useState(false);
+  const meshRef = useRef();
+  const scaleRef = useRef(1);
   
   const zPosition = -(index + 1) * NODE_DISTANCE;
   // Alternate sides of the aisle (left and right) so camera flies down the middle
@@ -70,14 +72,24 @@ function PlanetNode({ data, index, onOpen }) {
 
   const { color, era, title } = data;
 
+  // Optimized, lag-free scaling animation on hover/click
+  useFrame((state, delta) => {
+    const targetScale = hovered ? 1.2 : 1;
+    scaleRef.current = THREE.MathUtils.lerp(scaleRef.current, targetScale, 15 * delta);
+    if (meshRef.current) {
+      meshRef.current.scale.setScalar(scaleRef.current);
+    }
+  });
+
   return (
     <group position={[xPosition, yPosition, zPosition]}>
       {/* 3D Planet */}
       <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
         <mesh 
+          ref={meshRef}
           onPointerOver={() => setHovered(true)} 
           onPointerOut={() => setHovered(false)}
-          onClick={(e) => { e.stopPropagation(); onOpen(data, index); }}
+          onClick={(e) => { e.stopPropagation(); setHovered(false); onOpen(data, index); }}
           className="cursor-pointer"
         >
           <sphereGeometry args={[3, 32, 32]} />
@@ -145,7 +157,8 @@ function Scene({ onOpenModal }) {
   return (
     <>
       <color attach="background" args={['#0b0410']} />
-      <fog attach="fog" args={['#1a0b2e', 10, 60]} />
+      {/* Increased fog distance so stars are fully visible */}
+      <fog attach="fog" args={['#1a0b2e', 10, 150]} />
       
       <ambientLight intensity={0.4} />
       <directionalLight position={[10, 10, 10]} intensity={1.5} color="#ff007f" />
@@ -202,6 +215,23 @@ export default function Exhibit3D() {
 
   return (
     <div className="w-screen h-screen bg-[#0b0410] relative">
+      <style>{`
+        @keyframes rwFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes rwSlideUp {
+          from { opacity: 0; transform: scale(0.95) translateY(30px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-backdrop-anim {
+          animation: rwFadeIn 0.3s ease-out forwards;
+        }
+        .modal-content-anim {
+          animation: rwSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+      `}</style>
+
       <Canvas camera={{ position: [0, 0, 5], fov: 60 }} className="absolute inset-0">
         {/* ScrollControls sets up the scrolling mechanism. Pages determines scroll length */}
         <ScrollControls pages={8} damping={0.2}>
@@ -211,7 +241,7 @@ export default function Exhibit3D() {
 
       {/* 2D Overlay for the Modal - Completely separated from 3D space for perfect UX */}
       {activeEra && (
-        <div className="absolute inset-0 z-[1000] flex items-center justify-center p-4 bg-[#0a0210]/90 backdrop-blur-md animate-[fadeIn_0.3s_ease-out]">
+        <div className="absolute inset-0 z-[1000] flex items-center justify-center p-4 bg-[#0a0210]/90 backdrop-blur-md modal-backdrop-anim">
           
           {/* Backdrop Click */}
           <div className="absolute inset-0 cursor-pointer" onClick={handleCloseModal}>
@@ -219,7 +249,7 @@ export default function Exhibit3D() {
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,0,127,0.03)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none"></div>
           </div>
           
-          <div className="relative w-full max-w-5xl bg-[#090412] border border-[#ff007f]/30 rounded-xl shadow-[0_0_50px_rgba(255,0,127,0.2)] overflow-hidden flex flex-col md:flex-row animate-[slideUp_0.4s_cubic-bezier(0.16,1,0.3,1)]">
+          <div className="relative w-full max-w-5xl bg-[#090412] border border-[#ff007f]/30 rounded-xl shadow-[0_0_50px_rgba(255,0,127,0.2)] overflow-hidden flex flex-col md:flex-row modal-content-anim">
             
             {/* Close Button */}
             <button 
