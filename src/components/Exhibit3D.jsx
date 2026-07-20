@@ -251,21 +251,6 @@ export default function Exhibit3D() {
                   <p key={i}>{paragraph}</p>
                 ))}
               </div>
-
-              {activeEra.data.citations && activeEra.data.citations.length > 0 && (
-                <div className="mt-8 pt-4 border-t border-[#ff007f]/30">
-                  <h4 className="text-xs font-bold text-[#ff007f] mb-3 uppercase tracking-widest">References</h4>
-                  <ul className="space-y-2">
-                    {activeEra.data.citations.map((cite, i) => (
-                      <li key={i} className="text-xs text-zinc-400 font-mono leading-tight break-words">
-                        <a href={cite} target="_blank" rel="noopener noreferrer" className="hover:text-[#00f0ff] underline decoration-[#ff007f]/50">
-                          {cite}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
 
           </div>

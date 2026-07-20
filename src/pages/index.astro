@@ -298,12 +298,6 @@ const decadesData = [
         <div class="p-6 md:p-8 max-h-[60vh] overflow-y-auto custom-scrollbar">
           <p id="modal-desc" class="text-[#00F0FF] font-mono text-xs uppercase tracking-widest mb-6 font-semibold"></p>
           <div id="modal-details" class="text-zinc-300 text-sm md:text-base leading-relaxed font-sans space-y-4 mb-8 whitespace-pre-wrap"></div>
-          
-          <!-- Citations -->
-          <div class="border-t border-white/10 pt-6 mt-6">
-            <h4 class="text-xs font-display text-zinc-500 uppercase tracking-widest mb-4">Citations & Sources</h4>
-            <ul id="modal-citations" class="space-y-3"></ul>
-          </div>
         </div>
       </div>
     </dialog>
@@ -372,7 +366,6 @@ const decadesData = [
     const modalDot = document.getElementById('modal-dot');
     const modalDesc = document.getElementById('modal-desc');
     const modalDetails = document.getElementById('modal-details');
-    const modalCitations = document.getElementById('modal-citations');
     const eraBtns = document.querySelectorAll('.era-btn');
 
     // Open Modal
@@ -388,15 +381,6 @@ const decadesData = [
         modalDot.style.boxShadow = `0 0 15px ${data.color}`;
         modalDesc.textContent = data.desc;
         modalDetails.textContent = data.details; // textContent safely handles raw strings
-
-        // Populate citations
-        modalCitations.innerHTML = '';
-        data.citations.forEach(citation => {
-          const li = document.createElement('li');
-          li.className = 'text-[10px] md:text-xs text-zinc-500 font-mono break-words leading-relaxed pl-4 border-l-2 border-white/5';
-          li.textContent = citation;
-          modalCitations.appendChild(li);
-        });
 
         modal.showModal();
         document.body.style.overflow = 'hidden'; // Prevent background scrolling
