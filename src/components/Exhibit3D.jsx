@@ -61,93 +61,73 @@ const NODE_DISTANCE = 40;
 
 function ComputerNode({ data, index, onOpen, isModalOpen }) {
   const [hovered, setHovered] = useState(false);
-  const groupRef = useRef();
-  const scaleRef = useRef(1);
   
   const zPosition = -(index + 1) * NODE_DISTANCE;
   // Alternate sides of the aisle
-  const xPosition = index % 2 === 0 ? 5 : -5; 
+  const xPosition = index % 2 === 0 ? 4 : -4; 
   // Slight Y variation
-  const yPosition = Math.sin(index) * 1;
+  const yPosition = Math.sin(index) * 0.5;
 
   const { color, era, title } = data;
 
-  // Lag-free scaling and rotating animation on hover
-  useFrame((state, delta) => {
-    const targetScale = hovered ? 1.2 : 1;
-    scaleRef.current = THREE.MathUtils.lerp(scaleRef.current, targetScale, 15 * delta);
-    if (groupRef.current) {
-      groupRef.current.scale.setScalar(scaleRef.current);
-      // Give it a subtle slow continuous rotation
-      groupRef.current.rotation.y += delta * 0.2;
-    }
-  });
-
   return (
     <group position={[xPosition, yPosition, zPosition]}>
-      {/* Floating retro computer model */}
+      {/* Floating retro computer model using HTML/CSS for premium visuals */}
       <Float speed={2} rotationIntensity={0.2} floatIntensity={1}>
-        <group 
-          ref={groupRef}
-          onPointerOver={() => setHovered(true)} 
-          onPointerOut={() => setHovered(false)}
-          onClick={(e) => { e.stopPropagation(); setHovered(false); onOpen(data, index); }}
-          className="cursor-pointer"
-        >
-          {/* Monitor Casing (Wireframe) */}
-          <mesh position={[0, 0.5, 0]}>
-            <boxGeometry args={[4, 3, 3.5]} />
-            <meshStandardMaterial color={color} wireframe={true} />
-          </mesh>
-          
-          {/* Inner Screen (Black Background) */}
-          <mesh position={[0, 0.5, 1.75]}>
-            <planeGeometry args={[3.6, 2.6]} />
-            <meshBasicMaterial color="#000000" />
-          </mesh>
-
-          {/* Screen Glow / Image representation */}
-          <mesh position={[0, 0.5, 1.76]}>
-            <planeGeometry args={[3.6, 2.6]} />
-            <meshBasicMaterial color={color} transparent opacity={hovered ? 0.8 : 0.2} />
-          </mesh>
-
-          {/* Stand / Neck */}
-          <mesh position={[0, -1.25, 0]}>
-            <cylinderGeometry args={[0.3, 0.5, 1, 8]} />
-            <meshStandardMaterial color={color} wireframe={true} />
-          </mesh>
-
-          {/* Base */}
-          <mesh position={[0, -1.8, 0]}>
-            <boxGeometry args={[2, 0.2, 2]} />
-            <meshStandardMaterial color={color} wireframe={true} />
-          </mesh>
-
-          {/* Holographic Square Base Ring */}
-          <mesh rotation-x={Math.PI / 2} position={[0, -2.5, 0]}>
-            <ringGeometry args={[3.5, 3.7, 4]} />
-            <meshBasicMaterial color={color} side={THREE.DoubleSide} transparent opacity={0.4} />
-          </mesh>
-        </group>
+        <Html center transform sprite zIndexRange={[100, 0]}>
+          <div 
+            className={`flex flex-col items-center justify-center pointer-events-auto cursor-pointer select-none transition-all duration-500 group ${isModalOpen ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100 scale-100'}`}
+            onPointerOver={() => setHovered(true)}
+            onPointerOut={() => setHovered(false)}
+            onClick={(e) => { e.stopPropagation(); setHovered(false); onOpen(data, index); }}
+            style={{ 
+              transform: hovered ? 'scale(1.15)' : 'scale(1)',
+              filter: hovered ? `drop-shadow(0 0 30px ${color}80)` : `drop-shadow(0 0 10px ${color}40)`
+            }}
+          >
+            {/* The Glassmorphism Terminal Card */}
+            <div 
+              className="relative w-64 h-40 bg-black/60 backdrop-blur-xl rounded-lg border border-white/10 flex flex-col overflow-hidden transition-colors duration-500"
+              style={{ borderColor: hovered ? color : 'rgba(255,255,255,0.1)' }}
+            >
+              {/* Scanlines Overlay */}
+              <div className="absolute inset-0 pointer-events-none opacity-40 z-10" style={{
+                backgroundImage: 'repeating-linear-gradient(transparent, transparent 1px, rgba(0,0,0,0.9) 2px)'
+              }}></div>
+              
+              {/* Header Bar */}
+              <div className="w-full h-7 border-b flex items-center px-3 z-20" style={{ borderColor: `${color}40`, backgroundColor: `${color}15` }}>
+                <div className="flex gap-1.5">
+                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }}></div>
+                  <div className="w-2 h-2 rounded-full opacity-50" style={{ backgroundColor: color }}></div>
+                  <div className="w-2 h-2 rounded-full opacity-20" style={{ backgroundColor: color }}></div>
+                </div>
+                <span className="ml-3 font-mono text-[9px] uppercase tracking-widest text-white/80">{era} // ARCHIVE</span>
+              </div>
+              
+              {/* Body Content */}
+              <div className="flex-1 p-5 flex flex-col items-center justify-center text-center z-20 relative">
+                {/* Background Glow */}
+                <div className="absolute inset-0 opacity-20 blur-2xl transition-opacity duration-500" style={{ backgroundColor: color, opacity: hovered ? 0.4 : 0.1 }}></div>
+                
+                <h3 className="text-xl font-display font-bold text-white drop-shadow-md mb-3 leading-tight relative z-30">
+                  {title}
+                </h3>
+                
+                <span className="text-[10px] font-mono uppercase tracking-[0.25em] bg-black/50 px-3 py-1 rounded-full border relative z-30 transition-colors duration-300" style={{ color: color, borderColor: hovered ? color : 'transparent' }}>
+                  {hovered ? '> ACCESS LOG_' : 'STANDBY'}
+                </span>
+              </div>
+              
+              {/* Bottom Decoration */}
+              <div className="w-full h-1 transition-all duration-500" style={{ backgroundColor: color, opacity: hovered ? 1 : 0.5 }}></div>
+            </div>
+            
+            {/* Tether line to timeline */}
+            <div className="w-[1px] h-12 bg-gradient-to-b from-white/30 to-transparent mt-2"></div>
+          </div>
+        </Html>
       </Float>
-
-      {/* HTML Plaque (always visible below computer) */}
-      <Html position={[0, -4.5, 0]} center transform sprite zIndexRange={[100, 0]}>
-        <div 
-          className={`flex flex-col items-center gap-2 pointer-events-auto cursor-pointer select-none transition-opacity duration-300 ${isModalOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
-          onClick={(e) => { e.stopPropagation(); onOpen(data, index); }}
-          onPointerOver={() => setHovered(true)}
-          onPointerOut={() => setHovered(false)}
-        >
-          <span className="museum-label text-[10px] uppercase tracking-[0.3em]" style={{ color }}>{era}</span>
-          <h3 className="text-xl font-display font-bold text-white whitespace-nowrap drop-shadow-lg">{title}</h3>
-          <div className="w-12 h-[2px]" style={{ backgroundColor: color }}></div>
-          <span className={`text-xs font-mono px-3 py-1 mt-2 rounded-full border bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`} style={{ color, borderColor: color }}>
-            ACCESS TERMINAL
-          </span>
-        </div>
-      </Html>
     </group>
   );
 }
@@ -207,18 +187,6 @@ function Scene({ onOpenModal, isModalOpen }) {
         args={[200, 100, '#ff007f', '#4a0a77']} 
         position={[0, -6, 0]} 
       />
-
-      {/* Retro Sun (Far Background) - Outer Pink */}
-      <mesh position={[0, 10, -(eras.length + 1) * NODE_DISTANCE - 80]}>
-        <circleGeometry args={[60, 64]} />
-        <meshBasicMaterial color="#ff007f" fog={false} />
-      </mesh>
-      
-      {/* Retro Sun - Inner Orange Glow */}
-      <mesh position={[0, 10, -(eras.length + 1) * NODE_DISTANCE - 79.9]}>
-        <circleGeometry args={[40, 64]} />
-        <meshBasicMaterial color="#ffaa00" fog={false} />
-      </mesh>
 
       {/* Introduction Board (Monitor) - Anchored at start, standard 2D scaling to prevent blowing up */}
       <group position={[0, 0, -4]}>
