@@ -64,9 +64,9 @@ function ComputerNode({ data, index, onOpen, isModalOpen }) {
   
   const zPosition = -(index + 1) * NODE_DISTANCE;
   // Alternate sides of the aisle
-  const xPosition = index % 2 === 0 ? 3.5 : -3.5; 
-  // Lower the nodes so they are centered in view
-  const yPosition = -1.5 + Math.sin(index) * 0.5;
+  const xPosition = index % 2 === 0 ? 4 : -4; 
+  // KEEP EXACTLY AT EYE LEVEL (y=0). If they are below the camera, perspective makes them move DOWN as you fly forward.
+  const yPosition = Math.sin(index) * 0.1;
 
   const { color, era, title } = data;
 
@@ -185,6 +185,12 @@ function Scene({ onOpenModal, isModalOpen }) {
         args={[200, 100, '#00ff00', '#002200']} 
         position={[0, -5, 0]} 
       />
+
+      {/* Glowing center path line to emphasize forward Z-movement */}
+      <mesh position={[0, -4.95, -(eras.length * NODE_DISTANCE) / 2]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[0.5, eras.length * NODE_DISTANCE + 200]} />
+        <meshBasicMaterial color="#39FF14" transparent opacity={0.2} />
+      </mesh>
 
       {/* Introduction Board (Monitor) - Anchored at start, standard 2D scaling to prevent blowing up */}
       <group position={[0, 0, -4]}>
