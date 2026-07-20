@@ -63,17 +63,19 @@ function ComputerNode({ data, index, onOpen, isModalOpen }) {
   const [hovered, setHovered] = useState(false);
   
   const zPosition = -(index + 1) * NODE_DISTANCE;
-  // Alternate sides of the aisle
-  const xPosition = index % 2 === 0 ? 4 : -4; 
+  const isRight = index % 2 === 0;
+  const xPosition = isRight ? 4 : -4; 
   // KEEP EXACTLY AT EYE LEVEL (y=0). If they are below the camera, perspective makes them move DOWN as you fly forward.
   const yPosition = Math.sin(index) * 0.1;
+  // Rotate slightly inward to face the camera corridor
+  const yRotation = isRight ? -Math.PI / 6 : Math.PI / 6;
 
   const { color, era, title } = data;
 
   return (
-    <group position={[xPosition, yPosition, zPosition]}>
-      {/* HTML terminal card without Float to fix lag */}
-      <Html center transform sprite zIndexRange={[100, 0]}>
+    <group position={[xPosition, yPosition, zPosition]} rotation={[0, yRotation, 0]}>
+      {/* HTML terminal card without Float to fix lag, removed sprite for true 3D pass-by effect */}
+      <Html center transform zIndexRange={[100, 0]}>
         <div 
           className={`flex flex-col items-center justify-center pointer-events-auto cursor-pointer select-none transition-all duration-500 group ${isModalOpen ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100 scale-100'}`}
           onPointerOver={() => setHovered(true)}
@@ -156,27 +158,22 @@ function Scene({ onOpenModal, isModalOpen }) {
     if (gridRef.current) {
       gridRef.current.position.z = currentZ - (currentZ % 10);
     }
-    
-    // Move the atmospheric effects with the camera so they don't get left behind
-    if (effectsRef.current) {
-      effectsRef.current.position.z = currentZ;
-    }
   });
 
   return (
     <>
       <color attach="background" args={['#020802']} />
       {/* Fog ensures distant objects fade smoothly into the void. Match background color exactly. */}
-      <fog attach="fog" args={['#020802', 10, 100]} />
+      <fog attach="fog" args={['#020802', 10, 150]} />
       
       <ambientLight intensity={0.4} />
       <directionalLight position={[10, 10, 10]} intensity={1.5} color="#39FF14" />
       <directionalLight position={[-10, -10, -10]} intensity={1} color="#00aa00" />
 
-      {/* Atmospheric Particles - Grouped to follow the camera */}
-      <group ref={effectsRef}>
-        <Stars radius={50} depth={50} count={3000} factor={4} saturation={0} fade speed={1} />
-        <Sparkles count={200} scale={30} size={4} speed={0.2} opacity={0.3} color="#39FF14" />
+      {/* Atmospheric Particles - Stretched across the entire timeline Z-depth for fly-through effect */}
+      <group position={[0, 0, -(eras.length * NODE_DISTANCE) / 2]}>
+        <Stars radius={50} depth={400} count={5000} factor={4} saturation={0} fade speed={1} />
+        <Sparkles count={500} scale={[50, 50, 400]} size={4} speed={0.2} opacity={0.3} color="#39FF14" />
       </group>
 
       {/* Terminal Wireframe Floor Grid */}
@@ -219,7 +216,7 @@ export default function Exhibit3D() {
   const isModalOpen = showIntroModal || !!activeEra;
 
   return (
-    <div className="w-screen h-screen bg-[#020802] relative">
+    <div className="fixed inset-0 w-screen h-screen bg-[#020802] z-[50] overflow-hidden">
       <style>{`
         @keyframes rwFadeIn {
           from { opacity: 0; }
