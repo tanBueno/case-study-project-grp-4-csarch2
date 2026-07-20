@@ -375,7 +375,7 @@ export default function Exhibit3D() {
             <div className="absolute inset-0 bg-[linear-gradient(rgba(57,255,20,0.03)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none"></div>
           </div>
           
-          <div className="relative w-full max-w-6xl max-h-[90vh] bg-[#020502] border border-[#39FF14]/30 rounded-xl shadow-[0_0_50px_rgba(57,255,20,0.15)] overflow-hidden flex flex-col md:flex-row modal-content-anim">
+          <div className="relative w-[92vw] max-w-[1600px] h-[85vh] bg-[#020502] border border-[#39FF14]/30 rounded-xl shadow-[0_0_50px_rgba(57,255,20,0.15)] overflow-hidden flex flex-col md:flex-row modal-content-anim">
             
             {/* Close Button */}
             <button 
