@@ -59,59 +59,83 @@ const eras = [
 
 const NODE_DISTANCE = 40;
 
-function PlanetNode({ data, index, onOpen }) {
+function ComputerNode({ data, index, onOpen, isModalOpen }) {
   const [hovered, setHovered] = useState(false);
-  const meshRef = useRef();
+  const groupRef = useRef();
   const scaleRef = useRef(1);
   
   const zPosition = -(index + 1) * NODE_DISTANCE;
-  // Alternate sides of the aisle (left and right) so camera flies down the middle
-  const xPosition = index % 2 === 0 ? 4 : -4; 
+  // Alternate sides of the aisle
+  const xPosition = index % 2 === 0 ? 5 : -5; 
   // Slight Y variation
   const yPosition = Math.sin(index) * 1;
 
   const { color, era, title } = data;
 
-  // Optimized, lag-free scaling animation on hover/click
+  // Lag-free scaling and rotating animation on hover
   useFrame((state, delta) => {
     const targetScale = hovered ? 1.2 : 1;
     scaleRef.current = THREE.MathUtils.lerp(scaleRef.current, targetScale, 15 * delta);
-    if (meshRef.current) {
-      meshRef.current.scale.setScalar(scaleRef.current);
+    if (groupRef.current) {
+      groupRef.current.scale.setScalar(scaleRef.current);
+      // Give it a subtle slow continuous rotation
+      groupRef.current.rotation.y += delta * 0.2;
     }
   });
 
   return (
     <group position={[xPosition, yPosition, zPosition]}>
-      {/* 3D Planet */}
-      <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-        <mesh 
-          ref={meshRef}
+      {/* Floating retro computer model */}
+      <Float speed={2} rotationIntensity={0.2} floatIntensity={1}>
+        <group 
+          ref={groupRef}
           onPointerOver={() => setHovered(true)} 
           onPointerOut={() => setHovered(false)}
           onClick={(e) => { e.stopPropagation(); setHovered(false); onOpen(data, index); }}
           className="cursor-pointer"
         >
-          <sphereGeometry args={[3, 32, 32]} />
-          <meshStandardMaterial  
-            color={color} 
-            emissive={color} 
-            emissiveIntensity={hovered ? 0.8 : 0.4} 
-            wireframe={true}
-          />
-        </mesh>
+          {/* Monitor Casing (Wireframe) */}
+          <mesh position={[0, 0.5, 0]}>
+            <boxGeometry args={[4, 3, 3.5]} />
+            <meshStandardMaterial color={color} wireframe={true} />
+          </mesh>
+          
+          {/* Inner Screen (Black Background) */}
+          <mesh position={[0, 0.5, 1.75]}>
+            <planeGeometry args={[3.6, 2.6]} />
+            <meshBasicMaterial color="#000000" />
+          </mesh>
 
-        {/* Orbit Rings */}
-        <mesh rotation-x={Math.PI / 2}>
-          <ringGeometry args={[4, 4.1, 32]} />
-          <meshBasicMaterial color={color} side={THREE.DoubleSide} transparent opacity={0.3} />
-        </mesh>
+          {/* Screen Glow / Image representation */}
+          <mesh position={[0, 0.5, 1.76]}>
+            <planeGeometry args={[3.6, 2.6]} />
+            <meshBasicMaterial color={color} transparent opacity={hovered ? 0.8 : 0.2} />
+          </mesh>
+
+          {/* Stand / Neck */}
+          <mesh position={[0, -1.25, 0]}>
+            <cylinderGeometry args={[0.3, 0.5, 1, 8]} />
+            <meshStandardMaterial color={color} wireframe={true} />
+          </mesh>
+
+          {/* Base */}
+          <mesh position={[0, -1.8, 0]}>
+            <boxGeometry args={[2, 0.2, 2]} />
+            <meshStandardMaterial color={color} wireframe={true} />
+          </mesh>
+
+          {/* Holographic Square Base Ring */}
+          <mesh rotation-x={Math.PI / 2} position={[0, -2.5, 0]}>
+            <ringGeometry args={[3.5, 3.7, 4]} />
+            <meshBasicMaterial color={color} side={THREE.DoubleSide} transparent opacity={0.4} />
+          </mesh>
+        </group>
       </Float>
 
-      {/* HTML Plaque (always visible below planet) */}
+      {/* HTML Plaque (always visible below computer) */}
       <Html position={[0, -4.5, 0]} center transform sprite zIndexRange={[100, 0]}>
         <div 
-          className="flex flex-col items-center gap-2 pointer-events-auto cursor-pointer select-none"
+          className={`flex flex-col items-center gap-2 pointer-events-auto cursor-pointer select-none transition-opacity duration-300 ${isModalOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
           onClick={(e) => { e.stopPropagation(); onOpen(data, index); }}
           onPointerOver={() => setHovered(true)}
           onPointerOut={() => setHovered(false)}
@@ -120,7 +144,7 @@ function PlanetNode({ data, index, onOpen }) {
           <h3 className="text-xl font-display font-bold text-white whitespace-nowrap drop-shadow-lg">{title}</h3>
           <div className="w-12 h-[2px]" style={{ backgroundColor: color }}></div>
           <span className={`text-xs font-mono px-3 py-1 mt-2 rounded-full border bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`} style={{ color, borderColor: color }}>
-            CLICK TO EXPLORE
+            ACCESS TERMINAL
           </span>
         </div>
       </Html>
@@ -128,12 +152,14 @@ function PlanetNode({ data, index, onOpen }) {
   );
 }
 
-function Scene({ onOpenModal }) {
+function Scene({ onOpenModal, isModalOpen }) {
   const scroll = useScroll();
   const cameraRef = useRef();
   
   // Create an infinite timeline grid
   const gridRef = useRef();
+  // Reference for atmospheric effects to move with camera
+  const effectsRef = useRef();
 
   useFrame((state, delta) => {
     // The scroll offset is between 0 and 1
@@ -152,40 +178,52 @@ function Scene({ onOpenModal }) {
     if (gridRef.current) {
       gridRef.current.position.z = currentZ - (currentZ % 10);
     }
+    
+    // Move the atmospheric effects with the camera so they don't get left behind
+    if (effectsRef.current) {
+      effectsRef.current.position.z = currentZ;
+    }
   });
 
   return (
     <>
       <color attach="background" args={['#0b0410']} />
-      {/* Increased fog distance so stars are fully visible */}
-      <fog attach="fog" args={['#1a0b2e', 10, 150]} />
+      {/* Fog ensures distant objects fade smoothly into the void. Match background color exactly. */}
+      <fog attach="fog" args={['#0b0410', 10, 100]} />
       
       <ambientLight intensity={0.4} />
       <directionalLight position={[10, 10, 10]} intensity={1.5} color="#ff007f" />
       <directionalLight position={[-10, -10, -10]} intensity={1} color="#00f0ff" />
 
-      {/* Atmospheric Particles */}
-      <Stars radius={50} depth={50} count={3000} factor={4} saturation={1} fade speed={1} />
-      <Sparkles count={200} scale={30} size={6} speed={0.4} opacity={0.3} color="#ff007f" />
+      {/* Atmospheric Particles - Grouped to follow the camera */}
+      <group ref={effectsRef}>
+        <Stars radius={50} depth={50} count={3000} factor={4} saturation={1} fade speed={1} />
+        <Sparkles count={200} scale={30} size={6} speed={0.4} opacity={0.3} color="#ff007f" />
+      </group>
 
-      {/* Retrowave Floor Grid */}
+      {/* Retrowave Floor Grid (removed incorrect rotation so it lies flat) */}
       <gridHelper 
         ref={gridRef}
         args={[200, 100, '#ff007f', '#4a0a77']} 
-        position={[0, -4, 0]} 
-        rotation={[-Math.PI / 2, 0, 0]}
+        position={[0, -6, 0]} 
       />
 
-      {/* Retro Sun (Far Background) */}
-      <mesh position={[0, 0, -(eras.length + 1) * NODE_DISTANCE - 40]}>
-        <circleGeometry args={[30, 64]} />
+      {/* Retro Sun (Far Background) - Outer Pink */}
+      <mesh position={[0, 10, -(eras.length + 1) * NODE_DISTANCE - 80]}>
+        <circleGeometry args={[60, 64]} />
+        <meshBasicMaterial color="#ff007f" fog={false} />
+      </mesh>
+      
+      {/* Retro Sun - Inner Orange Glow */}
+      <mesh position={[0, 10, -(eras.length + 1) * NODE_DISTANCE - 79.9]}>
+        <circleGeometry args={[40, 64]} />
         <meshBasicMaterial color="#ffaa00" fog={false} />
       </mesh>
 
       {/* Introduction Board (Monitor) - Anchored at start, standard 2D scaling to prevent blowing up */}
       <group position={[0, 0, -4]}>
-        <Html center position={[0, 0, 0]}>
-          <div className="w-[600px] pointer-events-auto flex flex-col items-center drop-shadow-[0_0_30px_rgba(255,0,127,0.3)]">
+        <Html center position={[0, 0, 0]} zIndexRange={[100, 0]}>
+          <div className={`w-[600px] pointer-events-auto flex flex-col items-center drop-shadow-[0_0_30px_rgba(255,0,127,0.3)] transition-opacity duration-300 ${isModalOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
             <CuratorBoard onExpand={() => onOpenModal('intro')} />
             <p className="text-center mt-12 text-[#ff007f] font-mono text-sm tracking-[0.4em] animate-pulse drop-shadow-[0_0_10px_#ff007f]">
               SCROLL DOWN TO TRAVEL THROUGH TIME ↓
@@ -194,9 +232,9 @@ function Scene({ onOpenModal }) {
         </Html>
       </group>
 
-      {/* The 3D Era Nodes */}
+      {/* The 3D Era Nodes - Now Retro Computers */}
       {eras.map((data, index) => (
-        <PlanetNode key={data.era} data={data} index={index} onOpen={onOpenModal} />
+        <ComputerNode key={data.era} data={data} index={index} onOpen={onOpenModal} isModalOpen={isModalOpen} />
       ))}
     </>
   );
@@ -217,6 +255,8 @@ export default function Exhibit3D() {
   const handleCloseModal = () => {
     setActiveEra(null);
   };
+
+  const isModalOpen = showIntroModal || !!activeEra;
 
   return (
     <div className="w-screen h-screen bg-[#0b0410] relative">
@@ -240,7 +280,7 @@ export default function Exhibit3D() {
       <Canvas camera={{ position: [0, 0, 5], fov: 60 }} className="absolute inset-0">
         {/* ScrollControls sets up the scrolling mechanism. Pages determines scroll length */}
         <ScrollControls pages={8} damping={0.2}>
-          <Scene onOpenModal={handleOpenModal} />
+          <Scene onOpenModal={handleOpenModal} isModalOpen={isModalOpen} />
         </ScrollControls>
       </Canvas>
 
@@ -286,7 +326,7 @@ export default function Exhibit3D() {
                 {activeEra.data.title}
               </h2>
               <div className="max-h-[400px] overflow-y-auto pr-4 custom-scrollbar text-zinc-300 leading-relaxed space-y-4 font-sans">
-                {activeEra.data.details.split('\\n\\n').map((paragraph, i) => (
+                {activeEra.data.details.split('\n\n').map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))}
               </div>
