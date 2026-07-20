@@ -37,13 +37,13 @@ export default function IntroTV() {
           
           {/* CRT Edge Flicker Glow */}
           <div 
-            className="absolute inset-0 pointer-events-none z-0 rounded-xl animate-crt-flicker"
+            className={`absolute inset-0 pointer-events-none z-0 rounded-xl animate-crt-flicker transition-opacity duration-500 ${stage === 'booting' ? 'opacity-0' : 'opacity-100'}`}
             style={{ boxShadow: 'inset 0 0 60px rgba(57, 255, 20, 0.08), inset 0 0 120px rgba(57, 255, 20, 0.03)' }}
           ></div>
 
           {/* TV Screen Content */}
           <div className="relative z-20 flex flex-col items-center justify-center h-full gap-4">
-            <h1 className="text-2xl md:text-3xl text-center text-[#39FF14] drop-shadow-[0_0_10px_#39FF14] tracking-widest uppercase font-display font-bold">
+            <h1 className={`text-2xl md:text-3xl text-center text-[#39FF14] tracking-widest uppercase font-display font-bold transition-all duration-500 ${stage === 'booting' ? 'drop-shadow-none' : 'drop-shadow-[0_0_10px_#39FF14]'}`}>
               Virtual Exhibit
             </h1>
             
@@ -81,7 +81,7 @@ export default function IntroTV() {
         </div>
 
         {/* TV Physical Details */}
-        <div className="w-full mt-6 flex justify-between items-center px-4">
+        <div className={`w-full mt-6 flex justify-between items-center px-4 transition-opacity duration-500 ${stage === 'booting' ? 'opacity-0' : 'opacity-100'}`}>
           <div className="flex gap-2">
             <div className="w-3 h-3 rounded-full bg-red-600/50"></div>
             <div className={`w-3 h-3 rounded-full ${stage === 'idle' ? 'bg-zinc-700' : 'bg-green-500 shadow-[0_0_10px_#22c55e]'}`}></div>
