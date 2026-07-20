@@ -206,30 +206,39 @@ function Scene() {
 
   return (
     <>
-      <color attach="background" args={['#020305']} />
-      <fog attach="fog" args={['#020305', 10, 50]} />
+      <color attach="background" args={['#0b0410']} />
+      <fog attach="fog" args={['#1a0b2e', 10, 60]} />
       
-      <ambientLight intensity={0.2} />
-      <directionalLight position={[10, 10, 10]} intensity={1} />
+      <ambientLight intensity={0.4} />
+      <directionalLight position={[10, 10, 10]} intensity={1.5} color="#ff007f" />
+      <directionalLight position={[-10, -10, -10]} intensity={1} color="#00f0ff" />
 
       {/* Atmospheric Particles */}
-      <Stars radius={50} depth={50} count={3000} factor={4} saturation={0} fade speed={1} />
-      <Sparkles count={200} scale={20} size={5} speed={0.4} opacity={0.2} color="#39FF14" />
+      <Stars radius={50} depth={50} count={3000} factor={4} saturation={1} fade speed={1} />
+      <Sparkles count={200} scale={30} size={6} speed={0.4} opacity={0.3} color="#ff007f" />
 
-      {/* The Infinite 3D Floor Grid */}
+      {/* Retrowave Floor Grid */}
       <gridHelper 
         ref={gridRef}
-        args={[100, 100, '#39FF14', '#113311']} 
-        position={[0, -10, 0]} 
+        args={[200, 100, '#ff007f', '#4a0a77']} 
+        position={[0, -4, 0]} 
         rotation={[-Math.PI / 2, 0, 0]}
       />
 
+      {/* Retro Sun (Far Background) */}
+      <mesh position={[0, 0, -(eras.length + 1) * NODE_DISTANCE - 40]}>
+        <circleGeometry args={[30, 64]} />
+        <meshBasicMaterial color="#ffaa00" fog={false} />
+      </mesh>
+
       {/* Introduction Board */}
       <group position={[0, 0, -10]}>
-        <Html transform center position={[0, 2, 0]}>
-          <div className="w-[800px] pointer-events-auto">
+        <Html transform center position={[0, 0, 0]}>
+          <div className="w-[800px] pointer-events-auto drop-shadow-[0_0_30px_rgba(255,0,127,0.3)]">
             <CuratorBoard />
-            <p className="text-center mt-12 text-[#39FF14] font-mono text-sm tracking-[0.3em] animate-pulse">SCROLL TO TRAVEL THROUGH TIME ↓</p>
+            <p className="text-center mt-12 text-[#ff007f] font-mono text-sm tracking-[0.4em] animate-pulse drop-shadow-[0_0_10px_#ff007f]">
+              SCROLL TO TRAVEL THROUGH TIME ↓
+            </p>
           </div>
         </Html>
       </group>
