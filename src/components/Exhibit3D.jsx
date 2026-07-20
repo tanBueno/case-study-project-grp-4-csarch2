@@ -378,7 +378,7 @@ export default function Exhibit3D() {
             <div className="absolute inset-0 bg-[linear-gradient(rgba(57,255,20,0.03)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none"></div>
           </div>
           
-          <div className="relative w-full max-w-5xl bg-[#020502] border border-[#39FF14]/30 rounded-xl shadow-[0_0_50px_rgba(57,255,20,0.15)] overflow-hidden flex flex-col md:flex-row modal-content-anim">
+          <div className="relative w-full max-w-6xl max-h-[90vh] bg-[#020502] border border-[#39FF14]/30 rounded-xl shadow-[0_0_50px_rgba(57,255,20,0.15)] overflow-hidden flex flex-col md:flex-row modal-content-anim">
             
             {/* Close Button */}
             <button 
@@ -389,26 +389,119 @@ export default function Exhibit3D() {
             </button>
 
             {/* Left Graphic Area */}
-            <div className="w-full md:w-1/2 p-12 bg-black flex items-center justify-center relative min-h-[40vh] border-r border-[#39FF14]/20">
-              <div className="absolute inset-0 opacity-30 blur-2xl" style={{ backgroundColor: activeEra.data.color }}></div>
-              <div data-era-view="expanded" className="relative z-10 transform scale-125">
+            <div className="w-full md:w-2/5 p-10 bg-black flex flex-col items-center justify-center relative min-h-[40vh] border-r border-[#39FF14]/20">
+              <div className="absolute inset-0 opacity-20 blur-3xl" style={{ backgroundColor: activeEra.data.color }}></div>
+              
+              {/* Era Badge */}
+              <div className="absolute top-6 left-6 z-20">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border text-[10px] font-mono uppercase tracking-widest" 
+                  style={{ borderColor: `${activeEra.data.color}60`, backgroundColor: `${activeEra.data.color}15`, color: activeEra.data.color }}>
+                  <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: activeEra.data.color }}></div>
+                  {activeEra.data.era} ERA
+                </div>
+              </div>
+
+              {/* Visual Component */}
+              <div data-era-view="expanded" className="relative z-10 transform scale-110">
                  <activeEra.data.Component />
+              </div>
+
+              {/* Era type label */}
+              <div className="mt-6 z-20 font-mono text-[10px] tracking-[0.3em] uppercase opacity-50" style={{ color: activeEra.data.color }}>
+                {activeEra.data.type} RENDERING
               </div>
             </div>
 
-            {/* Right Text Area */}
-            <div className="w-full md:w-1/2 p-10 flex flex-col justify-center bg-gradient-to-br from-[#020502] to-[#051005]">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-3 h-3 rounded-full animate-breathe" style={{ backgroundColor: activeEra.data.color, boxShadow: `0 0 10px ${activeEra.data.color}` }}></div>
-                <span className="font-mono text-xs tracking-widest text-[#39FF14] uppercase">Exhibit 0{activeEra.index + 1} — {activeEra.data.type}</span>
+            {/* Right Content Area - Now with styled sections */}
+            <div className="w-full md:w-3/5 flex flex-col bg-gradient-to-br from-[#020502] to-[#051005]">
+              
+              {/* Header */}
+              <div className="p-8 pb-0">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-3 h-3 rounded-full animate-breathe" style={{ backgroundColor: activeEra.data.color, boxShadow: `0 0 10px ${activeEra.data.color}` }}></div>
+                  <span className="font-mono text-xs tracking-widest text-[#39FF14] uppercase">Exhibit 0{activeEra.index + 1} — {activeEra.data.type}</span>
+                </div>
+                <h2 className="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400 leading-tight drop-shadow-md">
+                  {activeEra.data.title}
+                </h2>
+                <div className="w-full h-[1px] bg-gradient-to-r from-transparent mt-5" style={{ backgroundImage: `linear-gradient(to right, ${activeEra.data.color}40, transparent)` }}></div>
               </div>
-              <h2 className="text-4xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400 mb-6 leading-tight drop-shadow-md">
-                {activeEra.data.title}
-              </h2>
-              <div className="max-h-[400px] overflow-y-auto pr-4 custom-scrollbar text-zinc-300 leading-relaxed space-y-4 font-sans">
-                {activeEra.data.details.split('\n\n').map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
+
+              {/* Scrollable Content */}
+              <div className="flex-1 overflow-y-auto p-8 pt-5 space-y-6 custom-scrollbar">
+                
+                {/* Parse details into sections */}
+                {(() => {
+                  const fullText = activeEra.data.details;
+                  const parts = fullText.split('Key Milestones:');
+                  const narrativeParagraphs = parts[0].trim().split('\n\n').filter(p => p.trim());
+                  const milestones = parts[1] ? parts[1].trim().split('\n').filter(l => l.startsWith('•')).map(l => {
+                    const match = l.match(/^• (\d{4}) — (.+)$/);
+                    return match ? { year: match[1], text: match[2] } : null;
+                  }).filter(Boolean) : [];
+
+                  return (
+                    <>
+                      {/* Narrative Section */}
+                      <div className="space-y-4">
+                        {narrativeParagraphs.map((para, i) => (
+                          <p key={i} className="text-zinc-300 leading-relaxed font-sans text-[15px]">
+                            {i === 0 && (
+                              <span className="text-3xl font-display font-bold float-left mr-2 mt-1 leading-none" style={{ color: activeEra.data.color }}>
+                                {para.charAt(0)}
+                              </span>
+                            )}
+                            {i === 0 ? para.slice(1) : para}
+                          </p>
+                        ))}
+                      </div>
+
+                      {/* Key Milestones Timeline */}
+                      {milestones.length > 0 && (
+                        <div className="mt-6">
+                          <div className="flex items-center gap-2 mb-4">
+                            <div className="w-5 h-[2px]" style={{ backgroundColor: activeEra.data.color }}></div>
+                            <h3 className="font-mono text-xs tracking-widest uppercase" style={{ color: activeEra.data.color }}>Key Milestones</h3>
+                          </div>
+                          <div className="relative ml-3 border-l-2 space-y-0" style={{ borderColor: `${activeEra.data.color}30` }}>
+                            {milestones.map((m, i) => (
+                              <div key={i} className="pl-6 pb-4 relative group">
+                                {/* Timeline dot */}
+                                <div className="absolute -left-[7px] top-[6px] w-3 h-3 rounded-full border-2 bg-[#020502] transition-colors group-hover:scale-125" 
+                                  style={{ borderColor: activeEra.data.color, boxShadow: `0 0 6px ${activeEra.data.color}40` }}></div>
+                                <div className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3">
+                                  <span className="font-mono text-sm font-bold shrink-0" style={{ color: activeEra.data.color }}>{m.year}</span>
+                                  <span className="text-zinc-400 text-sm leading-relaxed">{m.text}</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Citations Section */}
+                      {activeEra.data.citations && activeEra.data.citations.length > 0 && (
+                        <div className="mt-4 pt-4 border-t border-white/5">
+                          <h3 className="font-mono text-[10px] tracking-widest uppercase text-zinc-600 mb-3">References & Sources</h3>
+                          <div className="flex flex-wrap gap-2">
+                            {activeEra.data.citations.map((url, i) => {
+                              const domain = new URL(url).hostname.replace('www.', '');
+                              return (
+                                <a key={i} href={url} target="_blank" rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[11px] font-mono transition-all hover:scale-105"
+                                  style={{ borderColor: `${activeEra.data.color}30`, color: activeEra.data.color, backgroundColor: `${activeEra.data.color}08` }}
+                                >
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                                  {domain}
+                                </a>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  );
+                })()}
               </div>
             </div>
 
