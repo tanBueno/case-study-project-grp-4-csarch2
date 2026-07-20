@@ -182,12 +182,12 @@ function Scene({ onOpenModal }) {
         <meshBasicMaterial color="#ffaa00" fog={false} />
       </mesh>
 
-      {/* Introduction Board (Monitor) - Moved closer to camera start */}
+      {/* Introduction Board (Monitor) - Anchored at start, standard 2D scaling to prevent blowing up */}
       <group position={[0, 0, -4]}>
-        <Html transform center position={[0, 1.5, 0]}>
-          <div className="w-[600px] pointer-events-auto drop-shadow-[0_0_30px_rgba(255,0,127,0.3)]">
+        <Html center position={[0, 0, 0]}>
+          <div className="w-[600px] pointer-events-auto flex flex-col items-center drop-shadow-[0_0_30px_rgba(255,0,127,0.3)]">
             <CuratorBoard onExpand={() => onOpenModal('intro')} />
-            <p className="text-center mt-8 text-[#ff007f] font-mono text-sm tracking-[0.4em] animate-pulse drop-shadow-[0_0_10px_#ff007f]">
+            <p className="text-center mt-12 text-[#ff007f] font-mono text-sm tracking-[0.4em] animate-pulse drop-shadow-[0_0_10px_#ff007f]">
               SCROLL DOWN TO TRAVEL THROUGH TIME ↓
             </p>
           </div>
@@ -246,7 +246,11 @@ export default function Exhibit3D() {
 
       {/* 2D Overlay for the Modal - Completely separated from 3D space for perfect UX */}
       {activeEra && (
-        <div className="absolute inset-0 z-[1000] flex items-center justify-center p-4 bg-[#0a0210]/90 backdrop-blur-md modal-backdrop-anim">
+        <div 
+          className="absolute inset-0 z-[1000] flex items-center justify-center p-4 bg-[#0a0210]/90 backdrop-blur-md modal-backdrop-anim"
+          onWheel={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+        >
           
           {/* Backdrop Click */}
           <div className="absolute inset-0 cursor-pointer" onClick={handleCloseModal}>
@@ -294,7 +298,11 @@ export default function Exhibit3D() {
 
       {/* Intro Modal (CuratorBoard Modal) - Rendered at root level so it's not affected by 3D transform */}
       {showIntroModal && (
-        <div className="absolute inset-0 z-[1000] flex items-center justify-center p-8 modal-backdrop-anim">
+        <div 
+          className="absolute inset-0 z-[1000] flex items-center justify-center p-8 modal-backdrop-anim"
+          onWheel={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+        >
           <div 
             className="absolute inset-0 bg-black/90 backdrop-blur-sm cursor-pointer"
             onClick={() => setShowIntroModal(false)}
