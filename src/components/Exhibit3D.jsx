@@ -64,70 +64,68 @@ function ComputerNode({ data, index, onOpen, isModalOpen }) {
   
   const zPosition = -(index + 1) * NODE_DISTANCE;
   // Alternate sides of the aisle
-  const xPosition = index % 2 === 0 ? 4 : -4; 
-  // Slight Y variation
-  const yPosition = Math.sin(index) * 0.5;
+  const xPosition = index % 2 === 0 ? 3.5 : -3.5; 
+  // Lower the nodes so they are centered in view
+  const yPosition = -1.5 + Math.sin(index) * 0.5;
 
   const { color, era, title } = data;
 
   return (
     <group position={[xPosition, yPosition, zPosition]}>
-      {/* Floating retro computer model using HTML/CSS for premium visuals */}
-      <Float speed={2} rotationIntensity={0.2} floatIntensity={1}>
-        <Html center transform sprite zIndexRange={[100, 0]}>
+      {/* HTML terminal card without Float to fix lag */}
+      <Html center transform sprite zIndexRange={[100, 0]}>
+        <div 
+          className={`flex flex-col items-center justify-center pointer-events-auto cursor-pointer select-none transition-all duration-500 group ${isModalOpen ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100 scale-100'}`}
+          onPointerOver={() => setHovered(true)}
+          onPointerOut={() => setHovered(false)}
+          onClick={(e) => { e.stopPropagation(); setHovered(false); onOpen(data, index); }}
+          style={{ 
+            transform: hovered ? 'scale(1.15) translateY(-10px)' : 'scale(1) translateY(0px)',
+            filter: hovered ? `drop-shadow(0 0 30px ${color}80)` : `drop-shadow(0 0 10px ${color}40)`
+          }}
+        >
+          {/* The Glassmorphism Terminal Card */}
           <div 
-            className={`flex flex-col items-center justify-center pointer-events-auto cursor-pointer select-none transition-all duration-500 group ${isModalOpen ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100 scale-100'}`}
-            onPointerOver={() => setHovered(true)}
-            onPointerOut={() => setHovered(false)}
-            onClick={(e) => { e.stopPropagation(); setHovered(false); onOpen(data, index); }}
-            style={{ 
-              transform: hovered ? 'scale(1.15)' : 'scale(1)',
-              filter: hovered ? `drop-shadow(0 0 30px ${color}80)` : `drop-shadow(0 0 10px ${color}40)`
-            }}
+            className="relative w-64 h-40 bg-black/60 backdrop-blur-xl rounded-lg border border-white/10 flex flex-col overflow-hidden transition-colors duration-500"
+            style={{ borderColor: hovered ? color : 'rgba(255,255,255,0.1)' }}
           >
-            {/* The Glassmorphism Terminal Card */}
-            <div 
-              className="relative w-64 h-40 bg-black/60 backdrop-blur-xl rounded-lg border border-white/10 flex flex-col overflow-hidden transition-colors duration-500"
-              style={{ borderColor: hovered ? color : 'rgba(255,255,255,0.1)' }}
-            >
-              {/* Scanlines Overlay */}
-              <div className="absolute inset-0 pointer-events-none opacity-40 z-10" style={{
-                backgroundImage: 'repeating-linear-gradient(transparent, transparent 1px, rgba(0,0,0,0.9) 2px)'
-              }}></div>
-              
-              {/* Header Bar */}
-              <div className="w-full h-7 border-b flex items-center px-3 z-20" style={{ borderColor: `${color}40`, backgroundColor: `${color}15` }}>
-                <div className="flex gap-1.5">
-                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }}></div>
-                  <div className="w-2 h-2 rounded-full opacity-50" style={{ backgroundColor: color }}></div>
-                  <div className="w-2 h-2 rounded-full opacity-20" style={{ backgroundColor: color }}></div>
-                </div>
-                <span className="ml-3 font-mono text-[9px] uppercase tracking-widest text-white/80">{era} // ARCHIVE</span>
+            {/* Scanlines Overlay */}
+            <div className="absolute inset-0 pointer-events-none opacity-40 z-10" style={{
+              backgroundImage: 'repeating-linear-gradient(transparent, transparent 1px, rgba(0,0,0,0.9) 2px)'
+            }}></div>
+            
+            {/* Header Bar */}
+            <div className="w-full h-7 border-b flex items-center px-3 z-20" style={{ borderColor: `${color}40`, backgroundColor: `${color}15` }}>
+              <div className="flex gap-1.5">
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }}></div>
+                <div className="w-2 h-2 rounded-full opacity-50" style={{ backgroundColor: color }}></div>
+                <div className="w-2 h-2 rounded-full opacity-20" style={{ backgroundColor: color }}></div>
               </div>
-              
-              {/* Body Content */}
-              <div className="flex-1 p-5 flex flex-col items-center justify-center text-center z-20 relative">
-                {/* Background Glow */}
-                <div className="absolute inset-0 opacity-20 blur-2xl transition-opacity duration-500" style={{ backgroundColor: color, opacity: hovered ? 0.4 : 0.1 }}></div>
-                
-                <h3 className="text-xl font-display font-bold text-white drop-shadow-md mb-3 leading-tight relative z-30">
-                  {title}
-                </h3>
-                
-                <span className="text-[10px] font-mono uppercase tracking-[0.25em] bg-black/50 px-3 py-1 rounded-full border relative z-30 transition-colors duration-300" style={{ color: color, borderColor: hovered ? color : 'transparent' }}>
-                  {hovered ? '> ACCESS LOG_' : 'STANDBY'}
-                </span>
-              </div>
-              
-              {/* Bottom Decoration */}
-              <div className="w-full h-1 transition-all duration-500" style={{ backgroundColor: color, opacity: hovered ? 1 : 0.5 }}></div>
+              <span className="ml-3 font-mono text-[9px] uppercase tracking-widest text-white/80">{era} // ARCHIVE</span>
             </div>
             
-            {/* Tether line to timeline */}
-            <div className="w-[1px] h-12 bg-gradient-to-b from-white/30 to-transparent mt-2"></div>
+            {/* Body Content */}
+            <div className="flex-1 p-5 flex flex-col items-center justify-center text-center z-20 relative">
+              {/* Background Glow */}
+              <div className="absolute inset-0 opacity-20 blur-2xl transition-opacity duration-500" style={{ backgroundColor: color, opacity: hovered ? 0.4 : 0.1 }}></div>
+              
+              <h3 className="text-xl font-display font-bold text-white drop-shadow-md mb-3 leading-tight relative z-30">
+                {title}
+              </h3>
+              
+              <span className="text-[10px] font-mono uppercase tracking-[0.25em] bg-black/50 px-3 py-1 rounded-full border relative z-30 transition-colors duration-300" style={{ color: color, borderColor: hovered ? color : 'transparent' }}>
+                {hovered ? '> ACCESS LOG_' : 'STANDBY'}
+              </span>
+            </div>
+            
+            {/* Bottom Decoration */}
+            <div className="w-full h-1 transition-all duration-500" style={{ backgroundColor: color, opacity: hovered ? 1 : 0.5 }}></div>
           </div>
-        </Html>
-      </Float>
+          
+          {/* Tether line to timeline */}
+          <div className="w-[1px] h-12 bg-gradient-to-b from-white/30 to-transparent mt-2"></div>
+        </div>
+      </Html>
     </group>
   );
 }
@@ -167,25 +165,25 @@ function Scene({ onOpenModal, isModalOpen }) {
 
   return (
     <>
-      <color attach="background" args={['#0b0410']} />
+      <color attach="background" args={['#020802']} />
       {/* Fog ensures distant objects fade smoothly into the void. Match background color exactly. */}
-      <fog attach="fog" args={['#0b0410', 10, 100]} />
+      <fog attach="fog" args={['#020802', 10, 100]} />
       
       <ambientLight intensity={0.4} />
-      <directionalLight position={[10, 10, 10]} intensity={1.5} color="#ff007f" />
-      <directionalLight position={[-10, -10, -10]} intensity={1} color="#00f0ff" />
+      <directionalLight position={[10, 10, 10]} intensity={1.5} color="#39FF14" />
+      <directionalLight position={[-10, -10, -10]} intensity={1} color="#00aa00" />
 
       {/* Atmospheric Particles - Grouped to follow the camera */}
       <group ref={effectsRef}>
-        <Stars radius={50} depth={50} count={3000} factor={4} saturation={1} fade speed={1} />
-        <Sparkles count={200} scale={30} size={6} speed={0.4} opacity={0.3} color="#ff007f" />
+        <Stars radius={50} depth={50} count={3000} factor={4} saturation={0} fade speed={1} />
+        <Sparkles count={200} scale={30} size={4} speed={0.2} opacity={0.3} color="#39FF14" />
       </group>
 
-      {/* Retrowave Floor Grid (removed incorrect rotation so it lies flat) */}
+      {/* Terminal Wireframe Floor Grid */}
       <gridHelper 
         ref={gridRef}
-        args={[200, 100, '#ff007f', '#4a0a77']} 
-        position={[0, -6, 0]} 
+        args={[200, 100, '#00ff00', '#002200']} 
+        position={[0, -5, 0]} 
       />
 
       {/* Introduction Board (Monitor) - Anchored at start, standard 2D scaling to prevent blowing up */}
@@ -227,7 +225,7 @@ export default function Exhibit3D() {
   const isModalOpen = showIntroModal || !!activeEra;
 
   return (
-    <div className="w-screen h-screen bg-[#0b0410] relative">
+    <div className="w-screen h-screen bg-[#020802] relative">
       <style>{`
         @keyframes rwFadeIn {
           from { opacity: 0; }
@@ -255,7 +253,7 @@ export default function Exhibit3D() {
       {/* 2D Overlay for the Modal - Completely separated from 3D space for perfect UX */}
       {activeEra && (
         <div 
-          className="absolute inset-0 z-[1000] flex items-center justify-center p-4 bg-[#0a0210]/90 backdrop-blur-md modal-backdrop-anim"
+          className="absolute inset-0 z-[1000] flex items-center justify-center p-4 bg-[#020502]/90 backdrop-blur-md modal-backdrop-anim"
           onWheel={(e) => e.stopPropagation()}
           onTouchMove={(e) => e.stopPropagation()}
         >
@@ -263,21 +261,21 @@ export default function Exhibit3D() {
           {/* Backdrop Click */}
           <div className="absolute inset-0 cursor-pointer" onClick={handleCloseModal}>
             {/* Overlay scanlines for retro feel */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,0,127,0.03)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none"></div>
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(57,255,20,0.03)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none"></div>
           </div>
           
-          <div className="relative w-full max-w-5xl bg-[#090412] border border-[#ff007f]/30 rounded-xl shadow-[0_0_50px_rgba(255,0,127,0.2)] overflow-hidden flex flex-col md:flex-row modal-content-anim">
+          <div className="relative w-full max-w-5xl bg-[#020502] border border-[#39FF14]/30 rounded-xl shadow-[0_0_50px_rgba(57,255,20,0.15)] overflow-hidden flex flex-col md:flex-row modal-content-anim">
             
             {/* Close Button */}
             <button 
               onClick={handleCloseModal}
-              className="absolute top-4 right-4 z-50 p-2 text-[#00f0ff] hover:text-white bg-black/40 hover:bg-[#ff007f]/20 rounded-full transition-colors border border-transparent hover:border-[#ff007f]/50"
+              className="absolute top-4 right-4 z-50 p-2 text-[#39FF14] hover:text-white bg-black/40 hover:bg-[#39FF14]/20 rounded-full transition-colors border border-transparent hover:border-[#39FF14]/50"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
 
             {/* Left Graphic Area (Uses existing Era Components) */}
-            <div className="w-full md:w-1/2 p-12 bg-black flex items-center justify-center relative min-h-[40vh] border-r border-[#ff007f]/20">
+            <div className="w-full md:w-1/2 p-12 bg-black flex items-center justify-center relative min-h-[40vh] border-r border-[#39FF14]/20">
               <div className="absolute inset-0 opacity-30 blur-2xl" style={{ backgroundColor: activeEra.data.color }}></div>
               <div data-era-view="expanded" className="relative z-10 transform scale-125">
                  <activeEra.data.Component />
@@ -285,10 +283,10 @@ export default function Exhibit3D() {
             </div>
 
             {/* Right Text Area */}
-            <div className="w-full md:w-1/2 p-10 flex flex-col justify-center bg-gradient-to-br from-[#090412] to-[#120520]">
+            <div className="w-full md:w-1/2 p-10 flex flex-col justify-center bg-gradient-to-br from-[#020502] to-[#051005]">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-3 h-3 rounded-full animate-breathe" style={{ backgroundColor: activeEra.data.color, boxShadow: `0 0 10px ${activeEra.data.color}` }}></div>
-                <span className="font-mono text-xs tracking-widest text-[#00f0ff] uppercase">Exhibit 0{activeEra.index + 1} — {activeEra.data.type}</span>
+                <span className="font-mono text-xs tracking-widest text-[#39FF14] uppercase">Exhibit 0{activeEra.index + 1} — {activeEra.data.type}</span>
               </div>
               <h2 className="text-4xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400 mb-6 leading-tight drop-shadow-md">
                 {activeEra.data.title}
