@@ -6,21 +6,21 @@ import * as THREE from 'three';
 // Import existing content components
 import CuratorBoard from './CuratorBoard.jsx';
 import Ascii1960s from './eras/Ascii1960s.jsx';
-import Raster1970s from './eras/Raster1970s.jsx';
-import Pixel1980s from './eras/Pixel1980s.jsx';
-import Polygons1990s from './eras/Polygons1990s.jsx';
-import Shaders2000s from './eras/Shaders2000s.jsx';
-import Pbr2010s from './eras/Pbr2010s.jsx';
-import Raytracing2020s from './eras/Raytracing2020s.jsx';
+import Rasterizer1970s from './eras/Rasterizer1970s.jsx';
+import Sprite1980s from './eras/Sprite1980s.jsx';
+import Renderer1990s from './eras/Renderer1990s.jsx';
+import Vision2000s from './eras/Vision2000s.jsx';
+import Volumetric2010s from './eras/Volumetric2010s.jsx';
+import Raytracer2020s from './eras/Raytracer2020s.jsx';
 
 const eras = [
   { era: '1960s', title: 'Keyboard ASCII Art', color: '#22c55e', Component: Ascii1960s, type: 'SYMBOLIC' },
-  { era: '1970s', title: 'The Raster Era', color: '#ef4444', Component: Raster1970s, type: 'PIXELS' },
-  { era: '1980s', title: 'Arcade Pixel Art', color: '#f59e0b', Component: Pixel1980s, type: 'SPRITES' },
-  { era: '1990s', title: '3D Polygons', color: '#3b82f6', Component: Polygons1990s, type: 'POLYGONS' },
-  { era: '2000s', title: 'Programmable Shaders', color: '#06b6d4', Component: Shaders2000s, type: 'SHADERS' },
-  { era: '2010s', title: 'Physically Based Rendering', color: '#10b981', Component: Pbr2010s, type: 'PBR' },
-  { era: '2020s', title: 'Ray Tracing & AI', color: '#a855f7', Component: Raytracing2020s, type: 'NEURAL' },
+  { era: '1970s', title: 'The Raster Era', color: '#ef4444', Component: Rasterizer1970s, type: 'PIXELS' },
+  { era: '1980s', title: 'Arcade Pixel Art', color: '#f59e0b', Component: Sprite1980s, type: 'SPRITES' },
+  { era: '1990s', title: '3D Polygons', color: '#3b82f6', Component: Renderer1990s, type: 'POLYGONS' },
+  { era: '2000s', title: 'Programmable Shaders', color: '#06b6d4', Component: Vision2000s, type: 'SHADERS' },
+  { era: '2010s', title: 'Physically Based Rendering', color: '#10b981', Component: Volumetric2010s, type: 'PBR' },
+  { era: '2020s', title: 'Ray Tracing & AI', color: '#a855f7', Component: Raytracer2020s, type: 'NEURAL' },
 ];
 
 const NODE_DISTANCE = 30;
