@@ -9,7 +9,18 @@ export default function SourcesButton() {
       stage: "01",
       eraName: "1960s",
       eraTitle: "Keyboard ASCII Character Art",
-      color: "#22c55e", // Green
+      color: "#22c55e",
+      author: "Sutherland, I. E. (1963)",
+      title: "Sketchpad: A Man-Machine Graphical Communication System",
+      publication: "Proceedings of the AFIPS Spring Joint Computer Conference, Vol. 23, 329–346",
+      doiUrl: "https://dl.acm.org/doi/10.1145/1461551.1461591"
+    },
+    {
+      id: "01b",
+      stage: "01",
+      eraName: "1960s",
+      eraTitle: "Keyboard ASCII Character Art",
+      color: "#22c55e",
       author: "Bueno, J. S. de O. (2023)",
       title: "Pixels Beyond Colors: Exploring Attributes and Representations of Text-Art Images",
       publication: "Anais do XX Congresso Latino-Americano de Software Livre e Tecnologias Abertas (Latinoware 2023), 75–82",
@@ -20,20 +31,31 @@ export default function SourcesButton() {
       stage: "02",
       eraName: "1970s",
       eraTitle: "Early Bitmaps & Rasterization",
-      color: "#ef4444", // Red
-      author: "Novedge, & Novedge. (2025)",
-      title: "Design Software History: Evolution of vector and raster graphics in Design Software History: A journey through technology and creative Process transformation",
-      publication: "NOVEDGE",
-      doiUrl: "https://novedge.com/blogs/design-news/design-software-history-evolution-of-vector-and-raster-graphics-in-design-software-history-a-journey-through-technology-and-creative-process-transformation?srsltid=AfmBOor0RO_s04KxZ935A_DcVtkdg35zYT4HZIutmDl1v9LVI6RU9xuH"
+      color: "#ef4444",
+      author: "Phong, B. T. (1975)",
+      title: "Illumination for Computer Generated Pictures",
+      publication: "Communications of the ACM, 18(6), 311–317",
+      doiUrl: "https://dl.acm.org/doi/10.1145/360825.360839"
+    },
+    {
+      id: "02b",
+      stage: "02",
+      eraName: "1970s",
+      eraTitle: "Early Bitmaps & Rasterization",
+      color: "#ef4444",
+      author: "Novedge (2025)",
+      title: "Design Software History: Evolution of Vector and Raster Graphics",
+      publication: "NOVEDGE Blog",
+      doiUrl: "https://novedge.com/blogs/design-news/design-software-history-evolution-of-vector-and-raster-graphics-in-design-software-history-a-journey-through-technology-and-creative-process-transformation"
     },
     {
       id: "03",
       stage: "03",
       eraName: "1980s",
-      eraTitle: "Chunky 8-Bit Pixel Blocks",
-      color: "#f59e0b", // Amber
+      eraTitle: "Sprites, Arcades & 3D Workstations",
+      color: "#f59e0b",
       author: "Baum, D. (1998)",
-      title: "3D graphics hardware",
+      title: "3D Graphics Hardware",
       publication: "ACM SIGGRAPH Computer Graphics, 32(1), 65–66",
       doiUrl: "https://doi.org/10.1145/279389.279478"
     },
@@ -41,42 +63,75 @@ export default function SourcesButton() {
       id: "04",
       stage: "04",
       eraName: "1990s",
-      eraTitle: "3D Polygons & Hardware GPUs",
-      color: "#3b82f6", // Blue
+      eraTitle: "The GPU & Real-Time 3D",
+      color: "#3b82f6",
       author: "Blythe, D. (2008)",
-      title: "Rise of the graphics processor",
-      publication: "Proceedings of the IEEE, 96(5), 761-778",
+      title: "Rise of the Graphics Processor",
+      publication: "Proceedings of the IEEE, 96(5), 761–778",
       doiUrl: "https://doi.org/10.1109/JPROC.2008.917718"
+    },
+    {
+      id: "04b",
+      stage: "04",
+      eraName: "1990s",
+      eraTitle: "The GPU & Real-Time 3D",
+      color: "#3b82f6",
+      author: "Sanglard, F. (2012)",
+      title: "Quake Source Code Review",
+      publication: "Fabien Sanglard's Website — Technical Analysis",
+      doiUrl: "https://fabiensanglard.net/quakeSource/"
     },
     {
       id: "05",
       stage: "05",
       eraName: "2000s",
-      eraTitle: "Vector Maps & Edge Detection",
-      color: "#06b6d4", // Cyan
+      eraTitle: "Programmable Shaders & Normal Mapping",
+      color: "#06b6d4",
       author: "Habel, R., & Wimmer, M. (2010)",
-      title: "Efficient irradiance normal mapping",
-      publication: "Proceedings of the 2010 ACM SIGGRAPH symposium on Interactive 3D Graphics and Games, 189–195",
+      title: "Efficient Irradiance Normal Mapping",
+      publication: "Proceedings of the 2010 ACM SIGGRAPH Symposium on Interactive 3D Graphics and Games, 189–195",
       doiUrl: "https://doi.org/10.1145/1730804.1730835"
     },
     {
       id: "06",
       stage: "06",
       eraName: "2010s",
-      eraTitle: "Volumetric Lighting & VR",
-      color: "#10b981", // Emerald
-      author: "Xu, C., Cheng, H., Chen, Z., Wang, J., Chen, Y., & Zhao, L. (2025)",
-      title: "Interactive Realistic Volume Rendering of Consistently High Quality with Dynamic Illumination",
+      eraTitle: "PBR, Volumetric Lighting & VR",
+      color: "#10b981",
+      author: "Xu, C., Cheng, H., et al. (2025)",
+      title: "Interactive Realistic Volume Rendering with Dynamic Illumination",
       publication: "IEEE Transactions on Visualization and Computer Graphics, 31(9), 5288",
       doiUrl: "https://doi.org/10.1109/TVCG.2024.3445339"
     },
     {
+      id: "06b",
+      stage: "06",
+      eraName: "2010s",
+      eraTitle: "PBR, Volumetric Lighting & VR",
+      color: "#10b981",
+      author: "Karis, B. & Epic Games (2013)",
+      title: "Real Shading in Unreal Engine 4",
+      publication: "SIGGRAPH 2013 Physically Based Shading Course",
+      doiUrl: "https://blog.selfshadow.com/publications/s2013-shading-course/"
+    },
+    {
       id: "07",
       stage: "07",
-      eraName: "2026+",
-      eraTitle: "Flawless Photorealism",
-      color: "#a855f7", // Purple
-      author: "Liu, L., Chang, W., Demoullin, F., Chou, Y. H., Saed, M., Pankratz, D., Nowicki, T., & Aamodt, T. M. (2021)",
+      eraName: "2020s",
+      eraTitle: "Flawless Photorealism & Neural Graphics",
+      color: "#a855f7",
+      author: "Mildenhall, B., Srinivasan, P. P., et al. (2020)",
+      title: "NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis",
+      publication: "ECCV 2020 — European Conference on Computer Vision",
+      doiUrl: "https://arxiv.org/abs/2003.08934"
+    },
+    {
+      id: "07b",
+      stage: "07",
+      eraName: "2020s",
+      eraTitle: "Flawless Photorealism & Neural Graphics",
+      color: "#a855f7",
+      author: "Liu, L., Chang, W., et al. (2021)",
       title: "Intersection Prediction for Accelerated GPU Ray Tracing",
       publication: "MICRO-54: 54th Annual IEEE/ACM International Symposium on Microarchitecture, 709–723",
       doiUrl: "https://doi.org/10.1145/3466752.3480097"
