@@ -1,5 +1,85 @@
 ---
 import TimelineLayout from "../layouts/TimelineLayout.astro";
+
+const decadesData = [
+  { 
+    era: '1960s', 
+    color: '#22c55e', 
+    desc: 'The dawn of vector graphics and Sketchpad.', 
+    img: 'placeholder-1960.jpg',
+    details: `Graphics in Computers came from the idea of having the ability to draw something using a computer. The earlier years was the age where printing was a common occurrence. People tend to have some creative ideas using printers to create art. The work “Peace through Understanding” by Fujitsu Limited was a depiction of a man’s face with a text above him saying the work’s title. It was made by using a line printer that printed ASCII characters to form a resemblance of the man. The artwork was presented in the New York’s Fair to demo the company's new computer, FACOM 231. But what was ASCII? The American Standard Code for Information Interchange (ASCII) was established in 1963 by The American National Standard Institute. This became a standard for all text based characters in computers. It used specific binary values in the computer to be mapped to a font file in the computer that tells it to draw that character. The problem back then was there were too many computers using different codes for characters, and by providing a universal standard made it so that it can be compatible across other computers.\n\nThe drive to draw something went further, when Ivan Sutherland created Sketchpad in 1961. A light pen with a photoelectric cell at the tip was used to tap points on the screen and create lines. The tip emitted a pulse and the machine had an electric gun to time the location where the point was emitted. This allowed the machine to know where the pen is whenever it is close to the screen. This device had also a save and load feature, storing the shapes that were drawn in the machine. This technology was Vector graphics, where graphics are lines on the screen. The problem with this was it was limited to a number of color palettes, and wasn't able to create a continuous tone of color, unlike raster graphics.`,
+    citations: [
+      `(n.d.). The History of Computer Art: Part One (1950-1969). Ragnar Digital. https://www.ragnardigital.art/stories/a-history-of-computer-art-part-one`,
+      `(n.d.). history-of-ascii-art. ASCII Art Archive. https://www.asciiart.eu/history-of-ascii-art`,
+      `(n.d.). The Beginner's Guide to ASCII Making Sense of Digital Language. ASCII-code. https://www.ascii-code.com/articles/Beginners-Guide-to-ASCII`,
+      `(n.d.). HISTORY OF COMPUTER GRAPHICS 1960-69. Danielsevo.com. https://www.danielsevo.com/hocg/hocg_1960.htm`
+    ]
+  },
+  { 
+    era: '1970s', 
+    color: '#ef4444', 
+    desc: 'Raster graphics emerge and color arrives.', 
+    img: 'placeholder-1970.jpg',
+    details: `The 1970s showed advancements in computer graphics. Raster graphics was one of the big innovations at that time. Raster is essentially a grid of pixels that represents a screen. A pixel contains information that allows it to display color. A column and rows of pixels form the grid and the number of columns by rows is called a resolution. The classic Pong made by Alan Alcorn, an employee in Atari. It utilized a raster display to simulate a table tennis game, with only simple movable rectangles as the paddles and a pixel ball that moves around and bounces when hit by the paddle. This was a revolutionary idea at the time and will start a new wave of arcade games in the later decades to come.`,
+    citations: [
+      `(n.d.). Computer Graphics. https://www3.cs.stonybrook.edu/~cse301/hw/ComputerGraphics/`,
+      `(2024). Allan Acorn. CHM. Computer History Museum. https://computerhistory.org/profile/allan-alcorn/`
+    ]
+  },
+  { 
+    era: '1980s', 
+    color: '#f59e0b', 
+    desc: 'The golden age of arcade graphics and early 3D.', 
+    img: 'placeholder-1980.jpg',
+    details: `Driven by the low resolutions and restricted color palettes of early hardware, 1980s developers were forced to build chunky graphics by placing individual pixels on an orthogonal grid, much like traditional mosaics. The very first pixel artists were the designers of classic arcade games like Space Invaders (1978) and Pac-Man (1980), as well as early 8-bit consoles, who used this strict method out of technical necessity rather than artistic intent. Although initially born from these hardware constraints, this style eventually evolved into a celebrated aesthetic, laying the visual foundation for later iconic games ranging from Doom and Super Mario Bros. to modern titles like Minecraft.`,
+    citations: [
+      `Aleksić, V., & Simeunović, V. (2024). The pixel art as computer graphics artistic expression in digital games. 10th International Scientific Conference Technics, Informatics and Education - TIE 2024, 234–238. https://doi.org/10.46793/TIE24.234A`,
+      `El-Din El kheshen, G. (2021). Pixel art as a visual stimulus in graphic arts. Journal of Arts & Architecture Research Studies, 2(3), 142–156.`
+    ]
+  },
+  { 
+    era: '1990s', 
+    color: '#3b82f6', 
+    desc: 'Hardware acceleration and the 3D revolution.', 
+    img: 'placeholder-1990.jpg',
+    details: `While polygons serve as the foundational shapes for 3D models, Graphics Processing Units (GPUs) first introduced by NVIDIA's GeForce 256 in 1999 provide the computing power to actually render them on your screen. Fun Fact, Minecraft and its supposedly infinite 3D world was famous among players. Because the game relied on 32-bit floating-point, the computer's memory sacrificed precision to handle larger numbers as players traveled further from the map's center. This severe loss of precision eventually caused the terrain generation to break down and distort, creating the glitchy boundary players called the "Farlands."`,
+    citations: [
+      `Lindholm, E., Nickolls, J., Oberman, S., & Montrym, J. (2008). NVIDIA Tesla: A Unified Graphics and Computing Architecture. IEEE Micro, 28, 39–55. https://doi.org/10.1109/mm.2008.31`,
+      `Mawhorter, P. (2021). Fractal Coordinates for Incremental Procedural Content Generation. The 16th International Conference on the Foundations of Digital Games (FDG) 2021, 1–10. https://doi.org/10.1145/3472538.3472576`
+    ]
+  },
+  { 
+    era: '2000s', 
+    color: '#06b6d4', 
+    desc: 'Programmable shaders change everything.', 
+    img: 'placeholder-2000.jpg',
+    details: `Programmable shaders were the massive breakthrough of the 2000s because developers figured out how to treat standard graphics software like a regular computer to break down complicated 3D lighting into much smaller steps. By passing the graphics through the system multiple times, custom programs could control exactly how light and shadows worked on different materials without needing a supercomputer. For a fun piece of gaming lore, the classic shooter game Quake 3 was an early pioneer of these multi-pass tricks. The game heavily used custom scripts to render detailed textures and dynamic environments that standard hardware could not pull off natively.`,
+    citations: [
+      `Peercy, M. S., Olano, M., Airey, J., & Ungar, P. J. (2000). Interactive multi-pass programmable shading. Proceedings of the 27Th Annual Conference on Computer Graphics and Interactive Techniques - SIGGRAPH ’00, 425–432. https://doi.org/10.1145/344779.344976`
+    ]
+  },
+  { 
+    era: '2010s', 
+    color: '#10b981', 
+    desc: 'Realism, PBR, and the rise of compute.', 
+    img: 'placeholder-2010.jpg',
+    details: `Digital graphics got incredibly realistic in the 2010s with the wide adoption of Physically Based Rendering or PBR. Instead of painting fake highlights onto 3D objects, PBR calculates how real light interacts with different materials, making virtual metal look genuinely shiny and rough wood scatter light perfectly. As a fun fact, tracking every single light bounce requires a crazy amount of calculations that could easily crash a system. To keep computers from getting stuck on infinite equations, developers use a random probability trick literally called "Russian roulette" to figure out exactly when a virtual light ray should stop bouncing.`,
+    citations: [
+      `Rossoni, M., Pozzi, M., Colombo, G., Gribaudo, M., & Pietro Piazzolla. (2023). Physically Based Rendering of Animated Point Clouds for Extended Reality. Journal of Computing and Information Science in Engineering, 24(5), 1–9. https://doi.org/10.1115/1.4063559`,
+      `Shirley, & Shirley, P. (1991, January 1). Physically based lighting calculations for computer graphics.https://www.researchgate.net/publication/36291560_physically_based_lighting_calculations_for_computer_graphics`
+    ]
+  },
+  { 
+    era: '2020s', 
+    color: '#a855f7', 
+    desc: 'Real-time ray tracing and AI generation.', 
+    img: 'placeholder-2020.jpg',
+    details: `The biggest breakthrough of the 2020s is combining real-time ray tracing with artificial intelligence. Ray tracing simulates exact light paths for super realistic lighting, but it demands way too much computing power and creates visual noise. Neural networks now act as a smart filter, using intelligent denoising and adaptive sampling to clean up the image and boost performance. For a fun tech fact, simulating those complex light interactions used to cause major lag in real-time rendering. Now, neural networks basically step in to guess and fill in the missing pixels, which upgrades both the speed and the visual quality of the graphics without melting the computer.`,
+    citations: [
+      `Pranali Dahiwal, Shraddha Khonde, Kaustubh Warade, Vaishali Sonawane, & Gawande, S. H. (2026). Deep Learning Innovations in Ray Tracing: A Survey of Transition to Neural Rendering. International Journal of Image and Graphics. https://doi.org/10.1142/S0219467828500131`
+    ]
+  }
+];
 ---
 
 <TimelineLayout>
@@ -107,23 +187,22 @@ import TimelineLayout from "../layouts/TimelineLayout.astro";
               <span class="inline-block w-2 h-2 rounded-full bg-[#B026FF] shadow-[0_0_10px_#B026FF]"></span>
               <h3 class="font-display text-xl md:text-2xl font-bold text-white uppercase tracking-wider">Exhibit Overview</h3>
             </div>
-            <p class="text-xs text-zinc-500 font-mono hidden md:block tracking-widest">SCROLL TO EXPLORE &rarr;</p>
+            <p class="text-xs text-zinc-500 font-mono hidden md:block tracking-widest">DRAG TO EXPLORE &rarr;</p>
           </div>
           
           <!-- Horizontal scrolling container -->
           <div class="w-full overflow-x-auto pb-6 hide-scrollbar cursor-grab active:cursor-grabbing snap-x snap-mandatory">
             <div class="flex gap-4 w-max">
-              <!-- Cards -->
-              {[
-                { era: '1960s', color: '#22c55e', desc: 'The dawn of vector graphics and Sketchpad.', img: 'placeholder-1960.jpg' },
-                { era: '1970s', color: '#ef4444', desc: 'Raster graphics emerge and color arrives.', img: 'placeholder-1970.jpg' },
-                { era: '1980s', color: '#f59e0b', desc: 'The golden age of arcade graphics and early 3D.', img: 'placeholder-1980.jpg' },
-                { era: '1990s', color: '#3b82f6', desc: 'Hardware acceleration and the 3D revolution.', img: 'placeholder-1990.jpg' },
-                { era: '2000s', color: '#06b6d4', desc: 'Programmable shaders change everything.', img: 'placeholder-2000.jpg' },
-                { era: '2010s', color: '#10b981', desc: 'Realism, PBR, and the rise of compute.', img: 'placeholder-2010.jpg' },
-                { era: '2020s', color: '#a855f7', desc: 'Real-time ray tracing and AI generation.', img: 'placeholder-2020.jpg' }
-              ].map((item) => (
-                <div class="w-[280px] shrink-0 bg-black/50 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300 group snap-center">
+              <!-- Era Cards -->
+              {decadesData.map((item, index) => (
+                <button 
+                  class="era-btn w-[280px] shrink-0 bg-black/50 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300 group snap-center text-left relative focus:outline-none focus:ring-2 focus:ring-[#00F0FF]/50"
+                  data-index={index}
+                  aria-label={`Read more about the ${item.era}`}
+                >
+                  <!-- Overlay gradient on hover to indicate clickability -->
+                  <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#00F0FF]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 pointer-events-none"></div>
+                  
                   <!-- Image Placeholder (User can swap the src later) -->
                   <div class="w-full h-40 bg-zinc-900 relative overflow-hidden flex items-center justify-center">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
@@ -131,7 +210,7 @@ import TimelineLayout from "../layouts/TimelineLayout.astro";
                     <!-- <img src={`/images/${item.img}`} alt={`${item.era} Graphics`} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60" /> -->
                     <div class="text-zinc-700 font-mono text-xs z-0">[ Image Area: {item.img} ]</div>
                     
-                    <h4 class="absolute bottom-4 left-4 z-20 font-display text-3xl font-black text-transparent opacity-80" style={`-webkit-text-stroke: 1px ${item.color};`}>
+                    <h4 class="absolute bottom-4 left-4 z-20 font-display text-3xl font-black text-transparent opacity-80 group-hover:opacity-100 transition-opacity" style={`-webkit-text-stroke: 1px ${item.color};`}>
                       {item.era}
                     </h4>
                   </div>
@@ -139,8 +218,11 @@ import TimelineLayout from "../layouts/TimelineLayout.astro";
                     <p class="text-sm text-zinc-400 leading-relaxed font-sans group-hover:text-zinc-200 transition-colors">
                       {item.desc}
                     </p>
+                    <p class="text-[#00F0FF] text-[10px] font-mono mt-4 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 uppercase tracking-widest">
+                      Click to read more <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </p>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -212,61 +294,152 @@ import TimelineLayout from "../layouts/TimelineLayout.astro";
       </div>
     </footer>
 
+    <!-- Era Details Modal -->
+    <dialog id="era-modal" class="bg-transparent w-full max-w-3xl m-auto p-4 backdrop:bg-black/80 backdrop:backdrop-blur-sm shadow-2xl rounded-2xl open:animate-modal-in">
+      <div class="bg-[#0B0F19]/95 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden relative shadow-[0_0_40px_rgba(0,0,0,0.8)]">
+        
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between p-6 border-b border-white/10 bg-black/40">
+          <div class="flex items-center gap-4">
+            <span id="modal-dot" class="inline-block w-3 h-3 rounded-full bg-white shadow-[0_0_10px_#ffffff]"></span>
+            <h2 id="modal-title" class="text-3xl font-display font-black text-white uppercase tracking-wider">Era Title</h2>
+          </div>
+          <button id="close-modal-btn" class="p-2 text-zinc-400 hover:text-white hover:bg-white/10 rounded-full transition-colors focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+        
+        <!-- Modal Content -->
+        <div class="p-6 md:p-8 max-h-[60vh] overflow-y-auto custom-scrollbar">
+          <p id="modal-desc" class="text-[#00F0FF] font-mono text-xs uppercase tracking-widest mb-6 font-semibold"></p>
+          <div id="modal-details" class="text-zinc-300 text-sm md:text-base leading-relaxed font-sans space-y-4 mb-8 whitespace-pre-wrap"></div>
+          
+          <!-- Citations -->
+          <div class="border-t border-white/10 pt-6 mt-6">
+            <h4 class="text-xs font-display text-zinc-500 uppercase tracking-widest mb-4">Citations & Sources</h4>
+            <ul id="modal-citations" class="space-y-3"></ul>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
   </div>
 </TimelineLayout>
 
-<script>
-  // Setup intersection observer for scroll reveal animations
-  const setupReveal = () => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          // Optional: observer.unobserve(entry.target) if you only want it to animate once
-        }
+<!-- Pass server data to client script -->
+<script define:vars={{ decadesData }}>
+  // Wait for DOM to load
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    // Setup intersection observer for scroll reveal animations
+    const setupReveal = () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
       });
-    }, {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px"
+  
+      document.querySelectorAll('.reveal').forEach((el) => {
+        observer.observe(el);
+      });
+    };
+    setupReveal();
+  
+    // Horizontal scroll drag functionality for the decades slider
+    const slider = document.querySelector('.hide-scrollbar');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+  
+    if(slider) {
+      slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.classList.add('active');
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+      });
+      slider.addEventListener('mouseleave', () => {
+        isDown = false;
+        slider.classList.remove('active');
+      });
+      slider.addEventListener('mouseup', () => {
+        isDown = false;
+        slider.classList.remove('active');
+      });
+      slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 2; // Scroll-fast
+        slider.scrollLeft = scrollLeft - walk;
+      });
+    }
+
+    // Modal Logic
+    const modal = document.getElementById('era-modal');
+    const closeBtn = document.getElementById('close-modal-btn');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDot = document.getElementById('modal-dot');
+    const modalDesc = document.getElementById('modal-desc');
+    const modalDetails = document.getElementById('modal-details');
+    const modalCitations = document.getElementById('modal-citations');
+    const eraBtns = document.querySelectorAll('.era-btn');
+
+    // Open Modal
+    eraBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const index = btn.getAttribute('data-index');
+        const data = decadesData[index];
+
+        // Populate Modal Data
+        modalTitle.textContent = data.era;
+        modalTitle.style.color = data.color;
+        modalDot.style.backgroundColor = data.color;
+        modalDot.style.boxShadow = `0 0 15px ${data.color}`;
+        modalDesc.textContent = data.desc;
+        modalDetails.textContent = data.details; // textContent safely handles raw strings
+
+        // Populate citations
+        modalCitations.innerHTML = '';
+        data.citations.forEach(citation => {
+          const li = document.createElement('li');
+          li.className = 'text-[10px] md:text-xs text-zinc-500 font-mono break-words leading-relaxed pl-4 border-l-2 border-white/5';
+          li.textContent = citation;
+          modalCitations.appendChild(li);
+        });
+
+        modal.showModal();
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      });
     });
 
-    document.querySelectorAll('.reveal').forEach((el) => {
-      observer.observe(el);
-    });
-  };
+    // Close Modal
+    const closeModal = () => {
+      modal.close();
+      document.body.style.overflow = '';
+    };
 
-  // Run on load
-  setupReveal();
+    closeBtn.addEventListener('click', closeModal);
 
-  // Horizontal scroll drag functionality for the decades slider
-  const slider = document.querySelector('.hide-scrollbar') as HTMLElement;
-  let isDown = false;
-  let startX: number;
-  let scrollLeft: number;
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+      const dialogDimensions = modal.getBoundingClientRect();
+      if (
+        e.clientX < dialogDimensions.left ||
+        e.clientX > dialogDimensions.right ||
+        e.clientY < dialogDimensions.top ||
+        e.clientY > dialogDimensions.bottom
+      ) {
+        closeModal();
+      }
+    });
 
-  if(slider) {
-    slider.addEventListener('mousedown', (e) => {
-      isDown = true;
-      slider.classList.add('active');
-      startX = e.pageX - slider.offsetLeft;
-      scrollLeft = slider.scrollLeft;
-    });
-    slider.addEventListener('mouseleave', () => {
-      isDown = false;
-      slider.classList.remove('active');
-    });
-    slider.addEventListener('mouseup', () => {
-      isDown = false;
-      slider.classList.remove('active');
-    });
-    slider.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 2; // Scroll-fast
-      slider.scrollLeft = scrollLeft - walk;
-    });
-  }
+  });
 </script>
 
 <style>
@@ -289,6 +462,22 @@ import TimelineLayout from "../layouts/TimelineLayout.astro";
     scrollbar-width: none;  /* Firefox */
   }
 
+  /* Custom Scrollbar for Modal */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2); 
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2); 
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4); 
+  }
+
   /* Reveal Animations */
   .reveal {
     opacity: 0;
@@ -305,4 +494,19 @@ import TimelineLayout from "../layouts/TimelineLayout.astro";
   .reveal-fade-right { transform: translateX(-40px); }
   .reveal-scale-up { transform: scale(0.95); }
   .reveal-fade-in { transform: none; }
+
+  /* Modal Animation */
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .animate-modal-in {
+    animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  /* Required to fix dialog backdrop blur in Safari/Chrome */
+  dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+  }
 </style>
