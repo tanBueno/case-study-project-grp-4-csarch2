@@ -157,19 +157,27 @@ Each era is represented as a floating "planet" node rather than a flat card. On 
 
 ## Reference Citations
 
-1. Bueno, J. S. de O. (2023). Pixels beyond colors: Exploring attributes and representations of text-art images. *Anais do XX Congresso Latino-Americano de Software Livre e Tecnologias Abertas (Latinoware 2023)*, 75–82. https://doi.org/10.5753/latinoware.2023.236505
-
-2. Novedge. (2025). Design software history: Evolution of vector and raster graphics in design software history: A journey through technology and creative process transformation. *NOVEDGE*. https://novedge.com/blogs/design-news/design-software-history-evolution-of-vector-and-raster-graphics-in-design-software-history-a-journey-through-technology-and-creative-process-transformation
-
-3. Baum, D. (1998). 3D graphics hardware. *ACM SIGGRAPH Computer Graphics*, *32*(1), 65–66. https://doi.org/10.1145/279389.279478
-
-4. Blythe, D. (2008). Rise of the graphics processor. *Proceedings of the IEEE*, *96*(5), 761–778. https://doi.org/10.1109/JPROC.2008.917718
-
-5. Habel, R., & Wimmer, M. (2010). Efficient irradiance normal mapping. *Proceedings of the 2010 ACM SIGGRAPH Symposium on Interactive 3D Graphics and Games*, 189–195. https://doi.org/10.1145/1730804.1730835
-
-6. Xu, C., Cheng, H., Chen, Z., Wang, J., Chen, Y., & Zhao, L. (2025). Interactive realistic volume rendering of consistently high quality with dynamic illumination. *IEEE Transactions on Visualization and Computer Graphics*, *31*(9), 5288. https://doi.org/10.1109/TVCG.2024.3445339
-
-7. Liu, L., Chang, W., Demoullin, F., Chou, Y. H., Saed, M., Pankratz, D., Nowicki, T., & Aamodt, T. M. (2021). Intersection prediction for accelerated GPU ray tracing. *MICRO-54: 54th Annual IEEE/ACM International Symposium on Microarchitecture*, 709–723. https://doi.org/10.1145/3466752.3480097
+1. **Aleksić, V., & Simeunović, V.** (2024). The pixel art as computer graphics artistic expression in digital games. *10th International Scientific Conference Technics, Informatics and Education - TIE 2024*, 234–238. [https://doi.org/10.46793/TIE24.234A](https://doi.org/10.46793/TIE24.234A)
+2. **Baum, D.** (1998). 3D graphics hardware. *ACM SIGGRAPH Computer Graphics*, *32*(1), 65–66. [https://doi.org/10.1145/279389.279478](https://doi.org/10.1145/279389.279478)
+3. **Blythe, D.** (2008). Rise of the graphics processor. *Proceedings of the IEEE*, *96*(5), 761–778. [https://doi.org/10.1109/JPROC.2008.917718](https://doi.org/10.1109/JPROC.2008.917718)
+4. **Bueno, J. S. de O.** (2023). Pixels beyond colors: Exploring attributes and representations of text-art images. *Anais do XX Congresso Latino-Americano de Software Livre e Tecnologias Abertas (Latinoware 2023)*, 75–82. [https://doi.org/10.5753/latinoware.2023.236505](https://doi.org/10.5753/latinoware.2023.236505)
+5. **Computer graphics.** (n.d.). Stony Brook University Course Page. [https://www3.cs.stonybrook.edu/~cse301/hw/ComputerGraphics/](https://www3.cs.stonybrook.edu/~cse301/hw/ComputerGraphics/)
+6. **Computer History Museum.** (2024). *Allan Alcorn*. [https://computerhistory.org/profile/allan-alcorn/](https://computerhistory.org/profile/allan-alcorn/)
+7. **Dahiwal, P., Khonde, S., Warade, K., Sonawane, V., & Gawande, S. H.** (2026). Deep learning innovations in ray tracing: A survey of transition to neural rendering. *International Journal of Image and Graphics*. [https://doi.org/10.1142/S0219467828500131](https://doi.org/10.1142/S0219467828500131)
+8. **El-Din El kheshen, G.** (2021). Pixel art as a visual stimulus in graphic arts. *Journal of Arts & Architecture Research Studies*, *2*(3), 142–156.
+9. **Habel, R., & Wimmer, M.** (2010). Efficient irradiance normal mapping. *Proceedings of the 2010 ACM SIGGRAPH Symposium on Interactive 3D Graphics and Games*, 189–195. [https://doi.org/10.1145/1730804.1730835](https://doi.org/10.1145/1730804.1730835)
+10. **History of ASCII art.** (n.d.). *ASCII Art Archive*. [https://www.asciiart.eu/history-of-ascii-art](https://www.asciiart.eu/history-of-ascii-art)
+11. **History of computer graphics 1960-69.** (n.d.). *Danielsevo.com*. [https://www.danielsevo.com/hocg/hocg_1960.htm](https://www.danielsevo.com/hocg/hocg_1960.htm)
+12. **Lindholm, E., Nickolls, J., Oberman, S., & Montrym, J.** (2008). NVIDIA Tesla: A unified graphics and computing architecture. *IEEE Micro*, *28*, 39–55. [https://doi.org/10.1109/mm.2008.31](https://doi.org/10.1109/mm.2008.31)
+13. **Liu, L., Chang, W., Demoullin, F., Chou, Y. H., Saed, M., Pankratz, D., Nowicki, T., & Aamodt, T. M.** (2021). Intersection prediction for accelerated GPU ray tracing. *MICRO-54: 54th Annual IEEE/ACM International Symposium on Microarchitecture*, 709–723. [https://doi.org/10.1145/3466752.3480097](https://doi.org/10.1145/3466752.3480097)
+14. **Mawhorter, P.** (2021). Fractal coordinates for incremental procedural content generation. *The 16th International Conference on the Foundations of Digital Games (FDG) 2021*, 1–10. [https://doi.org/10.1145/3472538.3472576](https://doi.org/10.1145/3472538.3472576)
+15. **Novedge.** (2025). Design software history: Evolution of vector and raster graphics in design software history: A journey through technology and creative process transformation. *NOVEDGE*. [https://novedge.com/blogs/design-news/design-software-history-evolution-of-vector-and-raster-graphics-in-design-software-history-a-journey-through-technology-and-creative-process-transformation](https://novedge.com/blogs/design-news/design-software-history-evolution-of-vector-and-raster-graphics-in-design-software-history-a-journey-through-technology-and-creative-process-transformation)
+16. **Peercy, M. S., Olano, M., Airey, J., & Ungar, P. J.** (2000). Interactive multi-pass programmable shading. *Proceedings of the 27th Annual Conference on Computer Graphics and Interactive Techniques - SIGGRAPH ’00*, 425–432. [https://doi.org/10.1145/344779.344976](https://doi.org/10.1145/344779.344976)
+17. **Rossoni, M., Pozzi, M., Colombo, G., Gribaudo, M., & Piazzolla, P.** (2023). Physically based rendering of animated point clouds for extended reality. *Journal of Computing and Information Science in Engineering*, *24*(5), 1–9. [https://doi.org/10.1115/1.4063559](https://doi.org/10.1115/1.4063559)
+18. **Shirley, P.** (1991). Physically based lighting calculations for computer graphics. *ResearchGate*. [https://www.researchgate.net/publication/36291560_physically_based_lighting_calculations_for_computer_graphics](https://www.researchgate.net/publication/36291560_physically_based_lighting_calculations_for_computer_graphics)
+19. **The beginner's guide to ASCII: Making sense of digital language.** (n.d.). *ASCII-code*. [https://www.ascii-code.com/articles/Beginners-Guide-to-ASCII](https://www.ascii-code.com/articles/Beginners-Guide-to-ASCII)
+20. **The history of computer art: Part one (1950-1969).** (n.d.). *Ragnar Digital*. [https://www.ragnardigital.art/stories/a-history-of-computer-art-part-one](https://www.ragnardigital.art/stories/a-history-of-computer-art-part-one)
+21. **Xu, C., Cheng, H., Chen, Z., Wang, J., Chen, Y., & Zhao, L.** (2025). Interactive realistic volume rendering of consistently high quality with dynamic illumination. *IEEE Transactions on Visualization and Computer Graphics*, *31*(9), 5288. [https://doi.org/10.1109/TVCG.2024.3445339](https://doi.org/10.1109/TVCG.2024.3445339)
 
 ---
 
