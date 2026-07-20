@@ -218,6 +218,21 @@ export default function Exhibit3D() {
   return (
     <div className="fixed inset-0 w-screen h-screen bg-[#020802] z-[50] overflow-hidden">
       <style>{`
+        /* Kill ALL scrollbars globally - drei ScrollControls still scrolls, but invisibly */
+        *, *::before, *::after {
+          scrollbar-width: none !important;
+          -ms-overflow-style: none !important;
+        }
+        *::-webkit-scrollbar {
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
+        }
+        html, body {
+          overflow: hidden !important;
+          height: 100% !important;
+          margin: 0 !important;
+        }
         @keyframes rwFadeIn {
           from { opacity: 0; }
           to { opacity: 1; }
