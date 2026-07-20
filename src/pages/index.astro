@@ -4,7 +4,15 @@ import TimelineLayout from "../layouts/TimelineLayout.astro";
 
 <TimelineLayout>
   <!-- Main Scrollable Wrapper -->
-  <div id="main-wrapper" class="w-screen h-screen overflow-y-auto bg-black flex flex-col justify-between selection:bg-[#39FF14]/30 scroll-smooth">
+  <div id="main-wrapper" class="w-screen h-screen overflow-y-auto bg-black flex flex-col justify-between selection:bg-[#39FF14]/30 scroll-smooth relative z-0">
+    
+    <!-- Optimized Animated Background Effects -->
+    <div class="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
+      <!-- Radial gradient for a subtle center glow -->
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(57,255,20,0.05)_0%,transparent_60%)]"></div>
+      <!-- Animated Grid -->
+      <div class="absolute inset-[-100%] h-[200%] bg-[linear-gradient(rgba(57,255,20,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(57,255,20,0.1)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:linear-gradient(to_bottom,transparent,black_70%)] retro-grid-bg"></div>
+    </div>
     
     <!-- Top Nav Header -->
     <header class="w-full max-w-5xl mx-auto px-4 mt-6 md:mt-8">
@@ -18,8 +26,8 @@ import TimelineLayout from "../layouts/TimelineLayout.astro";
               </svg>
             </div>
             <!-- Title & Attribution -->
-            <h1 class="font-display font-semibold text-xs md:text-sm text-zinc-100 tracking-wider uppercase truncate">
-              How Computers Learned to See: The Evolution of Graphics
+            <h1 class="font-display font-semibold text-xs md:text-sm text-zinc-100 tracking-wider uppercase truncate group-hover:text-[#39FF14] transition-colors duration-300">
+              RetroSpec
             </h1>
           </div>
           <span class="museum-label text-zinc-400 text-[9px] tracking-widest shrink-0 hidden sm:inline-block font-mono">
@@ -34,7 +42,7 @@ import TimelineLayout from "../layouts/TimelineLayout.astro";
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6 w-full items-start">
         
         <!-- Left Column: Table of Contents -->
-        <section class="md:col-span-1 bg-[#090d16]/75 backdrop-blur-md text-white rounded-lg p-5 shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-white/5">
+        <section class="md:col-span-1 bg-[#090d16]/75 backdrop-blur-md text-white rounded-lg p-5 shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-white/5 transition-transform duration-300 hover:-translate-y-1 hover:border-[#39FF14]/30 hover:shadow-[0_10px_40px_rgba(57,255,20,0.15)]">
           <h2 class="museum-label text-xs tracking-[0.2em] font-semibold text-zinc-300 uppercase">Table of contents</h2>
           <hr class="border-white/10 my-2.5" />
           <nav>
@@ -77,7 +85,7 @@ import TimelineLayout from "../layouts/TimelineLayout.astro";
         <div class="md:col-span-3 flex flex-col gap-6">
           
           <!-- Card 1: Welcome -->
-          <section class="bg-[#090d16]/75 backdrop-blur-md text-white rounded-lg p-6 shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-white/5 text-center">
+          <section class="bg-[#090d16]/75 backdrop-blur-md text-white rounded-lg p-6 shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-white/5 text-center transition-transform duration-300 hover:-translate-y-1 hover:border-[#39FF14]/30 hover:shadow-[0_10px_40px_rgba(57,255,20,0.15)]">
             <h2 class="text-2xl md:text-3xl font-display font-bold text-white uppercase tracking-wider">
               <span class="text-[#39FF14] drop-shadow-[0_0_15px_rgba(57,255,20,0.4)]">Welcome</span> to the Exhibit
             </h2>
@@ -87,7 +95,7 @@ import TimelineLayout from "../layouts/TimelineLayout.astro";
           </section>
 
           <!-- Card 2: Immersive Info & Overview -->
-          <section class="bg-[#090d16]/75 backdrop-blur-md text-white rounded-lg p-6 md:p-8 shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-white/5">
+          <section class="bg-[#090d16]/75 backdrop-blur-md text-white rounded-lg p-6 md:p-8 shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-white/5 transition-transform duration-300 hover:-translate-y-1 hover:border-[#00F0FF]/30 hover:shadow-[0_10px_40px_rgba(0,240,255,0.1)]">
             
             <p class="text-zinc-300 text-sm md:text-base leading-relaxed mb-6 font-sans">
               We have designed a highly immersive, interactive 3D timeline experience for this exhibit.
@@ -288,3 +296,15 @@ import TimelineLayout from "../layouts/TimelineLayout.astro";
     });
   }
 </script>
+
+<style>
+  @keyframes gridScroll {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(40px); }
+  }
+  .retro-grid-bg {
+    animation: gridScroll 1.5s linear infinite;
+    /* Optimize animation using hardware acceleration */
+    will-change: transform;
+  }
+</style>
