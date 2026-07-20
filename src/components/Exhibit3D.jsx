@@ -226,51 +226,45 @@ export default function Exhibit3D() {
 
       {/* 2D Overlay for the Modal - Completely separated from 3D space for perfect UX */}
       {activeEra && (
-        <div className="absolute inset-0 z-[1000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fadeIn_0.3s_ease-out]">
+        <div className="absolute inset-0 z-[1000] flex items-center justify-center p-4 bg-[#0a0210]/90 backdrop-blur-md animate-[fadeIn_0.3s_ease-out]">
           
           {/* Backdrop Click */}
-          <div className="absolute inset-0 cursor-pointer" onClick={handleCloseModal}></div>
+          <div className="absolute inset-0 cursor-pointer" onClick={handleCloseModal}>
+            {/* Overlay scanlines for retro feel */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,0,127,0.03)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none"></div>
+          </div>
           
-          <div className="relative w-full max-w-5xl bg-[#090d16] border border-white/10 rounded-2xl shadow-[0_0_80px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col md:flex-row animate-[slideUp_0.4s_cubic-bezier(0.16,1,0.3,1)]">
+          <div className="relative w-full max-w-5xl bg-[#090412] border border-[#ff007f]/30 rounded-xl shadow-[0_0_50px_rgba(255,0,127,0.2)] overflow-hidden flex flex-col md:flex-row animate-[slideUp_0.4s_cubic-bezier(0.16,1,0.3,1)]">
             
             {/* Close Button */}
             <button 
               onClick={handleCloseModal}
-              className="absolute top-4 right-4 z-50 p-2 text-zinc-400 hover:text-white bg-black/40 hover:bg-white/10 rounded-full transition-colors"
+              className="absolute top-4 right-4 z-50 p-2 text-[#00f0ff] hover:text-white bg-black/40 hover:bg-[#ff007f]/20 rounded-full transition-colors border border-transparent hover:border-[#ff007f]/50"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
 
             {/* Left Graphic Area (Uses existing Era Components) */}
-            <div className="w-full md:w-1/2 p-12 bg-black flex items-center justify-center relative min-h-[40vh]">
-              <div className="absolute inset-0 opacity-20 blur-3xl" style={{ backgroundColor: activeEra.data.color }}></div>
+            <div className="w-full md:w-1/2 p-12 bg-black flex items-center justify-center relative min-h-[40vh] border-r border-[#ff007f]/20">
+              <div className="absolute inset-0 opacity-30 blur-2xl" style={{ backgroundColor: activeEra.data.color }}></div>
               <div data-era-view="expanded" className="relative z-10 transform scale-125">
                  <activeEra.data.Component />
               </div>
             </div>
 
             {/* Right Text Area */}
-            <div className="w-full md:w-1/2 p-10 flex flex-col justify-center">
+            <div className="w-full md:w-1/2 p-10 flex flex-col justify-center bg-gradient-to-br from-[#090412] to-[#120520]">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-3 h-3 rounded-full animate-breathe" style={{ backgroundColor: activeEra.data.color, boxShadow: `0 0 10px ${activeEra.data.color}` }}></div>
-                <span className="font-mono text-xs tracking-widest text-zinc-400 uppercase">Exhibit 0{activeEra.index + 1} — {activeEra.data.type}</span>
+                <span className="font-mono text-xs tracking-widest text-[#00f0ff] uppercase">Exhibit 0{activeEra.index + 1} — {activeEra.data.type}</span>
               </div>
-              <h2 className="text-4xl font-display font-black text-white mb-6 leading-tight">{activeEra.data.title}</h2>
-              <div className="max-h-[300px] overflow-y-auto pr-4 custom-scrollbar text-zinc-300 leading-relaxed space-y-4">
-                {activeEra.data.details.split('\n\n').map((paragraph, i) => (
+              <h2 className="text-4xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400 mb-6 leading-tight drop-shadow-md">
+                {activeEra.data.title}
+              </h2>
+              <div className="max-h-[400px] overflow-y-auto pr-4 custom-scrollbar text-zinc-300 leading-relaxed space-y-4 font-sans">
+                {activeEra.data.details.split('\\n\\n').map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))}
-              </div>
-              
-              <div className="mt-8 pt-6 border-t border-white/10">
-                <h4 className="text-sm font-bold text-white mb-3">Sources</h4>
-                <ul className="space-y-2">
-                  {activeEra.data.citations.map((cite, i) => (
-                    <li key={i} className="text-xs text-zinc-500 font-mono leading-tight break-words">
-                      {cite}
-                    </li>
-                  ))}
-                </ul>
               </div>
             </div>
 
