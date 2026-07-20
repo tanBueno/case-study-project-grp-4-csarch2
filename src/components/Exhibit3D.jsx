@@ -5,13 +5,13 @@ import * as THREE from 'three';
 
 // Import existing content components
 import CuratorBoard from './CuratorBoard.jsx';
-import Ascii1960s from './eras/Ascii1960s.jsx';
-import Rasterizer1970s from './eras/Rasterizer1970s.jsx';
-import Sprite1980s from './eras/Sprite1980s.jsx';
-import Renderer1990s from './eras/Renderer1990s.jsx';
-import Vision2000s from './eras/Vision2000s.jsx';
-import Volumetric2010s from './eras/Volumetric2010s.jsx';
-import Raytracer2020s from './eras/Raytracer2020s.jsx';
+import Ascii1960s from './S02_Group4_eras/Ascii1960s.jsx';
+import Rasterizer1970s from './S02_Group4_eras/Rasterizer1970s.jsx';
+import Sprite1980s from './S02_Group4_eras/Sprite1980s.jsx';
+import Renderer1990s from './S02_Group4_eras/Renderer1990s.jsx';
+import Vision2000s from './S02_Group4_eras/Vision2000s.jsx';
+import Volumetric2010s from './S02_Group4_eras/Volumetric2010s.jsx';
+import Raytracer2020s from './S02_Group4_eras/Raytracer2020s.jsx';
 
 const eras = [
   { 
@@ -305,11 +305,11 @@ export default function Exhibit3D() {
     if (!el) return;
 
     const handleWheel = (e) => {
+      // Don't scroll timeline while modals are open (allows native scrolling in modal)
+      if (showIntroModal || activeEra) return;
+
       e.preventDefault();
       e.stopPropagation();
-
-      // Don't scroll while modals are open
-      if (showIntroModal || activeEra) return;
 
       // deltaY > 0 = scroll down = move camera forward (negative Z)
       const speed = 0.15;
@@ -320,14 +320,11 @@ export default function Exhibit3D() {
     return () => el.removeEventListener('wheel', handleWheel);
   }, [showIntroModal, activeEra]);
 
-  // Also block wheel on window level to prevent any page scroll
+  // Lock body scroll to prevent native page scrolling, but allow wheel events for modals
   useEffect(() => {
-    const blockScroll = (e) => e.preventDefault();
-    window.addEventListener('wheel', blockScroll, { passive: false });
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
     return () => {
-      window.removeEventListener('wheel', blockScroll);
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
     };
